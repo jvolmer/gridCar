@@ -66,7 +66,7 @@ endif
 
 $(TARGET) :
 
-# upload to arduino
+# # upload to arduino
 
 upload_% : %.hex
 	$(AVR_DUDE) -C$(AVRDUDE_CONF) -v -p$(MCU) -carduino -P/dev/ttyACM0 -b115200 -D -Uflash:w:$<:i
@@ -90,7 +90,9 @@ $(BIN_DIR)/%.test : $(BUILD_DIR)/test_%.o $(BUILD_DIR)/%.o |$$(@D)/.f
 	$(CXX) $(CXX_FLAGS) $^ -o $@ $(LDFLAGS)
 	@echo Running $@
 	@./$@ #--log_level=test_suite
-	@echo 
+	@echo
+
+$(BIN_DIR)/communicatorHeadquaters.test: $(BUILD_DIR)/test_communicatorHeadquaters.o $(BUILD_DIR)/communicatorHeadquaters.o $(BUILD_DIR)/package.o |$$(@D)/.f
 
 $(BUILD_DIR)/test_%.o : $(TEST_DIR)/test_%.cpp |$$(@D)/.f
 	$(CXX) $(CXX_FLAGS) $< -I $(SRC_DIR) $(CXX_INC) -c -o $@
