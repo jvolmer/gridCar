@@ -52,7 +52,15 @@ TESTS := $(shell find $(TEST_DIR) -type f -name *.$(SRC_EXT))
 TEST_TARGETS := $(patsubst $(TEST_DIR)/test_%,$(BIN_DIR)/%,$(TESTS:.cpp=.test))
 TEST_OBJECTS := $(patsubst $(TEST_DIR)/%,$(BUILD_DIR)/%,$(TESTS:.$(SRC_EXT)=.o))
 
-DEPFILES := $(shell find $(BUILD_DIR) -type f -name *.d)
+# fill depfiles if build_dir exists
+ifeq ($(wildcard $(BUILD_DIR)/),)
+	DEPFILES :=
+else
+	DEPFILES := $(shell find $(BUILD_DIR) -type f -name *.d)
+endif
+
+# use secondexpansion (needed to create directories)
+.SECONDEXPANSION:
 
 # target
 
@@ -65,29 +73,29 @@ upload_% : %.hex
 
 # arduino compilation
 
-$(BIN_DIR)/%.hex : $(BIN_DIR)/%.elf
+$(BIN_DIR)/%.hex : $(BIN_DIR)/%.elf |$$(@D)/.f
 	$(AVR_OBJCOPY) -O ihex -R .eeprom $< $@
 
-$(BIN_DIR)/%.elf : $(AVR_OBJECTS)
+$(BIN_DIR)/%.elf : $(AVR_OBJECTS) |$$(@D)/.f
 	$(AVR_CC) $(AVRLINK_FLAGS) -o $@ $^ $(ARDUINO_LIB) -lc -lm
 
-$(BUILD_DIR)/%.avr_o : $(SRC_DIR)/%.cpp
+$(BUILD_DIR)/%.avr_o : $(SRC_DIR)/%.cpp |$$(@D)/.f
 	$(AVR_CXX) $(AVR_INC) $(AVRCOMPILE_FLAGS) $< -c -o $@
 
 # test compilation
 
 tests : $(TEST_TARGETS)
 
-$(BIN_DIR)/%.test : $(BUILD_DIR)/test_%.o $(BUILD_DIR)/%.o
+$(BIN_DIR)/%.test : $(BUILD_DIR)/test_%.o $(BUILD_DIR)/%.o |$$(@D)/.f
 	$(CXX) $(CXX_FLAGS) $^ -o $@ $(LDFLAGS)
 	@echo Running $@
 	@./$@ #--log_level=test_suite
 	@echo 
 
-$(BUILD_DIR)/test_%.o : $(TEST_DIR)/test_%.cpp
+$(BUILD_DIR)/test_%.o : $(TEST_DIR)/test_%.cpp |$$(@D)/.f
 	$(CXX) $(CXX_FLAGS) $< -I $(SRC_DIR) $(CXX_INC) -c -o $@
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp |$$(@D)/.f
 	$(CXX) $(CXX_FLAGS) $< -c -o $@
 
 # Makefile stuff
@@ -96,6 +104,11 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 $(DEPFILES):
 include $(wildcard $(DEPFILES))
 
+# create directory if not present (if dir/.f does not exist)
+%/.f:
+	mkdir -p $(dir $@)
+	touch $@
+
 clean : 
 	rm -f $(BUILD_DIR)/* $(TARGET) $(TARGET_ELF) $(TEST_TARGETS)
 
@@ -103,3 +116,5 @@ clean :
 .PHONY : upload clean tests
 # targets that are not explicitly named in Makefile should not automatically be deleted
 .SECONDARY : $(TARGET_ELF) $(TARGET) $(AVR_OBJECTS) $(OBJECTS) $(TEST_OBJECTS)
+# similar to .secondary, but works with patterns and targets are additionally not deleted when make is killed or interrupted
+.PRECIOUS: %/.f
