@@ -93,6 +93,7 @@ $(BIN_DIR)/%.test : $(BUILD_DIR)/test_%.o $(BUILD_DIR)/%.o |$$(@D)/.f
 	@echo
 
 $(BIN_DIR)/communicatorHeadquaters.test: $(BUILD_DIR)/test_communicatorHeadquaters.o $(BUILD_DIR)/communicatorHeadquaters.o $(BUILD_DIR)/package.o |$$(@D)/.f
+$(BIN_DIR)/mover.test: $(BUILD_DIR)/test_mover.o $(BUILD_DIR)/mover.o $(BUILD_DIR)/package.o |$$(@D)/.f
 
 $(BUILD_DIR)/test_%.o : $(TEST_DIR)/test_%.cpp |$$(@D)/.f
 	$(CXX) $(CXX_FLAGS) $< -I $(SRC_DIR) $(CXX_INC) -c -o $@
