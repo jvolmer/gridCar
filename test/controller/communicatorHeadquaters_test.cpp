@@ -7,6 +7,7 @@
 #include "model/radio.hpp"
 #include "entity/transmission.hpp"
 #include "entity/coordinate.hpp"
+#include "test/entity/operatorOverloading.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 
@@ -31,7 +32,7 @@ BOOST_AUTO_TEST_CASE( savesHeadquatersTransmission_ifHeadquatersTransmissionIsRe
 
     communicator.receive();
 
-    TransmissionToCar& communicatorTransmission = communicator.getReceivedData();
+    const TransmissionToCar& communicatorTransmission = communicator.getReceivedData();
 
     BOOST_TEST( communicatorTransmission == package );
 }

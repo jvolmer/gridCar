@@ -1,20 +1,15 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE test_mover
 
-#include <iostream>
-
 #include "controller/mover.hpp"
 #include "model/motor.hpp"
 #include "model/tracker.hpp"
 #include "entity/coordinate.hpp"
 #include "entity/direction.hpp"
+#include "test/entity/operatorOverloading.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 
-std::ostream& operator<< (std::ostream& out, const Direction& direction)
-{
-    return out << (int)direction;
-}
 
 MOCK_BASE_CLASS( MockMotor, Motor )
 {

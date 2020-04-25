@@ -7,13 +7,13 @@
 class CommunicatorHeadquaters
 {
 private:
-    Radio& radio;
-    TransmissionToCar dataReceived;
-    TransmissionFromCar dataToSend;
+    Radio& _radio;
+    TransmissionToCar _dataReceived;
+    TransmissionFromCar _dataToSend;
 public:
     CommunicatorHeadquaters(Radio& radio);
-    TransmissionToCar& getReceivedData(){ return dataReceived; }
-    void setDataToSend(TransmissionFromCar& data){ dataToSend = data; }
+    const TransmissionToCar& getReceivedData() const { return _dataReceived; }
+    void setDataToSend(const TransmissionFromCar& data){ _dataToSend = data; }
     void receive();
     void reply();
     void loop();

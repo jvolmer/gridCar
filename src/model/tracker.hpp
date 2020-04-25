@@ -14,7 +14,7 @@ private:
     const int _pinTrackingLeft;
     const int _pinTrackingMiddle;
     const int _pinTrackingRight;
-    const unsigned char _sensorValue;
+    unsigned char _sensorValue;
 
 public:
     ArduinoTracker();

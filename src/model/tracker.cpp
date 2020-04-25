@@ -5,8 +5,8 @@ ArduinoTracker::ArduinoTracker(const int pinTrackingLeft,
                                const int pinTrackingRight) :
     _pinTrackingLeft { pinTrackingLeft },
     _pinTrackingMiddle {pinTrackingMiddle },
-    _pinTrackingRight { pinTrackingRight }
-    _sensorValue = 0;
+    _pinTrackingRight { pinTrackingRight },
+    _sensorValue { 0 }
 {}
 
 ArduinoTracker::ArduinoTracker() :

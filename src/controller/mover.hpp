@@ -17,8 +17,8 @@ private:
     
 public:
     Mover(Motor& motor, Tracker& tracker, Coordinate& startPosition, Direction& startDirection);
-    Coordinate getPosition() { return _position; }
-    Direction getDirection() { return _direction; }
+    const Coordinate& getPosition() const { return _position; }
+    const Direction& getDirection() const{ return _direction; }
 
     void turnRightAtCrossing();
     void turnLeftAtCrossing();

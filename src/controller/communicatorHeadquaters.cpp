@@ -3,18 +3,18 @@
 #include "communicatorHeadquaters.hpp"
 
 CommunicatorHeadquaters::CommunicatorHeadquaters(Radio& radio) :
-    radio { radio }
+    _radio { radio }
 {}
 
 void CommunicatorHeadquaters::receive()
 {
-    if (radio.isAvailable())
-        dataReceived = radio.receive();
+    if (_radio.isAvailable())
+        _dataReceived = _radio.receive();
 }
 
 void CommunicatorHeadquaters::reply()
 {
-    radio.replyWith(dataToSend);
+    _radio.replyWith(_dataToSend);
 }
 
 void CommunicatorHeadquaters::loop()

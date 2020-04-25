@@ -20,6 +20,7 @@ AVR_DUDE := $(ARDUINO_DIR)/hardware/tools/avr/bin/avrdude
 
 # project-directories
 
+ROOT_DIR := .
 SRC_DIR := src
 TEST_DIR := test
 BUILD_DIR := build
@@ -49,7 +50,7 @@ SOURCES := $(shell find $(SRC_DIR) -type f -name *.$(SRC_EXT))
 AVR_OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.avr_o))
 OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.o))
 
-TESTS := $(shell find $(TEST_DIR) -type f -name *.$(SRC_EXT))
+TESTS := $(shell find $(TEST_DIR) -type f -name *_test.$(SRC_EXT))
 TEST_TARGETS := $(patsubst $(TEST_DIR)/%,$(BIN_DIR)/%,$(TESTS:_test.$(SRC_EXT)=.test))
 TEST_OBJECTS := $(patsubst $(TEST_DIR)/%,$(BUILD_DIR)/%,$(TESTS:.$(SRC_EXT)=.o))
 
@@ -93,14 +94,17 @@ $(BIN_DIR)/%.test : $(BUILD_DIR)/%_test.o $(BUILD_DIR)/%.o |$$(@D)/.f
 	@./$@ #--log_level=test_suite
 	@echo
 
-$(BIN_DIR)/controller/communicatorHeadquaters.test: $(BUILD_DIR)/controller/communicatorHeadquaters_test.o $(BUILD_DIR)/controller/communicatorHeadquaters.o $(BUILD_DIR)/entity/transmission.o $(BUILD_DIR)/entity/coordinate.o |$$(@D)/.f
-$(BIN_DIR)/controller/mover.test: $(BUILD_DIR)/controller/mover_test.o $(BUILD_DIR)/controller/mover.o $(BUILD_DIR)/entity/coordinate.o |$$(@D)/.f
+$(BIN_DIR)/controller/communicatorHeadquaters.test: $(BUILD_DIR)/controller/communicatorHeadquaters_test.o $(BUILD_DIR)/controller/communicatorHeadquaters.o $(BUILD_DIR)/entity/transmission.o $(BUILD_DIR)/entity/coordinate.o $(BUILD_DIR)/entity/operatorOverloading.o |$$(@D)/.f
+$(BIN_DIR)/controller/mover.test: $(BUILD_DIR)/controller/mover_test.o $(BUILD_DIR)/controller/mover.o $(BUILD_DIR)/entity/coordinate.o $(BUILD_DIR)/entity/operatorOverloading.o |$$(@D)/.f
 
 $(BUILD_DIR)/%_test.o : $(TEST_DIR)/%_test.cpp |$$(@D)/.f
-	$(CXX) $(CXX_FLAGS) $< $(SRC_INC) $(CXX_INC) -c -o $@
+	$(CXX) $(CXX_FLAGS) $< $(SRC_INC) -I $(ROOT_DIR) $(CXX_INC) -c -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp |$$(@D)/.f
 	$(CXX) $(CXX_FLAGS) $< $(SRC_INC) -c -o $@
+
+$(BUILD_DIR)/%.o : $(TEST_DIR)/%.cpp |$$(@D)/.f
+	$(CXX) $(CXX_FLAGS) $< $(SRC_INC) $(CXX_INC) -c -o $@
 
 # Makefile stuff
 

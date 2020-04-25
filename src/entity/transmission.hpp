@@ -2,34 +2,32 @@
 #define TRANSMISSION_H
 
 #include "entity/coordinate.hpp"
-#include <iostream>
 
 class TransmissionToCar
 {
 private:
-    Coordinate goal;
+    Coordinate _goal;
 
 public:
     TransmissionToCar();
     TransmissionToCar(Coordinate goal);
-    Coordinate* getGoal() { return &goal; };
-    friend bool operator== (const TransmissionToCar& lhs, const TransmissionToCar& rhs);
-    friend std::ostream& operator<< (std::ostream& out, const TransmissionToCar& transmission);
+    const Coordinate& getGoal() const { return _goal; };
 };
 
 class TransmissionFromCar
 {
 private:
-    Coordinate position;
-    float scale_value_in_g;
-    float battery_charge_in_percent;
+    Coordinate _position;
+    float _scale_value_in_g;
+    float _battery_charge_in_percent;
+    
 
 public:
     TransmissionFromCar();
     TransmissionFromCar(const Coordinate& position, float scale, float battery_charge);
-    void print() const;
-    friend bool operator== (const TransmissionFromCar& lhs, const TransmissionFromCar& rhs);
-};
-    
+    const Coordinate& getPosition() const { return _position; }
+    float getScaleValue() const { return _scale_value_in_g; }
+    float getBatteryCharge() const { return _battery_charge_in_percent; }
+};  
 
 #endif
