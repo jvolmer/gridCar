@@ -93,8 +93,8 @@ $(BIN_DIR)/%.test : $(BUILD_DIR)/%_test.o $(BUILD_DIR)/%.o |$$(@D)/.f
 	@./$@ #--log_level=test_suite
 	@echo
 
-$(BIN_DIR)/controller/communicatorHeadquaters.test: $(BUILD_DIR)/controller/communicatorHeadquaters_test.o $(BUILD_DIR)/controller/communicatorHeadquaters.o $(BUILD_DIR)/entity/package.o |$$(@D)/.f
-$(BIN_DIR)/controller/mover.test: $(BUILD_DIR)/controller/mover_test.o $(BUILD_DIR)/controller/mover.o $(BUILD_DIR)/entity/package.o |$$(@D)/.f
+$(BIN_DIR)/controller/communicatorHeadquaters.test: $(BUILD_DIR)/controller/communicatorHeadquaters_test.o $(BUILD_DIR)/controller/communicatorHeadquaters.o $(BUILD_DIR)/entity/transmission.o $(BUILD_DIR)/entity/coordinate.o |$$(@D)/.f
+$(BIN_DIR)/controller/mover.test: $(BUILD_DIR)/controller/mover_test.o $(BUILD_DIR)/controller/mover.o $(BUILD_DIR)/entity/coordinate.o |$$(@D)/.f
 
 $(BUILD_DIR)/%_test.o : $(TEST_DIR)/%_test.cpp |$$(@D)/.f
 	$(CXX) $(CXX_FLAGS) $< $(SRC_INC) $(CXX_INC) -c -o $@

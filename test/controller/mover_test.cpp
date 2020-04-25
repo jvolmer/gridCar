@@ -6,7 +6,7 @@
 #include "controller/mover.hpp"
 #include "model/motor.hpp"
 #include "model/tracker.hpp"
-#include "entity/package.hpp"
+#include "entity/coordinate.hpp"
 #include "entity/direction.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
@@ -30,7 +30,7 @@ MOCK_BASE_CLASS( MockTracker, Tracker )
 
 BOOST_AUTO_TEST_CASE( turnRight_resultsInNoPositionChangeAndNegativeYOrientation_givenOrientationIsPositiveX)
 {
-    Point startPosition = Point(0,0);
+    Coordinate startPosition = Coordinate(0,0);
     Direction startDirection{ Direction::positiveX};
 
     MockMotor motor;
@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE( turnRight_resultsInNoPositionChangeAndNegativeYOrientation
 
 BOOST_AUTO_TEST_CASE( turnLeft_resultsInNoPositionChangeAndPositiveYOrientation_givenOrientationIsPositiveX)
 {
-    Point startPosition = Point(0,0);
+    Coordinate startPosition = Coordinate(0,0);
     Direction startDirection{ Direction::positiveX};
     
     MockMotor motor;

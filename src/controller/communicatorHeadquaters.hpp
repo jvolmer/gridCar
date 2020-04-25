@@ -2,18 +2,18 @@
 #define COMMUNICATOR_HEADQUATERS_H
 
 #include "model/radio.hpp"
-#include "entity/package.hpp"
+#include "entity/transmission.hpp"
 
 class CommunicatorHeadquaters
 {
 private:
     Radio& radio;
-    PackageToCar dataReceived;
-    PackageFromCar dataToSend;
+    TransmissionToCar dataReceived;
+    TransmissionFromCar dataToSend;
 public:
     CommunicatorHeadquaters(Radio& radio);
-    PackageToCar& getReceivedData(){ return dataReceived; }
-    void setDataToSend(PackageFromCar& package){ dataToSend = package; }
+    TransmissionToCar& getReceivedData(){ return dataReceived; }
+    void setDataToSend(TransmissionFromCar& data){ dataToSend = data; }
     void receive();
     void reply();
     void loop();

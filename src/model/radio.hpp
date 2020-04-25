@@ -1,14 +1,14 @@
 #ifndef RADIO_H
 #define RADIO_H
 
-#include "entity/package.hpp"
+#include "entity/transmission.hpp"
 
 class Radio
 {
 public:
     virtual bool isAvailable() = 0;
-    virtual PackageToCar receive() = 0;
-    virtual void replyWith(PackageFromCar& package) = 0;
+    virtual TransmissionToCar receive() = 0;
+    virtual void replyWith(TransmissionFromCar& data) = 0;
 };
 
 #endif

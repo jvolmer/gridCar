@@ -3,7 +3,7 @@
 
 #include "model/motor.hpp"
 #include "model/tracker.hpp"
-#include "entity/package.hpp"
+#include "entity/coordinate.hpp"
 #include "entity/direction.hpp"
 
 class Mover
@@ -11,13 +11,13 @@ class Mover
 private:
     Motor& _motor;
     Tracker& _tracker;
-    Point _position;
+    Coordinate _position;
     Direction _direction;
     int _velocity;
     
 public:
-    Mover(Motor& motor, Tracker& tracker, Point& startPosition, Direction& startDirection);
-    Point getPosition() { return _position; }
+    Mover(Motor& motor, Tracker& tracker, Coordinate& startPosition, Direction& startDirection);
+    Coordinate getPosition() { return _position; }
     Direction getDirection() { return _direction; }
 
     void turnRightAtCrossing();

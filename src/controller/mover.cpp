@@ -1,10 +1,10 @@
 #include "model/motor.hpp"
 #include "model/tracker.hpp"
-#include "entity/package.hpp"
+#include "entity/coordinate.hpp"
 #include "entity/direction.hpp"
 #include "mover.hpp"
 
-Mover::Mover(Motor& motor, Tracker& tracker, Point& startPosition, Direction& startDirection) :
+Mover::Mover(Motor& motor, Tracker& tracker, Coordinate& startPosition, Direction& startDirection) :
     _motor { motor },
     _tracker { tracker },
     _position { startPosition },

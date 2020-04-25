@@ -5,7 +5,8 @@
 
 #include "controller/communicatorHeadquaters.hpp"
 #include "model/radio.hpp"
-#include "entity/package.hpp"
+#include "entity/transmission.hpp"
+#include "entity/coordinate.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 
@@ -18,9 +19,9 @@ MOCK_BASE_CLASS( MockRadio, Radio )
 
 BOOST_AUTO_TEST_SUITE( carCommunication )
 
-BOOST_AUTO_TEST_CASE( savesHeadquatersPackage_ifHeadquatersPackageIsReceived )
+BOOST_AUTO_TEST_CASE( savesHeadquatersTransmission_ifHeadquatersTransmissionIsReceived )
 {
-    PackageToCar package = PackageToCar(Point(14.2,111.1));
+    TransmissionToCar package = TransmissionToCar(Coordinate(14.2,111.1));
 
     MockRadio radio;
     CommunicatorHeadquaters communicator(radio);
@@ -30,15 +31,15 @@ BOOST_AUTO_TEST_CASE( savesHeadquatersPackage_ifHeadquatersPackageIsReceived )
 
     communicator.receive();
 
-    PackageToCar& communicatorPackage = communicator.getReceivedData();
+    TransmissionToCar& communicatorTransmission = communicator.getReceivedData();
 
-    BOOST_TEST( communicatorPackage == package );
+    BOOST_TEST( communicatorTransmission == package );
 }
 
-BOOST_AUTO_TEST_CASE( sendsPackageToHeadquaters_ifCommunicatorHasAValidPackage )
+BOOST_AUTO_TEST_CASE( sendsTransmissionToHeadquaters_ifCommunicatorHasAValidTransmission )
 {
     // not yet finished! what should be tested in the end?
-    PackageFromCar package = PackageFromCar(Point(14.2,111.1), 108, 33);
+    TransmissionFromCar package = TransmissionFromCar(Coordinate(14.2,111.1), 108, 33);
 
     MockRadio radio;
     CommunicatorHeadquaters communicator(radio);
