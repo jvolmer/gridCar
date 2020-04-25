@@ -18,6 +18,13 @@ AVR_AR := $(ARDUINO_DIR)/hardware/tools/avr/bin/avr-ar
 AVR_OBJCOPY := $(ARDUINO_DIR)/hardware/tools/avr/bin/avr-objcopy
 AVR_DUDE := $(ARDUINO_DIR)/hardware/tools/avr/bin/avrdude
 
+# project-directories
+
+SRC_DIR := src
+TEST_DIR := test
+BUILD_DIR := build
+BIN_DIR := bin
+
 # compiler flags
 
 GENERAL_FLAGS := -std=gnu++14 -Wall
@@ -31,13 +38,7 @@ CXX := g++
 CXX_FLAGS = -Wall -Wno-deprecated-declarations -MT $@ -MMD -MP -MF $(@:%.o=%.d) $(GENERAL_FLAGS)
 LDFLAGS  := -lboost_unit_test_framework -lm
 CXX_INC := -I $(TURTLE_DIR)/include
-
-# project-directories
-
-SRC_DIR := src
-TEST_DIR := test
-BUILD_DIR := build
-BIN_DIR := bin
+SRC_INC := -I $(SRC_DIR)
 
 # files
 SRC_EXT := cpp
@@ -49,7 +50,7 @@ AVR_OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.avr
 OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.o))
 
 TESTS := $(shell find $(TEST_DIR) -type f -name *.$(SRC_EXT))
-TEST_TARGETS := $(patsubst $(TEST_DIR)/test_%,$(BIN_DIR)/%,$(TESTS:.cpp=.test))
+TEST_TARGETS := $(patsubst $(TEST_DIR)/%,$(BIN_DIR)/%,$(TESTS:_test.$(SRC_EXT)=.test))
 TEST_OBJECTS := $(patsubst $(TEST_DIR)/%,$(BUILD_DIR)/%,$(TESTS:.$(SRC_EXT)=.o))
 
 # fill depfiles if build_dir exists
@@ -68,7 +69,7 @@ $(TARGET) :
 
 # # upload to arduino
 
-upload_% : %.hex
+upload : $(TARGET)
 	$(AVR_DUDE) -C$(AVRDUDE_CONF) -v -p$(MCU) -carduino -P/dev/ttyACM0 -b115200 -D -Uflash:w:$<:i
 
 # arduino compilation
@@ -77,29 +78,29 @@ $(BIN_DIR)/%.hex : $(BIN_DIR)/%.elf |$$(@D)/.f
 	$(AVR_OBJCOPY) -O ihex -R .eeprom $< $@
 
 $(BIN_DIR)/%.elf : $(AVR_OBJECTS) |$$(@D)/.f
-	$(AVR_CC) $(AVRLINK_FLAGS) -o $@ $^ $(ARDUINO_LIB) -lc -lm
+	$(AVR_CC) $(AVRLINK_FLAGS) -o $@ $^ $(SRC_INC) $(ARDUINO_LIB) -lc -lm
 
 $(BUILD_DIR)/%.avr_o : $(SRC_DIR)/%.cpp |$$(@D)/.f
-	$(AVR_CXX) $(AVR_INC) $(AVRCOMPILE_FLAGS) $< -c -o $@
+	$(AVR_CXX) $(AVR_INC) $(AVRCOMPILE_FLAGS) $< $(SRC_INC) -c -o $@
 
 # test compilation
 
 tests : $(TEST_TARGETS)
 
-$(BIN_DIR)/%.test : $(BUILD_DIR)/test_%.o $(BUILD_DIR)/%.o |$$(@D)/.f
-	$(CXX) $(CXX_FLAGS) $^ -o $@ $(LDFLAGS)
+$(BIN_DIR)/%.test : $(BUILD_DIR)/%_test.o $(BUILD_DIR)/%.o |$$(@D)/.f
+	$(CXX) $(CXX_FLAGS) $^ $(SRC_INC) -o $@ $(LDFLAGS)
 	@echo Running $@
 	@./$@ #--log_level=test_suite
 	@echo
 
-$(BIN_DIR)/communicatorHeadquaters.test: $(BUILD_DIR)/test_communicatorHeadquaters.o $(BUILD_DIR)/communicatorHeadquaters.o $(BUILD_DIR)/package.o |$$(@D)/.f
-$(BIN_DIR)/mover.test: $(BUILD_DIR)/test_mover.o $(BUILD_DIR)/mover.o $(BUILD_DIR)/package.o |$$(@D)/.f
+$(BIN_DIR)/controller/communicatorHeadquaters.test: $(BUILD_DIR)/controller/communicatorHeadquaters_test.o $(BUILD_DIR)/controller/communicatorHeadquaters.o $(BUILD_DIR)/entity/package.o |$$(@D)/.f
+$(BIN_DIR)/controller/mover.test: $(BUILD_DIR)/controller/mover_test.o $(BUILD_DIR)/controller/mover.o $(BUILD_DIR)/entity/package.o |$$(@D)/.f
 
-$(BUILD_DIR)/test_%.o : $(TEST_DIR)/test_%.cpp |$$(@D)/.f
-	$(CXX) $(CXX_FLAGS) $< -I $(SRC_DIR) $(CXX_INC) -c -o $@
+$(BUILD_DIR)/%_test.o : $(TEST_DIR)/%_test.cpp |$$(@D)/.f
+	$(CXX) $(CXX_FLAGS) $< $(SRC_INC) $(CXX_INC) -c -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp |$$(@D)/.f
-	$(CXX) $(CXX_FLAGS) $< -c -o $@
+	$(CXX) $(CXX_FLAGS) $< $(SRC_INC) -c -o $@
 
 # Makefile stuff
 
@@ -113,7 +114,7 @@ include $(wildcard $(DEPFILES))
 	touch $@
 
 clean : 
-	rm -f $(BUILD_DIR)/* $(TARGET) $(TARGET_ELF) $(TEST_TARGETS)
+	rm -rf $(BUILD_DIR)/* $(TARGET) $(TARGET_ELF) $(TEST_TARGETS)
 
 # targets that are not files
 .PHONY : upload clean tests

@@ -16,10 +16,10 @@ ArduinoMotor::ArduinoMotor() :
 
 void ArduinoMotor::setup()
 {
-    pinMode(pinDirectionLeft, OUTPUT);
-    pinMode(pinMotorLeft, OUTPUT);
-    pinMode(pinDirectionRight, OUTPUT);
-    pinMode(pinMotorRight, OUTPUT);
+    pinMode(_pinDirectionLeft, OUTPUT);
+    pinMode(_pinMotorLeft, OUTPUT);
+    pinMode(_pinDirectionRight, OUTPUT);
+    pinMode(_pinMotorRight, OUTPUT);
 
 }
 
@@ -40,8 +40,8 @@ void ArduinoMotor::run(int speedl, int speedr)
     dirR = 0;
     speedr = -speedr;
   }
-  digitalWrite(pinDirectionLeft, dirL);
-  digitalWrite(pinDirectionRight, dirR);
-  analogWrite(pinMotorLeft, speedl);
-  analogWrite(pinMotorRight, speedr);
+  digitalWrite(_pinDirectionLeft, dirL);
+  digitalWrite(_pinDirectionRight, dirR);
+  analogWrite(_pinMotorLeft, speedl);
+  analogWrite(_pinMotorRight, speedr);
 }

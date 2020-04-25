@@ -1,5 +1,5 @@
-#include "radio.hpp"
-#include "package.hpp"
+#include "model/radio.hpp"
+#include "entity/package.hpp"
 #include "communicatorHeadquaters.hpp"
 
 CommunicatorHeadquaters::CommunicatorHeadquaters(Radio& radio) :

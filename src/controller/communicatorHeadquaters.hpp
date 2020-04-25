@@ -1,8 +1,8 @@
 #ifndef COMMUNICATOR_HEADQUATERS_H
 #define COMMUNICATOR_HEADQUATERS_H
 
-#include "radio.hpp"
-#include "package.hpp"
+#include "model/radio.hpp"
+#include "entity/package.hpp"
 
 class CommunicatorHeadquaters
 {

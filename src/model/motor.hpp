@@ -10,6 +10,13 @@ public:
 
 class ArduinoMotor: public Motor
 {
+private:
+    const int _pinDirectionLeft;
+    const int _pinDirectionRight;
+    const int _pinMotorLeft;
+    const int _pinMotorRight;
+
+public:
     ArduinoMotor();
     ArduinoMotor(const int pinDirectionLeft,
                  const int pinMotorLeft,

@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-#include "communicatorHeadquaters.hpp"
-#include "radio.hpp"
-#include "package.hpp"
+#include "controller/communicatorHeadquaters.hpp"
+#include "model/radio.hpp"
+#include "entity/package.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 
