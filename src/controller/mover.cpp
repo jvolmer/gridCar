@@ -2,36 +2,76 @@
 #include "model/tracker.hpp"
 #include "entity/coordinate.hpp"
 #include "entity/direction.hpp"
+#include "entity/roadLayout.hpp"
 #include "mover.hpp"
 
-Mover::Mover(Motor& motor, Tracker& tracker, Coordinate& startPosition, Direction& startDirection) :
+Mover::Mover(Motor& motor, Tracker& tracker) :
     _motor { motor },
-    _tracker { tracker },
-    _position { startPosition },
-    _direction { startDirection },
-    _velocity { 200 }
+    _tracker { tracker }
 {}
 
 void Mover::turnRightAtCrossing()
 {
-    do {
-        _motor.run(_velocity, -_velocity);
-    } while(_tracker.checkSensors() != 7);
-    _motor.run(0, 0);
+    do
+    {
+        _motor.turnRight();
+    } while(_tracker.checkRoad() != RoadLayout::blocked);
+    _motor.stop();
     
-    _direction = (Direction)(((int)_direction + 1) % 4);
+    _direction = _direction + 1;
 }
 
 void Mover::turnLeftAtCrossing()
 {
-    do {
-        _motor.run(-_velocity, _velocity);
-    } while(_tracker.checkSensors() != 7);
-    _motor.run(0, 0);
+    do
+    {
+        _motor.turnLeft();
+    } while(_tracker.checkRoad() != RoadLayout::blocked);
+    _motor.stop();
     
-    _direction = (Direction)((((int)_direction - 1)+4) % 4);
+    _direction = _direction - 1;
 }
 
-void Mover::goStraightUntilCrossingCount(int nCrossing)
+void Mover::followLineUntilCrossing()
 {
+    _motor.goStraight();
+    do
+    {
+        followLine();
+    } while(_tracker.checkRoad() != RoadLayout::blocked);
+
+    _position = _position + Coordinate(_direction);
+}
+
+void Mover::followLineUntilCrossingCount(int count)
+{
+    for (int counter = 0; counter < count; counter++)
+    {
+        followLineUntilCrossing();
+    }
+}
+
+void Mover::followLine()
+{
+    switch(_tracker.checkRoad())
+    {
+    case RoadLayout::none:
+    case RoadLayout::blocked:
+        _motor.stop();
+        break;
+    case RoadLayout::sharpRight:
+    case RoadLayout::right:
+        _motor.turnRight();
+        break;
+    case RoadLayout::straight:
+    case RoadLayout::enclosed:
+        _motor.goStraight();
+        break;
+    case RoadLayout::sharpLeft:
+    case RoadLayout::left:
+        _motor.turnLeft();
+        break;
+    default:
+        break;
+    }
 }
