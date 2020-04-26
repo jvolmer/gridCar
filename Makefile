@@ -94,8 +94,11 @@ $(BIN_DIR)/%.test : $(BUILD_DIR)/%_test.o $(BUILD_DIR)/%.o |$$(@D)/.f
 	@./$@ #--log_level=test_suite
 	@echo
 
-$(BIN_DIR)/controller/communicatorHeadquaters.test: $(BUILD_DIR)/controller/communicatorHeadquaters_test.o $(BUILD_DIR)/controller/communicatorHeadquaters.o $(BUILD_DIR)/entity/transmission.o $(BUILD_DIR)/entity/coordinate.o $(BUILD_DIR)/entity/operatorOverloading.o |$$(@D)/.f
-$(BIN_DIR)/controller/mover.test: $(BUILD_DIR)/controller/mover_test.o $(BUILD_DIR)/controller/mover.o $(BUILD_DIR)/entity/coordinate.o $(BUILD_DIR)/entity/operatorOverloading.o |$$(@D)/.f
+$(BIN_DIR)/controller/communicatorHeadquaters.test: $(BUILD_DIR)/controller/communicatorHeadquaters_test.o $(BUILD_DIR)/controller/communicatorHeadquaters.o $(BUILD_DIR)/entity/transmission.o $(BUILD_DIR)/entity/coordinate.o $(BUILD_DIR)/entity/IOOperatorOverloading.o |$$(@D)/.f
+$(BIN_DIR)/controller/mover.test: $(BUILD_DIR)/controller/mover_test.o $(BUILD_DIR)/controller/mover.o $(BUILD_DIR)/entity/coordinate.o $(BUILD_DIR)/entity/direction.o $(BUILD_DIR)/entity/IOOperatorOverloading.o |$$(@D)/.f
+$(BIN_DIR)/entity/coordinate.test: $(BUILD_DIR)/entity/coordinate_test.o $(BUILD_DIR)/entity/coordinate.o $(BUILD_DIR)/entity/direction.o $(BUILD_DIR)/entity/IOOperatorOverloading.o |$$(@D)/.f
+$(BIN_DIR)/entity/direction.test: $(BUILD_DIR)/entity/direction_test.o $(BUILD_DIR)/entity/direction.o $(BUILD_DIR)/entity/IOOperatorOverloading.o |$$(@D)/.f
+
 
 $(BUILD_DIR)/%_test.o : $(TEST_DIR)/%_test.cpp |$$(@D)/.f
 	$(CXX) $(CXX_FLAGS) $< $(SRC_INC) -I $(ROOT_DIR) $(CXX_INC) -c -o $@

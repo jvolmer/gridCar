@@ -13,6 +13,7 @@ public:
     TransmissionToCar(Coordinate goal);
     const Coordinate& getGoal() const { return _goal; };
 };
+bool operator== (const TransmissionToCar& lhs, const TransmissionToCar& rhs);
 
 class TransmissionFromCar
 {
@@ -29,5 +30,6 @@ public:
     float getScaleValue() const { return _scale_value_in_g; }
     float getBatteryCharge() const { return _battery_charge_in_percent; }
 };  
+bool operator== (const TransmissionFromCar& lhs, const TransmissionFromCar& rhs);
 
 #endif

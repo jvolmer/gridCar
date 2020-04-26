@@ -7,7 +7,7 @@
 #include "model/radio.hpp"
 #include "entity/transmission.hpp"
 #include "entity/coordinate.hpp"
-#include "test/entity/operatorOverloading.hpp"
+#include "test/entity/IOOperatorOverloading.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 

@@ -1,19 +1,26 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
+#include "entity/direction.hpp"
+
 class Coordinate
 {
 private:
-    float _x_in_mm;
-    float _y_in_mm;
+    int _x;
+    int _y;
 
 public:
-    Coordinate(float x_in_mm, float y_in_mm);
+    Coordinate(int x, int y);
+    Coordinate(const Direction& direction);
 
     Coordinate& operator= (const Coordinate& point);
-    float getx() const { return _x_in_mm; }
-    float gety() const { return _y_in_mm; }
+    int getx() const { return _x; }
+    int gety() const { return _y; }
 };
+
+bool operator== (const Coordinate& lhs, const Coordinate& rhs);
+Coordinate operator+(const Coordinate& coordinate1, const Coordinate& coordinate2);
+Coordinate operator-(const Coordinate& coordinate1, const Coordinate& coordinate2);
 
     
 #endif
