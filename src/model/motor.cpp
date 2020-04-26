@@ -3,15 +3,17 @@
 ArduinoMotor::ArduinoMotor(const int pinDirectionLeft,
                            const int pinMotorLeft,
                            const int pinDirectionRight,
-                           const int pinMotorRight) :
+                           const int pinMotorRight,
+                           int standardVelocity) :
     _pinDirectionLeft { pinDirectionLeft },
     _pinMotorLeft { pinMotorLeft },
     _pinDirectionRight { pinDirectionRight },
-    _pinMotorRight { pinMotorRight }
+    _pinMotorRight { pinMotorRight },
+    _velocity { standardVelocity }
 {}
 
 ArduinoMotor::ArduinoMotor() :
-    ArduinoMotor(0, 0, 0, 0)
+    ArduinoMotor(0, 0, 0, 0, 0)
 {}
 
 void ArduinoMotor::setup()
@@ -44,4 +46,24 @@ void ArduinoMotor::run(int speedl, int speedr)
   digitalWrite(_pinDirectionRight, dirR);
   analogWrite(_pinMotorLeft, speedl);
   analogWrite(_pinMotorRight, speedr);
+}
+
+void ArduinoMotor::turnRight()
+{
+    run(_velocity, -_velocity);
+}
+
+void ArduinoMotor::turnLeft()
+{
+    run(-_velocity, _velocity);
+}
+
+void ArduinoMotor::goStraight()
+{
+    run(_velocity, _velocity);
+}
+
+void ArduinoMotor::stop()
+{
+    run(0, 0);
 }
