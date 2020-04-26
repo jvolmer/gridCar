@@ -1,11 +1,13 @@
 #ifndef TRACKER_H
 #define TRACKER_H
 
+#include "entity/roadLayout.hpp"
+
 class Tracker
 {
 public:
     virtual void setup() = 0;
-    virtual unsigned char checkSensors() = 0;
+    virtual RoadLayout checkRoad() = 0;
 };
 
 class ArduinoTracker: public Tracker
@@ -14,7 +16,7 @@ private:
     const int _pinTrackingLeft;
     const int _pinTrackingMiddle;
     const int _pinTrackingRight;
-    unsigned char _sensorValue;
+    RoadLayout _roadLayout { RoadLayout::none };
 
 public:
     ArduinoTracker();
@@ -22,7 +24,7 @@ public:
                    const int pinTrackingMiddle,
                    const int pinTrackingRight);
     void setup() override;
-    unsigned char checkSensors() override;
+    RoadLayout checkRoad() override;
 };
 
 #endif
