@@ -1,4 +1,4 @@
-#include "entity/direction.hpp"
+#include "../entity/direction.hpp"
 #include "coordinate.hpp"
 
 Coordinate::Coordinate(int x, int y):

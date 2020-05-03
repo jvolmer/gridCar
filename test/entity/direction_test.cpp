@@ -1,7 +1,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE test_direction
 
-#include "entity/direction.hpp"
+#include "src/entity/direction.hpp"
 #include "test/entity/IOOperatorOverloading.hpp"
 #include <boost/test/unit_test.hpp>
 

@@ -3,10 +3,10 @@
 
 #include <iostream>
 
-#include "controller/communicatorHeadquaters.hpp"
-#include "model/radio.hpp"
-#include "entity/transmission.hpp"
-#include "entity/coordinate.hpp"
+#include "src/controller/communicatorHeadquaters.hpp"
+#include "src/model/radio.hpp"
+#include "src/entity/transmission.hpp"
+#include "src/entity/coordinate.hpp"
 #include "test/entity/IOOperatorOverloading.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>

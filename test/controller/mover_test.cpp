@@ -1,12 +1,12 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE test_mover
 
-#include "controller/mover.hpp"
-#include "model/motor.hpp"
-#include "model/tracker.hpp"
-#include "entity/coordinate.hpp"
-#include "entity/direction.hpp"
-#include "entity/roadLayout.hpp"
+#include "src/controller/mover.hpp"
+#include "src/model/motor.hpp"
+#include "src/model/tracker.hpp"
+#include "src/entity/coordinate.hpp"
+#include "src/entity/direction.hpp"
+#include "src/entity/roadLayout.hpp"
 #include "test/entity/IOOperatorOverloading.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE( stopsWhenFollowsLineAndNoLineIsThere )
     mover.followLine();
 }
 
-BOOST_AUTO_TEST_CASE( followsLineFor1Crossing )
+BOOST_AUTO_TEST_CASE( followsLineUntilNextCrossing )
 {
     Coordinate startPosition = Coordinate(0,0);
     Direction startDirection{ Direction::positiveX };

@@ -1,6 +1,6 @@
-#include "entity/transmission.hpp"
-#include "entity/coordinate.hpp"
-#include "entity/direction.hpp"
+#include "src/entity/transmission.hpp"
+#include "src/entity/coordinate.hpp"
+#include "src/entity/direction.hpp"
 #include "IOOperatorOverloading.hpp"
 #include <math.h>
 #include <iostream>

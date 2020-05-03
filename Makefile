@@ -20,7 +20,7 @@ AVR_DUDE := $(ARDUINO_DIR)/hardware/tools/avr/bin/avrdude
 
 # project-directories
 
-ROOT_DIR := .
+PROJECT_DIR := .
 SRC_DIR := src
 TEST_DIR := test
 BUILD_DIR := build
@@ -39,16 +39,18 @@ CXX := g++
 CXX_FLAGS = -Wall -Wno-deprecated-declarations -MT $@ -MMD -MP -MF $(@:%.o=%.d) $(GENERAL_FLAGS)
 LDFLAGS  := -lboost_unit_test_framework -lm
 CXX_INC := -I $(TURTLE_DIR)/include
-SRC_INC := -I $(SRC_DIR)
 
 # files
 SRC_EXT := cpp
-TARGET := $(BIN_DIR)/main.hex
 
+TARGET_NAME := $(shell basename $(PWD))
+SRC_MAIN := $(TARGET_NAME).ino
+TARGET := $(BIN_DIR)/$(TARGET_NAME).hex
 TARGET_ELF := $(TARGET:.hex=.elf)
-SOURCES := $(shell find $(SRC_DIR) -type f -name *.$(SRC_EXT))
-AVR_OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.avr_o))
-OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.o))
+
+SRC := $(shell find $(SRC_DIR) -type f -name *.$(SRC_EXT))
+AVR_OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SRC:.$(SRC_EXT)=.avr_o)) $(BUILD_DIR)/$(TARGET_NAME).avr_o
+OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SRC:.$(SRC_EXT)=.o))
 
 TESTS := $(shell find $(TEST_DIR) -type f -name *_test.$(SRC_EXT))
 TEST_TARGETS := $(patsubst $(TEST_DIR)/%,$(BIN_DIR)/%,$(TESTS:_test.$(SRC_EXT)=.test))
@@ -78,18 +80,21 @@ upload : $(TARGET)
 $(BIN_DIR)/%.hex : $(BIN_DIR)/%.elf |$$(@D)/.f
 	$(AVR_OBJCOPY) -O ihex -R .eeprom $< $@
 
-$(BIN_DIR)/%.elf : $(AVR_OBJECTS) |$$(@D)/.f
-	$(AVR_CC) $(AVRLINK_FLAGS) -o $@ $^ $(SRC_INC) $(ARDUINO_LIB) -lc -lm
+$(BIN_DIR)/$(TARGET_NAME).elf : $(AVR_OBJECTS) |$$(@D)/.f
+	$(AVR_CC) $(AVRLINK_FLAGS) -o $@ $^ $(ARDUINO_LIB) -lc -lm
+
+$(BUILD_DIR)/$(TARGET_NAME).avr_o : $(PROJECT_DIR)/$(SRC_MAIN) |$$(@D)/.f
+	$(AVR_CXX) $(AVR_INC) $(AVRCOMPILE_FLAGS) $< -c -o $@
 
 $(BUILD_DIR)/%.avr_o : $(SRC_DIR)/%.cpp |$$(@D)/.f
-	$(AVR_CXX) $(AVR_INC) $(AVRCOMPILE_FLAGS) $< $(SRC_INC) -c -o $@
+	$(AVR_CXX) $(AVR_INC) $(AVRCOMPILE_FLAGS) $< -c -o $@
 
 # test compilation
 
 tests : $(TEST_TARGETS)
 
 $(BIN_DIR)/%.test : $(BUILD_DIR)/%_test.o $(BUILD_DIR)/%.o |$$(@D)/.f
-	$(CXX) $(CXX_FLAGS) $^ $(SRC_INC) -o $@ $(LDFLAGS)
+	$(CXX) $(CXX_FLAGS) $^ -o $@ $(LDFLAGS)
 	@echo Running $@
 	@./$@ #--log_level=test_suite
 	@echo
@@ -101,13 +106,13 @@ $(BIN_DIR)/entity/direction.test: $(BUILD_DIR)/entity/direction_test.o $(BUILD_D
 
 
 $(BUILD_DIR)/%_test.o : $(TEST_DIR)/%_test.cpp |$$(@D)/.f
-	$(CXX) $(CXX_FLAGS) $< $(SRC_INC) -I $(ROOT_DIR) $(CXX_INC) -c -o $@
+	$(CXX) $(CXX_FLAGS) $< -I $(PROJECT_DIR) $(CXX_INC) -c -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp |$$(@D)/.f
-	$(CXX) $(CXX_FLAGS) $< $(SRC_INC) -c -o $@
+	$(CXX) $(CXX_FLAGS) $< -I $(PROJECT_DIR) -c -o $@
 
 $(BUILD_DIR)/%.o : $(TEST_DIR)/%.cpp |$$(@D)/.f
-	$(CXX) $(CXX_FLAGS) $< $(SRC_INC) $(CXX_INC) -c -o $@
+	$(CXX) $(CXX_FLAGS) $< -I $(PROJECT_DIR) $(CXX_INC) -c -o $@
 
 # Makefile stuff
 

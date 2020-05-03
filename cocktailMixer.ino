@@ -1,6 +1,6 @@
-#include "model/arduinoTracker.hpp"
-#include "model/arduinoMotor.hpp"
-#include "controller/arduinoMover.hpp"
+#include "src/model/arduinoTracker.hpp"
+#include "src/model/arduinoMotor.hpp"
+#include "src/controller/arduinoMover.hpp"
 
 ArduinoTracker tracker(A1, A2, A3);
 ArduinoMotor motor(4, 6, 3, 5);

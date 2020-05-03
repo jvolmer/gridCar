@@ -1,8 +1,8 @@
-#include "model/motor.hpp"
-#include "model/tracker.hpp"
-#include "entity/coordinate.hpp"
-#include "entity/direction.hpp"
-#include "entity/roadLayout.hpp"
+#include "../model/motor.hpp"
+#include "../model/tracker.hpp"
+#include "../entity/coordinate.hpp"
+#include "../entity/direction.hpp"
+#include "../entity/roadLayout.hpp"
 #include "mover.hpp"
 
 Mover::Mover(Motor& motor, Tracker& tracker) :

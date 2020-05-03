@@ -1,8 +1,8 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE test_coordinate
 
-#include "entity/coordinate.hpp"
-#include "entity/direction.hpp"
+#include "src/entity/coordinate.hpp"
+#include "src/entity/direction.hpp"
 #include "test/entity/IOOperatorOverloading.hpp"
 #include <boost/test/unit_test.hpp>
 
