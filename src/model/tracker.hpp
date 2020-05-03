@@ -10,21 +10,4 @@ public:
     virtual RoadLayout checkRoad() = 0;
 };
 
-class ArduinoTracker: public Tracker
-{
-private:
-    const int _pinTrackingLeft;
-    const int _pinTrackingMiddle;
-    const int _pinTrackingRight;
-    RoadLayout _roadLayout { RoadLayout::none };
-
-public:
-    ArduinoTracker();
-    ArduinoTracker(const int pinTrackingLeft,
-                   const int pinTrackingMiddle,
-                   const int pinTrackingRight);
-    void setup() override;
-    RoadLayout checkRoad() override;
-};
-
 #endif
