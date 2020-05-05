@@ -1,0 +1,16 @@
+@startuml
+skinparam class {
+ArrowColor Black
+BorderColor Black
+CircledCharacterFontColor Red
+}
+class Controller #Grey
+interface Model #White
+class ArduinoModel #DeepSkyBlue
+class Entity #LightYellow
+
+Controller o-- Model
+Model <|.. ArduinoModel
+Controller *-- Entity
+ArduinoModel *-- Entity
+@enduml
