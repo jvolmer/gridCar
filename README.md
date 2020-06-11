@@ -24,14 +24,6 @@ For ```make tests``` to work:
 - [Boost.Test](https://www.boost.org/doc/libs/1_66_0/libs/test/doc/html/index.html)
 - [Turtle](http://turtle.sourceforge.net)
 
-## Code:
-Code is structured in three directories:
-- entity: classes that are used to store values
-- model: classes that model the arduino and include specific arduino code, for each model there exist an interface (Model) and an arduino implementation (ArduinoModel)
-- controller: high-level classes that control the model (there exist unit tests for this part by mocking the model)
-![alternative text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jvolmer/cocktailMixer/feature/carMovement/doc/codeStructure.txt)
-Additionally, also Controller and Entity classes can have arduino-extensions, like ArduinoController or ArduinoEntity that only include methods for printing the instance via the Serial interface.
-
 ## Usage when not using the IDE:
 Run tests:
 ```bash

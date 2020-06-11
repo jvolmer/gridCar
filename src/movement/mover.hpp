@@ -1,10 +1,10 @@
 #ifndef MOVER_H
 #define MOVER_H
 
-#include "../model/motor.hpp"
-#include "../model/tracker.hpp"
-#include "../entity/coordinate.hpp"
-#include "../entity/direction.hpp"
+#include "motor/motor.hpp"
+#include "tracker/tracker.hpp"
+#include "coordinate.hpp"
+#include "direction.hpp"
 
 class LineFollower
 {

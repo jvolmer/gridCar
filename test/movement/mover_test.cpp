@@ -1,13 +1,14 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE test_mover
 
-#include "src/controller/mover.hpp"
-#include "src/model/motor.hpp"
-#include "src/model/tracker.hpp"
-#include "src/entity/coordinate.hpp"
-#include "src/entity/direction.hpp"
-#include "src/entity/roadLayout.hpp"
-#include "test/entity/IOOperatorOverloading.hpp"
+#include "src/movement/mover.hpp"
+#include "src/movement/motor/motor.hpp"
+#include "src/movement/tracker/tracker.hpp"
+#include "src/movement/coordinate.hpp"
+#include "src/movement/direction.hpp"
+#include "src/movement/tracker/roadLayout.hpp"
+#include "test/movement/coordinate_ostream.hpp"
+#include "test/movement/direction_ostream.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 

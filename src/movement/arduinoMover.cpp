@@ -1,6 +1,6 @@
-#include "../model/motor.hpp"
-#include "../model/tracker.hpp"
-#include "../entity/direction.hpp"
+#include "motor/motor.hpp"
+#include "tracker/tracker.hpp"
+#include "direction.hpp"
 #include "arduinoMover.hpp"
 #include "Arduino.h"
 

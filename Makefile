@@ -48,20 +48,19 @@ CXX_INC := -I$(TURTLE_DIR)/include
 AVRDUDE_CONF := $(ARDUINO_DIR)/hardware/tools/avr/etc/avrdude.conf
 
 # files
-SRC_EXT := cpp
 
 TARGET_NAME := $(shell basename $(PWD))
 SRC_MAIN := $(TARGET_NAME).ino
 TARGET := $(BIN_DIR)/$(TARGET_NAME).hex
 TARGET_ELF := $(TARGET:.hex=.elf)
 
-SRC := $(shell find $(SRC_DIR) -type f -name *.$(SRC_EXT))
-AVR_OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SRC:.$(SRC_EXT)=.avr_o)) $(BUILD_DIR)/$(TARGET_NAME).avr_o
-OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SRC:.$(SRC_EXT)=.o))
+SRC := $(shell find $(SRC_DIR) -type f -name *.cpp)
+AVR_OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SRC:.cpp=.avr_o)) $(BUILD_DIR)/$(TARGET_NAME).avr_o
+OBJECTS := $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SRC:.cpp=.o))
 
-TESTS := $(shell find $(TEST_DIR) -type f -name *_test.$(SRC_EXT))
-TEST_TARGETS := $(patsubst $(TEST_DIR)/%,$(BIN_DIR)/%,$(TESTS:_test.$(SRC_EXT)=.test))
-TEST_OBJECTS := $(patsubst $(TEST_DIR)/%,$(BUILD_DIR)/%,$(TESTS:.$(SRC_EXT)=.o))
+TESTS := $(shell find $(TEST_DIR) -type f -name *_test.cpp)
+TEST_TARGETS := $(patsubst $(TEST_DIR)/%,$(BIN_DIR)/%,$(TESTS:_test.cpp=.test))
+TEST_OBJECTS := $(patsubst $(TEST_DIR)/%,$(BUILD_DIR)/%,$(TESTS:.cpp=.o))
 
 # fill depfiles if build_dir exists
 ifeq ($(wildcard $(BUILD_DIR)/),)
@@ -93,7 +92,7 @@ $(BUILD_DIR)/%.avr_o : $(SRC_DIR)/%.cpp |$$(@D)/.f
 
 # test compilation
 
-tests : $(TEST_TARGETS)
+test : $(TEST_TARGETS)
 
 $(BIN_DIR)/%.test : $(BUILD_DIR)/%_test.o $(BUILD_DIR)/%.o |$$(@D)/.f
 	$(CXX) $(CXX_FLAGS) $^ -o $@ $(LDFLAGS)
@@ -101,10 +100,10 @@ $(BIN_DIR)/%.test : $(BUILD_DIR)/%_test.o $(BUILD_DIR)/%.o |$$(@D)/.f
 	@./$@ #--log_level=test_suite
 	@echo
 
-$(BIN_DIR)/controller/communicatorHeadquaters.test: $(BUILD_DIR)/controller/communicatorHeadquaters_test.o $(BUILD_DIR)/controller/communicatorHeadquaters.o $(BUILD_DIR)/entity/transmission.o $(BUILD_DIR)/entity/coordinate.o $(BUILD_DIR)/entity/IOOperatorOverloading.o |$$(@D)/.f
-$(BIN_DIR)/controller/mover.test: $(BUILD_DIR)/controller/mover_test.o $(BUILD_DIR)/controller/mover.o $(BUILD_DIR)/entity/coordinate.o $(BUILD_DIR)/entity/direction.o $(BUILD_DIR)/entity/IOOperatorOverloading.o |$$(@D)/.f
-$(BIN_DIR)/entity/coordinate.test: $(BUILD_DIR)/entity/coordinate_test.o $(BUILD_DIR)/entity/coordinate.o $(BUILD_DIR)/entity/direction.o $(BUILD_DIR)/entity/IOOperatorOverloading.o |$$(@D)/.f
-$(BIN_DIR)/entity/direction.test: $(BUILD_DIR)/entity/direction_test.o $(BUILD_DIR)/entity/direction.o $(BUILD_DIR)/entity/IOOperatorOverloading.o |$$(@D)/.f
+$(BIN_DIR)/communication/communicatorHeadquaters.test: $(BUILD_DIR)/communication/communicatorHeadquaters_test.o $(BUILD_DIR)/communication/communicatorHeadquaters.o $(BUILD_DIR)/communication/transmission.o $(BUILD_DIR)/movement/coordinate.o $(BUILD_DIR)/communication/transmission_ostream.o |$$(@D)/.f
+$(BIN_DIR)/movement/mover.test: $(BUILD_DIR)/movement/mover_test.o $(BUILD_DIR)/movement/mover.o $(BUILD_DIR)/movement/coordinate.o $(BUILD_DIR)/movement/direction.o $(BUILD_DIR)/movement/coordinate_ostream.o $(BUILD_DIR)/movement/direction_ostream.o |$$(@D)/.f
+$(BIN_DIR)/movement/coordinate.test: $(BUILD_DIR)/movement/coordinate_test.o $(BUILD_DIR)/movement/coordinate.o $(BUILD_DIR)/movement/direction.o $(BUILD_DIR)/movement/coordinate_ostream.o |$$(@D)/.f
+$(BIN_DIR)/movement/direction.test: $(BUILD_DIR)/movement/direction_test.o $(BUILD_DIR)/movement/direction.o $(BUILD_DIR)/movement/direction_ostream.o |$$(@D)/.f
 
 
 $(BUILD_DIR)/%_test.o : $(TEST_DIR)/%_test.cpp |$$(@D)/.f
@@ -136,7 +135,7 @@ clean :
 	rm -rf $(BUILD_DIR)/* $(TARGET) $(TARGET_ELF) $(TEST_TARGETS)
 
 # targets that are not files
-.PHONY : upload clean tests
+.PHONY : upload clean test
 # targets that are not explicitly named in Makefile should not automatically be deleted
 .SECONDARY : $(TARGET_ELF) $(TARGET) $(AVR_OBJECTS) $(OBJECTS) $(TEST_OBJECTS)
 # similar to .secondary, but works with patterns and targets are additionally not deleted when make is killed or interrupted

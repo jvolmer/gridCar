@@ -1,7 +1,7 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
-#include "../entity/direction.hpp"
+#include "direction.hpp"
 
 class Coordinate
 {

@@ -1,11 +1,14 @@
 @startuml
-skinparam class {
-ArrowColor Black
-BorderColor Black
-CircledCharacterFontColor Red
-}
 
-class Mover #Grey {
+skinparam monochrome true
+' skinparam class {
+' ArrowColor Black
+' BorderColor Black
+' CircledCharacterFontColor Red
+' }
+' left footer Background colors: see section Code
+
+class Mover {
     {field} Coordinate position
     {field} Direction direction
     void followLine()
@@ -14,12 +17,12 @@ class Mover #Grey {
     void turnLeftAtCrossing()
 }
 
-class Tracker #DeepSkyBlue {
+class Tracker {
   {field} RoadLayout roadLayout
   RoadLayout checkRoad()
 }
 
-class Motor #DeepSkyBlue {
+class Motor {
   byte leftSpeed
   byte rightSpeed
   void run(leftSpeed, rightSpeed)
@@ -28,9 +31,8 @@ class Motor #DeepSkyBlue {
   void goStraight()
   void stop()
 }
-left footer Background colors: see section Code
 
-enum RoadLayout #LightYellow {
+enum RoadLayout {
   none
   blocked
   enclosed
@@ -40,11 +42,11 @@ enum RoadLayout #LightYellow {
   sharpRight
   right
 }
-class Coordinate #LightYellow {
+class Coordinate {
   int x
   int y
 }
-enum Direction #LightYellow {
+enum Direction {
   positiveX
   negativeY
   negativeX
@@ -54,5 +56,9 @@ enum Direction #LightYellow {
 
 Mover o-- Motor
 Mover o-- Tracker
+Mover *-- Coordinate
+Mover *-- Direction
+Tracker *-- RoadLayout
+
 
 @enduml

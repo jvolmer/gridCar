@@ -1,7 +1,7 @@
 #ifndef RADIO_H
 #define RADIO_H
 
-#include "../entity/transmission.hpp"
+#include "transmission.hpp"
 
 class Radio
 {
