@@ -7,16 +7,23 @@ TURTLE_DIR := $(HOME)/bin/turtle_1.3.1
 ARDUINO_LIB := $(HOME)/lib/arduino/coreObjectFiles/libcore.a
 
 # arduino specifications
-F_CPU := 16000000
-MCU := atmega328p
 
-# arduino programs
+# arduino specific
+MCU := atmega328p
+F_CPU := 16000000
+BAUDRATE := 115200
+PROGRAMMER := arduino
+# system specific
+PORT := /dev/ttyACM0
+
+# programs
 
 AVR_CC := $(ARDUINO_DIR)/hardware/tools/avr/bin/avr-gcc
 AVR_CXX := $(ARDUINO_DIR)/hardware/tools/avr/bin/avr-g++
 AVR_AR := $(ARDUINO_DIR)/hardware/tools/avr/bin/avr-ar
 AVR_OBJCOPY := $(ARDUINO_DIR)/hardware/tools/avr/bin/avr-objcopy
 AVR_DUDE := $(ARDUINO_DIR)/hardware/tools/avr/bin/avrdude
+CXX := g++
 
 # project-directories
 
@@ -28,17 +35,17 @@ BIN_DIR := bin
 
 # compiler flags
 
-GENERAL_FLAGS := -std=gnu++14 -Wall
-
-AVRCOMPILE_FLAGS = -x c++ -ffunction-sections -fdata-sections -mmcu=$(MCU) -DF_CPU=$(F_CPU)L -Os -include Arduino.h -MT $@ -MMD -MP -MF $(@:%.avr_o=%.d) $(GENERAL_FLAGS)
-AVRLINK_FLAGS := -mmcu=$(MCU) -Wl,--gc-sections -Os 
-AVR_INC := -I $(ARDUINO_DIR)/hardware/arduino/avr/cores/arduino/ -I $(ARDUINO_DIR)/hardware/arduino/avr/variants/standard
-AVRDUDE_CONF := $(ARDUINO_DIR)/hardware/tools/avr/etc/avrdude.conf
-
-CXX := g++
-CXX_FLAGS = -Wall -Wno-deprecated-declarations -MT $@ -MMD -MP -MF $(@:%.o=%.d) $(GENERAL_FLAGS)
+COMPILE_FLAGS := -std=gnu++14 -Os -Wall
+AVRCOMPILE_FLAGS = $(COMPILE_FLAGS) -MT $@ -MMD -MP -MF $(@:%.avr_o=%.d) -x c++ -ffunction-sections -fdata-sections -mmcu=$(MCU) -DF_CPU=$(F_CPU)L -include Arduino.h
+CXX_FLAGS = $(COMPILEL_FLAGS) -MT $@ -MMD -MP -MF $(@:%.o=%.d) -Wno-deprecated-declarations
+AVRLD_FLAGS := -Wl,--gc-sections -mmcu=$(MCU) -lc -lm
 LDFLAGS  := -lboost_unit_test_framework -lm
-CXX_INC := -I $(TURTLE_DIR)/include
+AVRDUDE_FLAGS := -v -p$(MCU) -c$(PROGRAMMER) -P$(PORT) -b$(BAUDRATE) -D
+AVRCOPY_FLAGS := -O ihex -R .eeprom
+
+AVR_INC := -I$(ARDUINO_DIR)/hardware/arduino/avr/cores/arduino/ -I$(ARDUINO_DIR)/hardware/arduino/avr/variants/standard
+CXX_INC := -I$(TURTLE_DIR)/include
+AVRDUDE_CONF := $(ARDUINO_DIR)/hardware/tools/avr/etc/avrdude.conf
 
 # files
 SRC_EXT := cpp
@@ -70,18 +77,13 @@ endif
 
 $(TARGET) :
 
-# # upload to arduino
-
-upload : $(TARGET)
-	$(AVR_DUDE) -C$(AVRDUDE_CONF) -v -p$(MCU) -carduino -P/dev/ttyACM0 -b115200 -D -Uflash:w:$<:i
-
 # arduino compilation
 
 $(BIN_DIR)/%.hex : $(BIN_DIR)/%.elf |$$(@D)/.f
-	$(AVR_OBJCOPY) -O ihex -R .eeprom $< $@
+	$(AVR_OBJCOPY) $(AVRCOPY_FLAGS) $< $@
 
 $(BIN_DIR)/$(TARGET_NAME).elf : $(AVR_OBJECTS) |$$(@D)/.f
-	$(AVR_CC) $(AVRLINK_FLAGS) -o $@ $^ $(ARDUINO_LIB) -lc -lm
+	$(AVR_CC) $^ -o $@ $(ARDUINO_LIB)  $(AVRLD_FLAGS)
 
 $(BUILD_DIR)/$(TARGET_NAME).avr_o : $(PROJECT_DIR)/$(SRC_MAIN) |$$(@D)/.f
 	$(AVR_CXX) $(AVR_INC) $(AVRCOMPILE_FLAGS) $< -c -o $@
@@ -106,13 +108,18 @@ $(BIN_DIR)/entity/direction.test: $(BUILD_DIR)/entity/direction_test.o $(BUILD_D
 
 
 $(BUILD_DIR)/%_test.o : $(TEST_DIR)/%_test.cpp |$$(@D)/.f
-	$(CXX) $(CXX_FLAGS) $< -I $(PROJECT_DIR) $(CXX_INC) -c -o $@
+	$(CXX) $(CXX_FLAGS) $< $(CXX_INC) -I$(PROJECT_DIR) -c -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp |$$(@D)/.f
-	$(CXX) $(CXX_FLAGS) $< -I $(PROJECT_DIR) -c -o $@
+	$(CXX) $(CXX_FLAGS) $< -I$(PROJECT_DIR) -c -o $@
 
 $(BUILD_DIR)/%.o : $(TEST_DIR)/%.cpp |$$(@D)/.f
-	$(CXX) $(CXX_FLAGS) $< -I $(PROJECT_DIR) $(CXX_INC) -c -o $@
+	$(CXX) $(CXX_FLAGS) $< $(CXX_INC) -I$(PROJECT_DIR) -c -o $@
+
+# # upload to arduino
+
+upload : $(TARGET)
+	$(AVR_DUDE) -C$(AVRDUDE_CONF) $(AVRDUDE_FLAGS) -Uflash:w:$<:i
 
 # Makefile stuff
 
