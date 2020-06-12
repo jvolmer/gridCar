@@ -5,53 +5,30 @@
 #include "tracker/roadLayout.hpp"
 #include "mover.hpp"
 
-Mover::Mover(Motor& motor, Tracker& tracker) :
+LineSteering::LineSteering(Motor& motor, Tracker& tracker) :
     _motor { motor },
     _tracker { tracker }
 {}
 
-void Mover::turnRightAtCrossing()
+void LineSteering::turnRightUpToNextPerpendicularLine()
 {
-    do
-    {
-        _motor.turnRight();
-    } while(_tracker.checkRoad() != RoadLayout::blocked);
-    _motor.stop();
-    
-    _direction = _direction + 1;
-}
-
-void Mover::turnLeftAtCrossing()
-{
-    do
-    {
-        _motor.turnLeft();
-    } while(_tracker.checkRoad() != RoadLayout::blocked);
-    _motor.stop();
-    
-    _direction = _direction - 1;
-}
-
-void Mover::followLineUntilCrossing()
-{
-    _motor.goStraight();
-    do
-    {
-        followLine();
-    } while(_tracker.checkRoad() != RoadLayout::blocked);
-
-    _position = _position + Coordinate(_direction);
-}
-
-void Mover::followLineUntilCrossingCount(int count)
-{
-    for (int counter = 0; counter < count; counter++)
-    {
-        followLineUntilCrossing();
+    _motor.turnRight();
+    if (_tracker.checkRoad() == RoadLayout::blocked) {
+        _motor.stop();
+        _direction = _direction + 1;
     }
 }
 
-void Mover::followLine()
+void LineSteering::turnLeftUpToNextPerpendicularLine()
+{
+    _motor.turnLeft();
+    if (_tracker.checkRoad() == RoadLayout::blocked) {
+        _motor.stop();
+        _direction = _direction - 1;
+    }
+}
+
+void LineSteering::followLine()
 {
     switch(_tracker.checkRoad())
     {
@@ -76,7 +53,23 @@ void Mover::followLine()
     }
 }
 
-bool Mover::directsTowards(const Coordinate& coordinate)
+void LineSteering::followLineUpTo(const Coordinate& coordinate)
+{
+    followLine();
+    if (_tracker.checkRoad() == RoadLayout::blocked) {
+        _position = _position + Coordinate(_direction);
+        if (_position == coordinate)
+        {
+            _motor.stop();
+        }
+        else
+        {
+            _motor.goStraight();
+        }
+    }
+}
+
+bool LineSteering::directsTowards(const Coordinate& coordinate)
 {
     return (
         ( (_direction == Direction::positiveX) && (coordinate.getx() > _position.getx()) ) ||

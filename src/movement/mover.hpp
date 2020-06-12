@@ -12,7 +12,7 @@ public:
     virtual void followLine() = 0;
 };
     
-class Mover: public LineFollower
+class LineSteering: public LineFollower
 {
 private:
     Motor& _motor;
@@ -21,7 +21,7 @@ private:
     Direction _direction { Direction::positiveX };
     
 public:
-    Mover(Motor& motor, Tracker& tracker);
+    LineSteering(Motor& motor, Tracker& tracker);
     void setPosition(const Coordinate& position) { _position = position; }
     void setDirection(const Direction& direction) { _direction = direction; }
     void setPosition(Coordinate&& position) { _position = position; }
@@ -30,10 +30,9 @@ public:
     const Direction& getDirection() const { return _direction; }
 
     void followLine() override;
-    void followLineUntilCrossing();
-    void followLineUntilCrossingCount(int count);
-    void turnRightAtCrossing();
-    void turnLeftAtCrossing();
+    void followLineUpTo(const Coordinate& coordinate);
+    void turnRightUpToNextPerpendicularLine();
+    void turnLeftUpToNextPerpendicularLine();
     bool directsTowards(const Coordinate& coordinate);
 };
 

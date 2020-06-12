@@ -10,8 +10,8 @@
 #include "test/movement/coordinate_ostream.hpp"
 #include "test/movement/direction_ostream.hpp"
 #include <boost/test/unit_test.hpp>
+#include <boost/test/data/test_case.hpp>
 #include <turtle/mock.hpp>
-
 
 MOCK_BASE_CLASS( MockMotor, Motor )
 {
@@ -28,45 +28,43 @@ MOCK_BASE_CLASS( MockTracker, Tracker )
     MOCK_METHOD( setup, 0 );
 };
 
-BOOST_AUTO_TEST_CASE( turnsRight )
+BOOST_AUTO_TEST_CASE( turns_right_at_crossing )
 {
     Coordinate startPosition = Coordinate(0,0);
     Direction startDirection{ Direction::positiveX};
 
     MockMotor motor;
     MockTracker tracker;
-    Mover mover(motor, tracker);
+    LineSteering mover(motor, tracker);
     mover.setPosition( startPosition );
     mover.setDirection( startDirection );
     
-    mock::sequence sequence;
-    MOCK_EXPECT( motor.turnRight ).at_least(1).in(sequence);
-    MOCK_EXPECT( tracker.checkRoad ).in(sequence).returns( RoadLayout::blocked );
-    MOCK_EXPECT( motor.stop ).in(sequence);
+    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
+    MOCK_EXPECT( motor.turnRight );
+    MOCK_EXPECT( motor.stop );
 
-    mover.turnRightAtCrossing();
+    mover.turnRightUpToNextPerpendicularLine();
     
     BOOST_TEST( mover.getPosition() == startPosition );
     BOOST_TEST( mover.getDirection() == Direction::negativeY );
 }
 
-BOOST_AUTO_TEST_CASE( turnsLeft )
+BOOST_AUTO_TEST_CASE( turns_left_at_crossing )
 {
     Coordinate startPosition = Coordinate(0,0);
     Direction startDirection{ Direction::positiveX };
     
     MockMotor motor;
     MockTracker tracker;
-    Mover mover(motor, tracker);
+    LineSteering mover(motor, tracker);
     mover.setPosition( startPosition );
     mover.setDirection( startDirection );
 
-    mock::sequence sequence;
-    MOCK_EXPECT( motor.turnLeft ).at_least(1).in(sequence);
-    MOCK_EXPECT( tracker.checkRoad ).in(sequence).returns( RoadLayout::blocked );
-    MOCK_EXPECT( motor.stop ).in(sequence);
-
-    mover.turnLeftAtCrossing();
+    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
+    MOCK_EXPECT( motor.turnLeft );
+    MOCK_EXPECT( motor.stop );
+    
+    mover.turnLeftUpToNextPerpendicularLine();
     
     BOOST_TEST( mover.getPosition() == startPosition );
     BOOST_TEST( mover.getDirection() == Direction::positiveY );
@@ -76,7 +74,7 @@ BOOST_AUTO_TEST_CASE( turnsLeftWhenFollowsLineAndIsTooFarRight )
 {
     MockMotor motor;
     MockTracker tracker;
-    Mover mover(motor, tracker);
+    LineSteering mover(motor, tracker);
 
     mock::sequence sequence;
     MOCK_EXPECT( tracker.checkRoad ).in(sequence).returns( RoadLayout::sharpLeft );
@@ -89,7 +87,7 @@ BOOST_AUTO_TEST_CASE( stopsWhenFollowsLineAndNoLineIsThere )
 {
     MockMotor motor;
     MockTracker tracker;
-    Mover mover(motor, tracker);
+    LineSteering mover(motor, tracker);
 
     mock::sequence sequence;
     MOCK_EXPECT( tracker.checkRoad ).in(sequence).returns( RoadLayout::none );
@@ -98,48 +96,46 @@ BOOST_AUTO_TEST_CASE( stopsWhenFollowsLineAndNoLineIsThere )
     mover.followLine();
 }
 
-BOOST_AUTO_TEST_CASE( followsLineUntilNextCrossing )
+BOOST_AUTO_TEST_CASE( stops_at_given_crossing )
 {
     Coordinate startPosition = Coordinate(0,0);
     Direction startDirection{ Direction::positiveX };
-
-    MockMotor motor;
-    MockTracker tracker;
-    Mover mover(motor, tracker);
-    mover.setPosition( startPosition );
-    mover.setDirection( startDirection );
-
-    mock::sequence sequence;
-    MOCK_EXPECT( motor.goStraight ).once().in(sequence);
-    MOCK_EXPECT( tracker.checkRoad ).once().in(sequence).returns( RoadLayout::left );
-    MOCK_EXPECT( motor.turnLeft ).once().in(sequence);
-    MOCK_EXPECT( tracker.checkRoad ).at_least(1).in(sequence).returns( RoadLayout::blocked );
-    MOCK_EXPECT( motor.stop ).in(sequence);
-
-    mover.followLineUntilCrossing();
+    Coordinate givenCrossing = Coordinate(1,0);
     
-    BOOST_TEST( mover.getPosition() == Coordinate(1,0) );
-    BOOST_TEST( mover.getDirection() == startDirection );
-}
-
-BOOST_AUTO_TEST_CASE( followsLineFor2Crossings )
-{
-    Coordinate startPosition = Coordinate(0,0);
-    Direction startDirection{ Direction::positiveX };
-
     MockMotor motor;
     MockTracker tracker;
-    Mover mover(motor, tracker);
+    LineSteering mover(motor, tracker);
     mover.setPosition( startPosition );
     mover.setDirection( startDirection );
 
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
-    MOCK_EXPECT( motor.goStraight ).exactly(2);    
     MOCK_EXPECT( motor.stop );
 
-    mover.followLineUntilCrossingCount(2);
+    mover.followLineUpTo( givenCrossing );
     
-    BOOST_TEST( mover.getPosition() == Coordinate(2,0) );
+    BOOST_TEST( mover.getPosition() == givenCrossing );
+    BOOST_TEST( mover.getDirection() == startDirection );
+}
+
+BOOST_AUTO_TEST_CASE( goes_on_at_crossing_when_given_crossing_not_reached_yet ) 
+{
+    Coordinate startPosition = Coordinate(0,0);
+    Direction startDirection{ Direction::positiveX };
+    Coordinate givenCrossing = Coordinate(2,0);
+    
+    MockMotor motor;
+    MockTracker tracker;
+    LineSteering mover(motor, tracker);
+    mover.setPosition( startPosition );
+    mover.setDirection( startDirection );
+
+    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
+    MOCK_EXPECT( motor.stop );
+    MOCK_EXPECT( motor.goStraight );
+
+    mover.followLineUpTo( givenCrossing );
+    
+    BOOST_TEST( mover.getPosition() == Coordinate(1,0) );
     BOOST_TEST( mover.getDirection() == startDirection );
 }
 
@@ -150,7 +146,7 @@ BOOST_AUTO_TEST_CASE( directs_towards_first_quadrant_coordinate_when_positions_a
     Coordinate newCoordinate = Coordinate(2,5);        
     MockMotor motor;
     MockTracker tracker;
-    Mover mover(motor, tracker);
+    LineSteering mover(motor, tracker);
     mover.setPosition( startPosition );
     mover.setDirection( startDirection );
 
@@ -166,7 +162,7 @@ BOOST_AUTO_TEST_CASE( directs_towards_second_quadrant_coordinate_when_positions_
     Coordinate newCoordinate = Coordinate(-2,5);        
     MockMotor motor;
     MockTracker tracker;
-    Mover mover(motor, tracker);
+    LineSteering mover(motor, tracker);
     mover.setPosition( startPosition );
     mover.setDirection( startDirection );
 
@@ -182,7 +178,7 @@ BOOST_AUTO_TEST_CASE( directs_towards_third_quadrant_coordinate_when_positions_a
     Coordinate newCoordinate = Coordinate(-2,-5);        
     MockMotor motor;
     MockTracker tracker;
-    Mover mover(motor, tracker);
+    LineSteering mover(motor, tracker);
     mover.setPosition( startPosition );
     mover.setDirection( startDirection );
 
@@ -198,7 +194,7 @@ BOOST_AUTO_TEST_CASE( directs_towards_fourth_quadrant_coordinate_when_positions_
     Coordinate newCoordinate = Coordinate(-2,-5);        
     MockMotor motor;
     MockTracker tracker;
-    Mover mover(motor, tracker);
+    LineSteering mover(motor, tracker);
     mover.setPosition( startPosition );
     mover.setDirection( startDirection );
 
