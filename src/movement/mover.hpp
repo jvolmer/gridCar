@@ -34,6 +34,7 @@ public:
     void followLineUntilCrossingCount(int count);
     void turnRightAtCrossing();
     void turnLeftAtCrossing();
+    bool directsTowards(const Coordinate& coordinate);
 };
 
 #endif

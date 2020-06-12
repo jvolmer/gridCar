@@ -143,3 +143,66 @@ BOOST_AUTO_TEST_CASE( followsLineFor2Crossings )
     BOOST_TEST( mover.getDirection() == startDirection );
 }
 
+BOOST_AUTO_TEST_CASE( directs_towards_first_quadrant_coordinate_when_positions_at_origin_right )
+{
+    Coordinate startPosition = Coordinate(0,0);
+    Direction startDirection{ Direction::positiveX };
+    Coordinate newCoordinate = Coordinate(2,5);        
+    MockMotor motor;
+    MockTracker tracker;
+    Mover mover(motor, tracker);
+    mover.setPosition( startPosition );
+    mover.setDirection( startDirection );
+
+    bool directsTowardsCoordinate = mover.directsTowards( newCoordinate );
+
+    BOOST_TEST( directsTowardsCoordinate == true );
+}
+
+BOOST_AUTO_TEST_CASE( directs_towards_second_quadrant_coordinate_when_positions_at_origin_top )
+{
+    Coordinate startPosition = Coordinate(0,0);
+    Direction startDirection{ Direction::positiveY };
+    Coordinate newCoordinate = Coordinate(-2,5);        
+    MockMotor motor;
+    MockTracker tracker;
+    Mover mover(motor, tracker);
+    mover.setPosition( startPosition );
+    mover.setDirection( startDirection );
+
+    bool directsTowardsCoordinate = mover.directsTowards( newCoordinate );
+
+    BOOST_TEST( directsTowardsCoordinate == true );
+}
+
+BOOST_AUTO_TEST_CASE( directs_towards_third_quadrant_coordinate_when_positions_at_origin_left )
+{
+    Coordinate startPosition = Coordinate(0,0);
+    Direction startDirection{ Direction::negativeX };
+    Coordinate newCoordinate = Coordinate(-2,-5);        
+    MockMotor motor;
+    MockTracker tracker;
+    Mover mover(motor, tracker);
+    mover.setPosition( startPosition );
+    mover.setDirection( startDirection );
+
+    bool directsTowardsCoordinate = mover.directsTowards( newCoordinate );
+
+    BOOST_TEST( directsTowardsCoordinate == true );
+}
+
+BOOST_AUTO_TEST_CASE( directs_towards_fourth_quadrant_coordinate_when_positions_at_origin_down )
+{
+    Coordinate startPosition = Coordinate(0,0);
+    Direction startDirection{ Direction::negativeY };
+    Coordinate newCoordinate = Coordinate(-2,-5);        
+    MockMotor motor;
+    MockTracker tracker;
+    Mover mover(motor, tracker);
+    mover.setPosition( startPosition );
+    mover.setDirection( startDirection );
+
+    bool directsTowardsCoordinate = mover.directsTowards( newCoordinate );
+
+    BOOST_TEST( directsTowardsCoordinate == true );
+}

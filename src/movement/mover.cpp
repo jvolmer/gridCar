@@ -75,3 +75,13 @@ void Mover::followLine()
         break;
     }
 }
+
+bool Mover::directsTowards(const Coordinate& coordinate)
+{
+    return (
+        ( (_direction == Direction::positiveX) && (coordinate.getx() > _position.getx()) ) ||
+        ( (_direction == Direction::negativeX) && (coordinate.getx() < _position.getx()) ) ||
+        ( (_direction == Direction::positiveY) && (coordinate.gety() > _position.gety()) ) ||
+        ( (_direction == Direction::negativeY) && (coordinate.gety() < _position.gety()) )
+        );
+}
