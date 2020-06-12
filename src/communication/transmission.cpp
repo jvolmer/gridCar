@@ -1,4 +1,4 @@
-#include "../movement/coordinate.hpp"
+#include "../movement/position/coordinate.hpp"
 #include "transmission.hpp"
 #include <math.h>
 

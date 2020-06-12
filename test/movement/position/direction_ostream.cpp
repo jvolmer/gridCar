@@ -1,4 +1,4 @@
-#include "src/movement/direction.hpp"
+#include "src/movement/position/direction.hpp"
 #include "direction_ostream.hpp"
 #include <iostream>
 

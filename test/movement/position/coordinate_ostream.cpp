@@ -1,4 +1,4 @@
-#include "src/movement/coordinate.hpp"
+#include "src/movement/position/coordinate.hpp"
 #include "coordinate_ostream.hpp"
 #include <iostream>
 

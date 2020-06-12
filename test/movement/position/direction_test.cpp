@@ -1,8 +1,8 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE test_direction
 
-#include "src/movement/direction.hpp"
-#include "test/movement/direction_ostream.hpp"
+#include "src/movement/position/direction.hpp"
+#include "direction_ostream.hpp"
 #include <boost/test/unit_test.hpp>
 
  

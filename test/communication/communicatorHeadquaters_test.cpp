@@ -6,7 +6,7 @@
 #include "src/communication/communicatorHeadquaters.hpp"
 #include "src/communication/radio.hpp"
 #include "src/communication/transmission.hpp"
-#include "src/movement/coordinate.hpp"
+#include "src/movement/position/coordinate.hpp"
 #include "test/communication/transmission_ostream.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>

@@ -1,9 +1,9 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE test_coordinate
 
-#include "src/movement/coordinate.hpp"
-#include "src/movement/direction.hpp"
-#include "test/movement/coordinate_ostream.hpp"
+#include "src/movement/position/coordinate.hpp"
+#include "src/movement/position/direction.hpp"
+#include "coordinate_ostream.hpp"
 #include <boost/test/unit_test.hpp>
 
 

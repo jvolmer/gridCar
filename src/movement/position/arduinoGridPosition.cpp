@@ -1,26 +1,25 @@
-#include "motor/motor.hpp"
-#include "tracker/tracker.hpp"
+#include "coordinate.hpp"
 #include "direction.hpp"
-#include "arduinoMover.hpp"
+#include "arduinoGridPosition.hpp"
 #include "Arduino.h"
 
-ArduinoMover::ArduinoMover(Motor& motor, Tracker& tracker) :
-    Mover {motor, tracker}
+ArduinoGridPosition::ArduinoGridPosition(const Coordinate& location, const Direction& direction) :
+    GridPosition { location, direction }
 {}
 
-void ArduinoMover::print()
+void ArduinoGridPosition::print()
 {
-    Serial.print("Mover | ");
+    Serial.print("GridPosition | ");
     
     Serial.print("coordinate: (");
     Serial.print("(");
-    Serial.print(getPosition().getx());
+    Serial.print(getLocation().getx());
     Serial.print(", ");
-    Serial.print(getPosition().gety());
+    Serial.print(getLocation().gety());
     Serial.print(")");
 
     Serial.print(", direction: ");    
-    switch(getDirection())
+    switch(getForwardDirection())
     {
     case Direction::positiveX:
         Serial.print(">");

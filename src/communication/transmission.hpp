@@ -1,7 +1,7 @@
 #ifndef TRANSMISSION_H
 #define TRANSMISSION_H
 
-#include "../movement/coordinate.hpp"
+#include "../movement/position/coordinate.hpp"
 
 class TransmissionToCar
 {
