@@ -98,12 +98,14 @@ $(BIN_DIR)/%.test : $(BUILD_DIR)/%_test.o $(BUILD_DIR)/%.o |$$(@D)/.f
 	$(CXX) $(CXX_FLAGS) $^ -o $@ $(LDFLAGS)
 	@echo Running $@
 	@./$@ --list_content
+	@./$@
 	@echo
 
 $(BIN_DIR)/communication/communicatorHeadquaters.test: $(BUILD_DIR)/communication/communicatorHeadquaters_test.o $(BUILD_DIR)/communication/communicatorHeadquaters.o $(BUILD_DIR)/communication/transmission.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/communication/transmission_ostream.o |$$(@D)/.f
 $(BIN_DIR)/movement/lineSteering.test: $(BUILD_DIR)/movement/lineSteering_test.o $(BUILD_DIR)/movement/lineSteering.o $(BUILD_DIR)/movement/position/coordinate.o |$$(@D)/.f
 $(BIN_DIR)/movement/position/coordinate.test: $(BUILD_DIR)/movement/position/coordinate_test.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/movement/position/direction.o $(BUILD_DIR)/movement/position/coordinate_ostream.o |$$(@D)/.f
-$(BIN_DIR)/movement/position/direction.test: $(BUILD_DIR)/movement/position/direction_test.o $(BUILD_DIR)/movement/position/direction.o $(BUILD_DIR)/movement/position/direction_ostream.o |$$(@D)/.f
+$(BIN_DIR)/movement/position/direction.test: $(BUILD_DIR)/movement/position/direction_test.o $(BUILD_DIR)/movement/position/direction.o $(BUILD_DIR)/movement/position/direction_ostream.o |$$(@D)/.
+$(BIN_DIR)/movement/position/gridPosition.test: $(BUILD_DIR)/movement/position/gridPosition_test.o $(BUILD_DIR)/movement/position/direction.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/movement/position/direction_ostream.o $(BUILD_DIR)/movement/position/coordinate_ostream.o |$$(@D)/.f
 
 
 $(BUILD_DIR)/%_test.o : $(TEST_DIR)/%_test.cpp |$$(@D)/.f
