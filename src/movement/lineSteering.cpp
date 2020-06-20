@@ -70,12 +70,22 @@ void LineSteering::followLineUpTo(const Coordinate& coordinate)
     }
 }
 
-// bool LineSteering::directsTowards(const Coordinate& coordinate)
-// {
-//     return (
-//         ( (_direction == Direction::positiveX) && (coordinate.getx() > _position.getx()) ) ||
-//         ( (_direction == Direction::negativeX) && (coordinate.getx() < _position.getx()) ) ||
-//         ( (_direction == Direction::positiveY) && (coordinate.gety() > _position.gety()) ) ||
-//         ( (_direction == Direction::negativeY) && (coordinate.gety() < _position.gety()) )
-//         );
-// }
+void LineSteering::navigateOnLineTo(const Coordinate& coordinate)
+{
+    switch ( _position.getTurnTrendToReach(coordinate) )
+    {
+    case -1:
+        turnLeftUpToNextCrossLine();
+        break;
+    case 1:
+        turnRightUpToNextCrossLine();
+        break;
+    default:
+        break;
+    }
+
+    // TODO: what happens when coordinate is not on line?
+    //       right now: goes on forever
+    //       better: if x or y is same as coordinate
+    followLineUpTo(coordinate);
+}

@@ -18,6 +18,7 @@ MOCK_BASE_CLASS( MockPosition, Position )
     MOCK_METHOD( turnRight, 0 );
     MOCK_METHOD( moveForward, 0 );
     MOCK_METHOD( isLocatedAt, 1 );
+    MOCK_METHOD( getTurnTrendToReach, 1 );
 };
 
 MOCK_BASE_CLASS( MockMotor, Motor )
@@ -99,7 +100,7 @@ BOOST_AUTO_TEST_CASE( stops_when_no_line_is_there )
 }
 
 BOOST_AUTO_TEST_SUITE_END()
-
+    
 BOOST_AUTO_TEST_SUITE( follows_line_up_to_given_coordinate )
 
 BOOST_AUTO_TEST_CASE( stops_at_given_coordinate )
@@ -114,7 +115,7 @@ BOOST_AUTO_TEST_CASE( stops_at_given_coordinate )
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
     MOCK_EXPECT( position.moveForward ).once();
     MOCK_EXPECT( position.isLocatedAt ).returns( true );
-    MOCK_EXPECT( motor.stop ).once();
+    MOCK_EXPECT( motor.stop ).at_least( 1 );
 
     mover.followLineUpTo( givenCrossing );
 }
@@ -132,73 +133,98 @@ BOOST_AUTO_TEST_CASE( goes_on_at_crossing_when_given_coordinate_not_reached_yet 
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
     MOCK_EXPECT( position.moveForward ).once();
     MOCK_EXPECT( position.isLocatedAt ).returns( false );
-    MOCK_EXPECT( motor.goStraight ).once();
+    mock::sequence sequence;
+    MOCK_EXPECT( motor.stop ).in( sequence );
+    MOCK_EXPECT( motor.goStraight ).once().in( sequence );
 
     mover.followLineUpTo( givenCrossing );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+    
+BOOST_AUTO_TEST_SUITE( navigates_on_line_to_given_coordinate )
 
-// BOOST_AUTO_TEST_CASE( directs_towards_first_quadrant_coordinate_when_positions_at_origin_right )
-// {
-//     Coordinate startPosition = Coordinate(0,0);
-//     Direction startDirection{ Direction::positiveX };
-//     Coordinate newCoordinate = Coordinate(2,5);        
-//     MockMotor motor;
-//     MockTracker tracker;
-//     LineSteering mover(motor, tracker);
-//     mover.setPosition( startPosition );
-//     mover.setDirection( startDirection );
+BOOST_AUTO_TEST_CASE( turns_when_not_heading_towards_coordinate )
+{
+    Coordinate givenCrossing = Coordinate(1,0);
+    
+    MockPosition position;
+    MockMotor motor;
+    MockTracker tracker;
+    LineSteering mover(position, motor, tracker);
 
-//     bool directsTowardsCoordinate = mover.directsTowards( newCoordinate );
+    MOCK_EXPECT( position.getTurnTrendToReach ).returns( -1 );
+    MOCK_EXPECT( position.turnLeft ).once();
+    MOCK_EXPECT( motor.turnLeft ).once();
 
-//     BOOST_TEST( directsTowardsCoordinate == true );
-// }
+    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
+    MOCK_EXPECT( position.isLocatedAt ).returns(false);
+    MOCK_EXPECT( motor.stop );
+    MOCK_EXPECT( motor.goStraight );
+    MOCK_EXPECT( position.moveForward );
+    
+    mover.navigateOnLineTo( givenCrossing );    
+}
 
-// BOOST_AUTO_TEST_CASE( directs_towards_second_quadrant_coordinate_when_positions_at_origin_top )
-// {
-//     Coordinate startPosition = Coordinate(0,0);
-//     Direction startDirection{ Direction::positiveY };
-//     Coordinate newCoordinate = Coordinate(-2,5);        
-//     MockMotor motor;
-//     MockTracker tracker;
-//     LineSteering mover(motor, tracker);
-//     mover.setPosition( startPosition );
-//     mover.setDirection( startDirection );
+BOOST_AUTO_TEST_CASE( does_not_turn_when_already_heading_towards_coordinate )
+{
+    Coordinate givenCrossing = Coordinate(1,0);
+    
+    MockPosition position;
+    MockMotor motor;
+    MockTracker tracker;
+    LineSteering mover(position, motor, tracker);
 
-//     bool directsTowardsCoordinate = mover.directsTowards( newCoordinate );
+    MOCK_EXPECT( position.getTurnTrendToReach ).returns( 0 );
+    MOCK_EXPECT( position.turnLeft ).never();
+    MOCK_EXPECT( motor.turnLeft ).never();
+    
+    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
+    MOCK_EXPECT( position.isLocatedAt ).returns(false);
+    MOCK_EXPECT( motor.stop );
+    MOCK_EXPECT( motor.goStraight );
+    MOCK_EXPECT( position.moveForward );
+    
+    mover.navigateOnLineTo( givenCrossing );    
+}
 
-//     BOOST_TEST( directsTowardsCoordinate == true );
-// }
+BOOST_AUTO_TEST_CASE( moves_forward_when_not_reached_coordinate_yet )
+{
+    Coordinate givenCrossing = Coordinate(1,0);
+    
+    MockPosition position;
+    MockMotor motor;
+    MockTracker tracker;
+    LineSteering mover(position, motor, tracker);
 
-// BOOST_AUTO_TEST_CASE( directs_towards_third_quadrant_coordinate_when_positions_at_origin_left )
-// {
-//     Coordinate startPosition = Coordinate(0,0);
-//     Direction startDirection{ Direction::negativeX };
-//     Coordinate newCoordinate = Coordinate(-2,-5);        
-//     MockMotor motor;
-//     MockTracker tracker;
-//     LineSteering mover(motor, tracker);
-//     mover.setPosition( startPosition );
-//     mover.setDirection( startDirection );
+    MOCK_EXPECT( position.getTurnTrendToReach ).returns( 0 );
+    MOCK_EXPECT( position.isLocatedAt ).returns(false);
+    MOCK_EXPECT( motor.goStraight ).once();
+    MOCK_EXPECT( position.moveForward ).once();
 
-//     bool directsTowardsCoordinate = mover.directsTowards( newCoordinate );
+    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
+    MOCK_EXPECT( motor.stop );
+    
+    mover.navigateOnLineTo( givenCrossing );    
+}
 
-//     BOOST_TEST( directsTowardsCoordinate == true );
-// }
+BOOST_AUTO_TEST_CASE( stops_when_reached_coordinate )
+{
+    Coordinate givenCrossing = Coordinate(1,0);
+    
+    MockPosition position;
+    MockMotor motor;
+    MockTracker tracker;
+    LineSteering mover(position, motor, tracker);
 
-// BOOST_AUTO_TEST_CASE( directs_towards_fourth_quadrant_coordinate_when_positions_at_origin_down )
-// {
-//     Coordinate startPosition = Coordinate(0,0);
-//     Direction startDirection{ Direction::negativeY };
-//     Coordinate newCoordinate = Coordinate(-2,-5);        
-//     MockMotor motor;
-//     MockTracker tracker;
-//     LineSteering mover(motor, tracker);
-//     mover.setPosition( startPosition );
-//     mover.setDirection( startDirection );
+    MOCK_EXPECT( position.getTurnTrendToReach ).returns( 0 );
+    MOCK_EXPECT( position.isLocatedAt ).returns( true );
+    MOCK_EXPECT( motor.stop ).at_least(1);
 
-//     bool directsTowardsCoordinate = mover.directsTowards( newCoordinate );
+    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
+    MOCK_EXPECT( position.moveForward );
+    
+    mover.navigateOnLineTo( givenCrossing );    
+}
 
-//     BOOST_TEST( directsTowardsCoordinate == true );
-// }
+BOOST_AUTO_TEST_SUITE_END()

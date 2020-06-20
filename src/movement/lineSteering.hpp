@@ -26,7 +26,7 @@ public:
     void followLineUpTo(const Coordinate& coordinate);
     void turnRightUpToNextCrossLine();
     void turnLeftUpToNextCrossLine();
-    // bool directsTowards(const Coordinate& coordinate);
+    void navigateOnLineTo(const Coordinate& coordinate);
 };
 
 #endif
