@@ -20,18 +20,38 @@ void LineSteering::turnRightUpToNextCrossLine()
     }
 }
 
-void LineSteering::turnLeftUpToNextCrossLine()
+RoadLayout LineSteering::turnLeftUpToNextCrossLine()
 {
-    _motor.turnLeft();
-    if (_tracker.checkRoad() == RoadLayout::blocked) {
+    RoadLayout road = _tracker.checkRoad();
+    switch( road )
+    {
+    case RoadLayout::none:
+    case RoadLayout::blocked:
+    case RoadLayout::sharpRight:
+    case RoadLayout::right:
+    case RoadLayout::straight:
+    case RoadLayout::enclosed:
+        _motor.turnLeft();
+        break;
+    case RoadLayout::sharpLeft:
+    case RoadLayout::left:
         _motor.stop();
-        _position.turnLeft();;
+        break;
+    default:
+        break;
     }
+    return road;
+    // _motor.turnLeft();
+    // if (_tracker.checkRoad() == RoadLayout::blocked) {
+    //     _motor.stop();
+    //     _position.turnLeft();;
+    // }
 }
 
-void LineSteering::followLine()
+RoadLayout LineSteering::followLine()
 {
-    switch(_tracker.checkRoad())
+    RoadLayout road = _tracker.checkRoad();
+    switch( road )
     {
     case RoadLayout::none:
     case RoadLayout::blocked:
@@ -52,6 +72,29 @@ void LineSteering::followLine()
     default:
         break;
     }
+    return road;
+}
+
+RoadLayout LineSteering::goStraightToNextLine()
+{
+    RoadLayout road = _tracker.checkRoad();
+    switch( road )
+    {
+    case RoadLayout::none:
+        _motor.goStraight();
+    case RoadLayout::blocked:
+    case RoadLayout::sharpRight:
+    case RoadLayout::right:
+    case RoadLayout::straight:
+    case RoadLayout::enclosed:
+    case RoadLayout::sharpLeft:
+    case RoadLayout::left:
+        _motor.stop();
+        break;
+    default:
+        break;
+    }
+    return road;
 }
 
 void LineSteering::followLineUpTo(const Coordinate& coordinate)
@@ -59,14 +102,14 @@ void LineSteering::followLineUpTo(const Coordinate& coordinate)
     followLine();
     if (_tracker.checkRoad() == RoadLayout::blocked) {
         _position.moveForward();
-        if ( _position.isLocatedAt(coordinate) )
-        {
-            _motor.stop();
-        }
-        else
-        {
-            _motor.goStraight();
-        }
+        // if ( _position.isLocatedAt(coordinate) )
+        // {
+        //     _motor.stop();
+        // }
+        // else
+        // {
+        //     _motor.goStraight();
+        // }
     }
 }
 

@@ -8,7 +8,7 @@
 class ArduinoGridPosition: public GridPosition
 {
 public:
-    ArduinoGridPosition() {};
+    ArduinoGridPosition();
     ArduinoGridPosition(const Coordinate& location, const Direction& direction);
     void print();
 };

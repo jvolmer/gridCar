@@ -11,9 +11,9 @@ private:
     const byte _pinMotorLeft;
     const byte _pinDirectionRight;
     const byte _pinMotorRight;
-    byte _averageSpeed { 90 };
-    byte _leftSpeed { 0 };
-    byte _rightSpeed { 0 };
+    int _averageSpeed { 100 };
+    int _leftSpeed { 0 };
+    int _rightSpeed { 0 };
 
 public:
     ArduinoMotor();
@@ -22,14 +22,14 @@ public:
                  const byte pinDirectionRight,
                  const byte pinMotorRight);
     void setup() override;
-    void run(byte speedL, byte speedR);
+    void run(int speedL, int speedR);
     void turnRight() override;
     void turnLeft() override;
     void goStraight() override;
     void stop() override;
     void print();
 
-    void setAverageSpeed(byte speed){ _averageSpeed = speed; }
+    void setAverageSpeed(int speed){ _averageSpeed = speed; }
     byte getLeftSpeed(){ return _leftSpeed; }
     byte getRightSpeed(){ return _rightSpeed; }
 };

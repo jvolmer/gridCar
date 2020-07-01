@@ -9,7 +9,7 @@
 class LineFollower
 {
 public:
-    virtual void followLine() = 0;
+    virtual RoadLayout followLine() = 0;
 };
     
 class LineSteering : public LineFollower
@@ -22,11 +22,13 @@ private:
 public:
     LineSteering(Position& position, Motor& motor, Tracker& tracker);
 
-    void followLine() override;
+    RoadLayout followLine() override;
     void followLineUpTo(const Coordinate& coordinate);
     void turnRightUpToNextCrossLine();
-    void turnLeftUpToNextCrossLine();
+    RoadLayout turnLeftUpToNextCrossLine();
     void navigateOnLineTo(const Coordinate& coordinate);
+
+    RoadLayout goStraightToNextLine();
 };
 
 #endif

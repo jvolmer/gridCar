@@ -24,7 +24,7 @@ void ArduinoMotor::setup()
 
 }
 
-void ArduinoMotor::run(byte speedl, byte speedr)
+void ArduinoMotor::run(int speedl, int speedr)
 {
     
     bool backwardsLeft = false, forwardsRight = false;

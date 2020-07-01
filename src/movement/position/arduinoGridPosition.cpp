@@ -7,6 +7,10 @@ ArduinoGridPosition::ArduinoGridPosition(const Coordinate& location, const Direc
     GridPosition { location, direction }
 {}
 
+ArduinoGridPosition::ArduinoGridPosition() :
+    GridPosition { Coordinate(0,0), Direction::positiveY }
+{}
+
 void ArduinoGridPosition::print()
 {
     Serial.print("GridPosition | ");
