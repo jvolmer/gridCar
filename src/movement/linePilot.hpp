@@ -2,24 +2,22 @@
 #define LINE_PILOT_H
 
 #include "pilot.hpp"
+#include "motion.hpp"
 #include "stop.hpp"
 
-class Motion;
-class Position;
 class Motor;
-class Tracker;
+class Stop;
 
 class LinePilot: public Pilot
 {
 private:
-    Motion& _motion;
     Stop _stop;
+    Motion* _motion;
 
 public:
-    LinePilot(Position& position, Motor& motor, Tracker& tracker);
-    void move() override {_motion.move(); }
-    void changeMotion(Motion& motion) override { _motion = motion; };
-    Motion& getStopMotion() const { return _motion; }
+    LinePilot(Motor& motor);
+    void move() override { _motion->move(); }
+    void changeMotion(Motion* motion) override { _motion = motion; }
 };
 
 #endif

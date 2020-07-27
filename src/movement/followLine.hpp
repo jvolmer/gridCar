@@ -3,6 +3,10 @@
 
 #include "motion.hpp"
 
+class Pilot;
+class Motor;
+class Position;
+
 class FollowLine: public Motion
 {
 private:

@@ -4,6 +4,7 @@
 #include "src/movement/linePilot.hpp"
 #include "src/movement/motion.hpp"
 #include "src/movement/stop.hpp"
+#include "src/movement/followLine.hpp"
 #include "src/movement/position/position.hpp"
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/tracker/tracker.hpp"
@@ -36,13 +37,25 @@ MOCK_BASE_CLASS( MockTracker, Tracker )
 
 BOOST_AUTO_TEST_CASE( stops_in_stop_motion )
 {
-    MockPosition position;
     MockMotor motor;
-    MockTracker tracker;
-    LinePilot pilot(position, motor, tracker);
-
+    LinePilot pilot(motor);
+    Stop stop(pilot, motor);
+    pilot.changeMotion(&stop);
+   
     MOCK_EXPECT( motor.stop ).once();
     
-    pilot.changeMotion(pilot.getStopMotion());
+    pilot.move();
+}
+
+BOOST_AUTO_TEST_CASE( goes_straight_in_follow_line_motion )
+{
+    MockMotor motor;
+    LinePilot pilot(motor);
+    MockPosition position;
+    FollowLine followLine(pilot, position, motor);
+    pilot.changeMotion(&followLine);
+
+    MOCK_EXPECT( motor.goStraight ).once();
+    
     pilot.move();
 }
