@@ -3,8 +3,11 @@
 #include "motor/motor.hpp"
 #include "followLine.hpp"
 
-FollowLine::FollowLine(Pilot& pilot, Position& position, Motor& motor):
+class Coordinate;
+
+FollowLine::FollowLine(Pilot& pilot, Coordinate& goal, Position& position, Motor& motor):
     _pilot { pilot },
+    _goal { goal },
     _position { position },
     _motor { motor }
 {}
@@ -12,4 +15,8 @@ FollowLine::FollowLine(Pilot& pilot, Position& position, Motor& motor):
 void FollowLine::move()
 {
     _motor.goStraight();
+    if ( _position.isLocatedAt( _goal ) )
+    {
+        _pilot.changeMotion(&_stop);
+    }
 }

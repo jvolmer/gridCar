@@ -2,20 +2,24 @@
 #define FOLLOW_LINE_H
 
 #include "motion.hpp"
+#include "stop.hpp"
 
 class Pilot;
-class Motor;
 class Position;
+class Motor;
+class Coordinate;
 
 class FollowLine: public Motion
 {
 private:
     Pilot& _pilot;
+    Coordinate& _goal;
     Position& _position;
     Motor& _motor;
+    Stop _stop{ Stop(_pilot, _motor) };
 
 public:
-    FollowLine(Pilot& pilot, Position& position, Motor& motor);
+    FollowLine(Pilot& pilot, Coordinate& goal, Position& position, Motor& motor);
     void move() override;
 };
 
