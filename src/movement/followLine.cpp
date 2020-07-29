@@ -18,13 +18,44 @@ FollowLine::FollowLine(Pilot& pilot, Coordinate& goal, Position& position, Track
 
 void FollowLine::move()
 {
-    _motor.goStraight();
-    if ( _tracker.checkRoad() == RoadLayout::blocked )
-    {
-        _position.moveForward();
-    }
+    followLine();
     if ( _position.isLocatedAt( _goal ) )
     {
         _pilot.changeMotion( MotionName::stop );
+    }
+}
+
+void FollowLine::followLine()
+{
+    switch( _tracker.checkRoad() )
+    {
+    case RoadLayout::none:
+        _motor.stop();
+        isAtCrossing = false;
+        break;
+    case RoadLayout::blocked:
+        if (!isAtCrossing)
+        {
+            _position.moveForward();
+            isAtCrossing = true;
+        }
+        break;
+    case RoadLayout::sharpRight:
+    case RoadLayout::right:
+        _motor.turnRight();
+        isAtCrossing = false;
+        break;
+    case RoadLayout::straight:
+    case RoadLayout::enclosed:
+        _motor.goStraight();
+        isAtCrossing = false;
+        break;
+    case RoadLayout::sharpLeft:
+    case RoadLayout::left:
+        _motor.turnLeft();
+        isAtCrossing = false;
+        break;
+    default:
+        break;
     }
 }

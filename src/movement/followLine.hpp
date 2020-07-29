@@ -19,7 +19,10 @@ private:
     Position& _position;
     Tracker& _tracker;
     Motor& _motor;
+    bool isAtCrossing{ false };
 
+    void followLine();
+    
 public:
     FollowLine(Pilot& pilot, Coordinate& goal, Position& position, Tracker& tracker, Motor& motor);
     void move() override;
