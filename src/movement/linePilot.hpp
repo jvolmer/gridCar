@@ -4,20 +4,24 @@
 #include "pilot.hpp"
 #include "motion.hpp"
 #include "stop.hpp"
+#include "followLine.hpp"
+#include "motionName.hpp"
 
+class Coordinate;
+class Position;
 class Motor;
-class Stop;
 
 class LinePilot: public Pilot
 {
 private:
     Stop _stop;
+    FollowLine _followLine;
     Motion* _motion;
 
 public:
-    LinePilot(Motor& motor);
+    LinePilot(Coordinate& goal, Position& position, Motor& motor);
     void move() override { _motion->move(); }
-    void changeMotion(Motion* motion) override { _motion = motion; }
+    void changeMotion(MotionName Name) override;
 };
 
 #endif

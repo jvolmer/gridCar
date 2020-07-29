@@ -1,13 +1,13 @@
 #ifndef PILOT_H
 #define PILOT_H
 
-class Motion;
+#include "motionName.hpp"
 
 class Pilot
 {
 public:
     virtual void move() = 0;
-    virtual void changeMotion(Motion* motion) = 0;
+    virtual void changeMotion(MotionName name) = 0;
 };
 
 #endif

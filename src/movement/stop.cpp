@@ -8,6 +8,6 @@ Stop::Stop(Pilot& pilot, Motor& motor):
 {}
 
 void Stop::move()
-{
+{    
     _motor.stop();
 }

@@ -9,6 +9,7 @@
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/tracker/tracker.hpp"
 #include "src/movement/position/coordinate.hpp"
+#include "src/movement/motionName.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 
@@ -36,29 +37,14 @@ MOCK_BASE_CLASS( MockTracker, Tracker )
     MOCK_METHOD( setup, 0 );
 };
 
-BOOST_AUTO_TEST_CASE( stops_in_stop_motion )
+BOOST_AUTO_TEST_CASE( starts_in_stop_motion )
 {
+    Coordinate goal{ 0, 0 };
+    MockPosition position;
     MockMotor motor;
-    LinePilot pilot(motor);
-    Stop stop(pilot, motor);
-    pilot.changeMotion(&stop);
+    LinePilot pilot(goal, position, motor);
    
     MOCK_EXPECT( motor.stop ).once();
-    
-    pilot.move();
-}
-
-// modify to goes_straight_when_goal_is_not_yet_reached
-BOOST_AUTO_TEST_CASE( goes_straight_in_follow_line_motion )
-{
-    MockMotor motor;
-    LinePilot pilot(motor);
-    MockPosition position;
-    Coordinate goal{ 2, 3 };
-    FollowLine followLine(pilot, goal, position, motor);
-    pilot.changeMotion(&followLine);
-
-    MOCK_EXPECT( motor.goStraight ).once();
     
     pilot.move();
 }

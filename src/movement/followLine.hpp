@@ -3,6 +3,7 @@
 
 #include "motion.hpp"
 #include "stop.hpp"
+#include "motionName.hpp"
 
 class Pilot;
 class Position;
@@ -16,7 +17,6 @@ private:
     Coordinate& _goal;
     Position& _position;
     Motor& _motor;
-    Stop _stop{ Stop(_pilot, _motor) };
 
 public:
     FollowLine(Pilot& pilot, Coordinate& goal, Position& position, Motor& motor);

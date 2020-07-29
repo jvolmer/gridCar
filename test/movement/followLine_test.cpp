@@ -6,7 +6,7 @@
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/position/coordinate.hpp"
 #include "src/movement/followLine.hpp"
-#include "src/movement/stop.hpp"
+#include "src/movement/motionName.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 
@@ -48,18 +48,17 @@ BOOST_AUTO_TEST_CASE( goes_straight_when_goal_is_not_reached )
     followLine.move();
 }
 
-BOOST_AUTO_TEST_CASE( changes_motion_when_goal_is_reached )
+BOOST_AUTO_TEST_CASE( changes_to_stop_motion_when_goal_is_reached )
 {
+    MockMotor motor;
     MockPilot pilot;
     MockPosition position;
-    MockMotor motor;
     Coordinate goal{ 1, 0 };
     FollowLine followLine(pilot, goal, position, motor);
 
     MOCK_EXPECT( motor.goStraight );
     MOCK_EXPECT( position.isLocatedAt ).returns( true );
-    Stop stop(pilot, motor);
-    MOCK_EXPECT( pilot.changeMotion ).once();
+    MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::stop );
     
     followLine.move();
 }
