@@ -8,6 +8,7 @@
 #include "src/movement/position/position.hpp"
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/tracker/tracker.hpp"
+#include "src/movement/tracker/roadLayout.hpp"
 #include "src/movement/position/coordinate.hpp"
 #include "src/movement/motionName.hpp"
 #include <boost/test/unit_test.hpp>
@@ -37,7 +38,7 @@ MOCK_BASE_CLASS( MockTracker, Tracker )
     MOCK_METHOD( setup, 0 );
 };
 
-BOOST_AUTO_TEST_CASE( starts_in_stop_motion )
+BOOST_AUTO_TEST_CASE( starts_in_follow_line_motion )
 {
     Coordinate goal{ 0, 0 };
     MockPosition position;
@@ -45,7 +46,9 @@ BOOST_AUTO_TEST_CASE( starts_in_stop_motion )
     MockMotor motor;
     LinePilot pilot(goal, position, tracker, motor);
    
-    MOCK_EXPECT( motor.stop ).once();
-    
+    MOCK_EXPECT( motor.goStraight ).once();
+    MOCK_EXPECT( position.isLocatedAt ).returns( false );
+    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::straight );
+        
     pilot.move();
 }

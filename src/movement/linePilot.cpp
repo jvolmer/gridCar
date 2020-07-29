@@ -9,7 +9,7 @@ class Motor;
 LinePilot::LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Motor& motor):
     _stop{ Stop(*this, motor) },
     _followLine{ FollowLine(*this, goal, position, tracker, motor) },
-    _motion { &_stop }
+    _motion { &_followLine }
 {}
 
 void LinePilot::changeMotion(MotionName name)
