@@ -6,9 +6,9 @@ class Coordinate;
 class Position;
 class Motor;
 
-LinePilot::LinePilot(Coordinate& goal, Position& position, Motor& motor):
+LinePilot::LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Motor& motor):
     _stop{ Stop(*this, motor) },
-    _followLine{ FollowLine(*this, goal, position, motor) },
+    _followLine{ FollowLine(*this, goal, position, tracker, motor) },
     _motion { &_stop }
 {}
 

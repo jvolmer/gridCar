@@ -9,6 +9,7 @@
 
 class Coordinate;
 class Position;
+class Tracker;
 class Motor;
 
 class LinePilot: public Pilot
@@ -19,7 +20,7 @@ private:
     Motion* _motion;
 
 public:
-    LinePilot(Coordinate& goal, Position& position, Motor& motor);
+    LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Motor& motor);
     void move() override { _motion->move(); }
     void changeMotion(MotionName Name) override;
 };

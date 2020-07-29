@@ -41,8 +41,9 @@ BOOST_AUTO_TEST_CASE( starts_in_stop_motion )
 {
     Coordinate goal{ 0, 0 };
     MockPosition position;
+    MockTracker tracker;
     MockMotor motor;
-    LinePilot pilot(goal, position, motor);
+    LinePilot pilot(goal, position, tracker, motor);
    
     MOCK_EXPECT( motor.stop ).once();
     
