@@ -8,7 +8,7 @@ class ArduinoTimer: public Timer
 {
 public:
     ArduinoTimer();
-    unsigned long millis() override;
+    unsigned long moment() override;
 };
     
 #endif

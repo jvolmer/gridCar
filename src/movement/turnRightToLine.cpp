@@ -3,19 +3,19 @@
 #include "tracker/tracker.hpp"
 #include "tracker/roadLayout.hpp"
 #include "motionName.hpp"
-#include "turnFromLine.hpp"
+#include "turnRightToLine.hpp"
 
-TurnFromLine::TurnFromLine(Pilot& pilot, Tracker& tracker, Motor& motor) :
+TurnRightToLine::TurnRightToLine(Pilot& pilot, Tracker& tracker, Motor& motor) :
     _pilot { pilot },
     _tracker { tracker },
     _motor { motor }
 {}
 
-void TurnFromLine::move()
+void TurnRightToLine::move()
 {
     _motor.turnRight();
-    if ( _tracker.checkRoad() == RoadLayout::sharpLeft )
+    if ( _tracker.checkRoad() == RoadLayout::straight )
     {
-        _pilot.changeMotion( MotionName::shortStraight );
+        _pilot.changeMotion( MotionName::followLine );
     }
 }

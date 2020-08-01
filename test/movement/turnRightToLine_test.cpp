@@ -1,5 +1,5 @@
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_turnToLine
+#define BOOST_TEST_MODULE test_turnRightToLine
 
 #include "src/movement/pilot.hpp"
 #include "src/movement/tracker/tracker.hpp"
@@ -7,7 +7,7 @@
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/motionName.hpp"
 #include "src/movement/tracker/roadLayout.hpp"
-#include "src/movement/turnToLine.hpp"
+#include "src/movement/turnRightToLine.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 
@@ -38,12 +38,12 @@ BOOST_AUTO_TEST_CASE( turns_right )
     MockPilot pilot;
     MockTracker tracker;
     MockMotor motor;
-    TurnToLine turnToLine(pilot, tracker, motor);
+    TurnRightToLine turnRightToLine(pilot, tracker, motor);
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::none );
 
     MOCK_EXPECT( motor.turnRight ).once();
 
-    turnToLine.move();
+    turnRightToLine.move();
 }
 
 BOOST_AUTO_TEST_CASE( changes_to_follow_line_motion_when_on_line )
@@ -51,11 +51,11 @@ BOOST_AUTO_TEST_CASE( changes_to_follow_line_motion_when_on_line )
     MockPilot pilot;
     MockTracker tracker;
     MockMotor motor;
-    TurnToLine turnToLine(pilot, tracker, motor);
+    TurnRightToLine turnRightToLine(pilot, tracker, motor);
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::straight );
     MOCK_EXPECT( motor.turnRight );
 
     MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::followLine );
     
-    turnToLine.move();
+    turnRightToLine.move();
 }

@@ -1,5 +1,5 @@
-#ifndef TURN_FROM_LINE_H
-#define TURN_FROM_LINE_H
+#ifndef TURN_RIGHT_FROM_LINE_H
+#define TURN_RIGHT_FROM_LINE_H
 
 #include "motion.hpp"
 
@@ -7,7 +7,7 @@ class Pilot;
 class Tracker;
 class Motor;
 
-class TurnFromLine: public Motion
+class TurnRightFromLine: public Motion
 {
 private:
     Pilot& _pilot;
@@ -15,7 +15,7 @@ private:
     Motor& _motor;
 
 public:
-    TurnFromLine(Pilot& pilot, Tracker& tracker, Motor& motor);
+    TurnRightFromLine(Pilot& pilot, Tracker& tracker, Motor& motor);
     void move() override;
 };
 

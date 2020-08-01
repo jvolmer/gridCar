@@ -4,7 +4,7 @@
 ArduinoTimer::ArduinoTimer()
 {}
 
-unsigned long ArduinoTimer::millis()
+unsigned long ArduinoTimer::moment()
 {
     return millis();
 }
