@@ -104,6 +104,9 @@ $(BIN_DIR)/%.test : $(BUILD_DIR)/%_test.o $(BUILD_DIR)/%.o |$$(@D)/.f
 $(BIN_DIR)/communication/communicatorHeadquaters.test: $(BUILD_DIR)/communication/communicatorHeadquaters_test.o $(BUILD_DIR)/communication/communicatorHeadquaters.o $(BUILD_DIR)/communication/transmission.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/communication/transmission_ostream.o |$$(@D)/.f
 $(BIN_DIR)/movement/stop.test: $(BUILD_DIR)/movement/stop_test.o $(BUILD_DIR)/movement/stop.o |$$(@D)/.f
 $(BIN_DIR)/movement/followLine.test: $(BUILD_DIR)/movement/followLine_test.o $(BUILD_DIR)/movement/followLine.o $(BUILD_DIR)/movement/position/coordinate.o |$$(@D)/.f
+$(BIN_DIR)/movement/turnFromLine.test: $(BUILD_DIR)/movement/turnFromLine_test.o $(BUILD_DIR)/movement/turnFromLine.o |$$(@D)/.f
+$(BIN_DIR)/movement/shortStraight.test: $(BUILD_DIR)/movement/shortStraight_test.o $(BUILD_DIR)/movement/shortStraight.o |$$(@D)/.f
+$(BIN_DIR)/movement/turnToLine.test: $(BUILD_DIR)/movement/turnToLine_test.o $(BUILD_DIR)/movement/turnToLine.o |$$(@D)/.f
 $(BIN_DIR)/movement/linePilot.test: $(BUILD_DIR)/movement/linePilot_test.o $(BUILD_DIR)/movement/linePilot.o $(BUILD_DIR)/movement/stop.o $(BUILD_DIR)/movement/followLine.o $(BUILD_DIR)/movement/position/coordinate.o |$$(@D)/.f
 $(BIN_DIR)/movement/lineSteering.test: $(BUILD_DIR)/movement/lineSteering_test.o $(BUILD_DIR)/movement/lineSteering.o $(BUILD_DIR)/movement/position/coordinate.o |$$(@D)/.f
 $(BIN_DIR)/movement/position/coordinate.test: $(BUILD_DIR)/movement/position/coordinate_test.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/movement/position/direction.o $(BUILD_DIR)/movement/position/coordinate_ostream.o |$$(@D)/.f

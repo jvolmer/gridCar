@@ -4,7 +4,10 @@
 enum class MotionName
 {
     stop,
-    followLine
+    followLine,
+    turnFromLine,
+    shortStraight,
+    turnToLine
 };
 
 #endif
