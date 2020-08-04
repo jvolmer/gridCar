@@ -14,14 +14,14 @@ class Timer;
 class Motor;
 
 LinePilot::LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor):
-    _stop{ Stop(*this, motor) },
+    _stop{ Stop(*this, goal, position, motor) },
     _followLine{ FollowLine(*this, goal, position, tracker, motor) },
     _turnRightFromLine{ TurnRightFromLine(*this, tracker, motor) },
     _alignInRightTurn{ AlignInRightTurn(*this, timer, motor) },
-    _turnRightToLine{ TurnRightToLine(*this, tracker, motor) },
+    _turnRightToLine{ TurnRightToLine(*this, position, tracker, motor) },
     _turnLeftFromLine{ TurnLeftFromLine(*this, tracker, motor) },
     _alignInLeftTurn{ AlignInLeftTurn(*this, timer, motor) },
-    _turnLeftToLine{ TurnLeftToLine(*this, tracker, motor) },
+    _turnLeftToLine{ TurnLeftToLine(*this, position, tracker, motor) },
     _motion { &_followLine }
 {}
 

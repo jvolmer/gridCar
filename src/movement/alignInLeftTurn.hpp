@@ -13,7 +13,7 @@ private:
     Pilot& _pilot;
     Timer& _timer;
     Motor& _motor;
-    const unsigned long _shortPeriod { 300 };
+    const unsigned long _shortPeriod { 100 };
     bool _started { false };
     unsigned long _startingTime;
 

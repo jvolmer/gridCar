@@ -23,6 +23,7 @@ public:
     void moveForward() override { _location = _location + Coordinate(_forwardDirection); }
     bool isLocatedAt(const Coordinate& coordinate) const override { return _location == coordinate; }
     int getTurnTrendToReach(const Coordinate& coordinate) const override;
+    bool isAtTurningPointToReach(const Coordinate& coordinate) const;
 };
 
 bool operator== (const GridPosition& lhs, const GridPosition& rhs);

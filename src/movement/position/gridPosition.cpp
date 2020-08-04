@@ -35,6 +35,17 @@ int GridPosition::getTurnTrendToReach(const Coordinate& coordinate) const
         return 1;
 }
 
+bool GridPosition::isAtTurningPointToReach(const Coordinate& coordinate) const
+{
+    return
+        ( ( _forwardDirection == Direction::positiveY ||
+            _forwardDirection == Direction::negativeY    ) &&
+          _location.gety() == coordinate.gety() ) ||
+        ( ( _forwardDirection == Direction::positiveX ||
+            _forwardDirection == Direction::negativeX    ) &&
+          _location.getx() == coordinate.getx() );
+}
+
 bool operator== (const GridPosition& lhs, const GridPosition& rhs)
 {
     return ( lhs.getLocation() == rhs.getLocation() &&

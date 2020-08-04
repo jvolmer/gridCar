@@ -11,9 +11,19 @@
 
 namespace data = boost::unit_test::data;
 
-BOOST_AUTO_TEST_SUITE( location_at_origin )
+BOOST_AUTO_TEST_SUITE( turn_trend_for_location_at_origin )
 
 BOOST_AUTO_TEST_SUITE( forward_direction_is_positve_X )
+
+BOOST_AUTO_TEST_CASE( gives_turn_trend_zero_when_coordinate_is_on_position )
+{
+    GridPosition position = GridPosition(Coordinate(1,1), Direction::positiveX);
+    Coordinate coordinate{ 1, 1 };
+
+    int trend = position.getTurnTrendToReach( coordinate );
+
+    BOOST_TEST( trend == 0 );
+}
 
 BOOST_DATA_TEST_CASE( gives_turn_trend_zero_when_coordinate_is_in_front_cone,
                       data::make({Coordinate(2, -1),
@@ -198,5 +208,51 @@ BOOST_DATA_TEST_CASE( gives_positive_turn_trend_when_coordinate_is_in_right_half
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE( turning_point )
+
+BOOST_DATA_TEST_CASE( reached_when_moving_in_x_direction_and_having_same_x_value_as_coordinate,
+                      data::make({Coordinate(1, 4),
+                                  Coordinate(1, 1),
+                                  Coordinate(1, -1)}),
+                          coordinate )
+{
+    GridPosition position = GridPosition(Coordinate(1,0), Direction::positiveX);
+
+    bool atTurningPoint = position.isAtTurningPointToReach( coordinate );
+
+    BOOST_TEST( atTurningPoint == true );
+}
+
+BOOST_DATA_TEST_CASE( reached_when_moving_in_y_direction_and_having_same_y_value_as_coordinate,
+                      data::make({Coordinate(7, 3),
+                                  Coordinate(1, 3),
+                                  Coordinate(0, 3),
+                                  Coordinate(-2, 3)}),
+                          coordinate )
+{
+    GridPosition position = GridPosition(Coordinate(0,3), Direction::negativeY);
+
+    bool atTurningPoint = position.isAtTurningPointToReach( coordinate );
+
+    BOOST_TEST( atTurningPoint == true );
+}
+
+BOOST_DATA_TEST_CASE( not_reached,
+                      data::make({Coordinate(7, 2),
+                                  Coordinate(1, 1),
+                                  Coordinate(0, 0),
+                                  Coordinate(-2, -1)}),
+                          coordinate )
+{
+    GridPosition position = GridPosition(Coordinate(2,3), Direction::positiveX);
+
+    bool atTurningPoint = position.isAtTurningPointToReach( coordinate );
+
+    BOOST_TEST( atTurningPoint == false );
+}
 
 BOOST_AUTO_TEST_SUITE_END()

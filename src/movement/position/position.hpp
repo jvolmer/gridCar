@@ -11,6 +11,7 @@ public:
     virtual void moveForward() = 0;
     virtual bool isLocatedAt(const Coordinate& coordinate) const = 0;
     virtual int getTurnTrendToReach(const Coordinate& coordinate) const = 0;
+    virtual bool isAtTurningPointToReach(const Coordinate& coordinate) const = 0;
 };
 
 #endif

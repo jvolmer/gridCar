@@ -19,9 +19,20 @@ FollowLine::FollowLine(Pilot& pilot, Coordinate& goal, Position& position, Track
 void FollowLine::move()
 {
     followLine();
-    if ( _position.isLocatedAt( _goal ) )
+
+    if ( _position.isLocatedAt(_goal) )
     {
         _pilot.changeMotion( MotionName::stop );
+    }
+    else if ( _position.isAtTurningPointToReach(_goal))
+    {
+        int turnTrend = _position.getTurnTrendToReach(_goal);
+        if (turnTrend == 1) {
+            _pilot.changeMotion( MotionName::turnRightFromLine );
+        }
+        else if (turnTrend == -1) {
+            _pilot.changeMotion( MotionName::turnLeftFromLine );
+        }
     }
 }
 
@@ -38,6 +49,7 @@ void FollowLine::followLine()
         {
             _position.moveForward();
             isAtCrossing = true;
+            _motor.goStraight();
         }
         break;
     case RoadLayout::sharpRight:

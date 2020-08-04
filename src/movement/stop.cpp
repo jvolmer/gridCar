@@ -1,9 +1,15 @@
-#include "motor/motor.hpp"
 #include "pilot.hpp"
+#include "motor/motor.hpp"
+#include "position/position.hpp"
+#include "motionName.hpp"
 #include "stop.hpp"
 
-Stop::Stop(Pilot& pilot, Motor& motor):
+class Coordinate;
+
+Stop::Stop(Pilot& pilot, Coordinate& goal, Position& position, Motor& motor):
     _pilot { pilot },
+    _goal { goal },
+    _position { position },
     _motor { motor }
 {}
 

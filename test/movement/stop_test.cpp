@@ -2,10 +2,23 @@
 #define BOOST_TEST_MODULE test_stop
 
 #include "src/movement/pilot.hpp"
+#include "src/movement/position/coordinate.hpp"
+#include "src/movement/position/position.hpp"
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/stop.hpp"
+
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
+
+MOCK_BASE_CLASS( MockPosition, Position )
+{
+    MOCK_METHOD( turnLeft, 0 );
+    MOCK_METHOD( turnRight, 0 );
+    MOCK_METHOD( moveForward, 0 );
+    MOCK_METHOD( isLocatedAt, 1 );
+    MOCK_METHOD( getTurnTrendToReach, 1 );
+    MOCK_METHOD( isAtTurningPointToReach, 1 );
+};
 
 MOCK_BASE_CLASS( MockMotor, Motor )
 {
@@ -25,10 +38,14 @@ MOCK_BASE_CLASS( MockPilot, Pilot )
 BOOST_AUTO_TEST_CASE( stops )
 {
     MockPilot pilot;
+    Coordinate goal{ 0 , 1 };
+    MockPosition position;
     MockMotor motor;
-    Stop stop(pilot, motor);
+    Stop stop(pilot, goal, position, motor);
+    MOCK_EXPECT(  position.getTurnTrendToReach ).returns( 0 );
     
     MOCK_EXPECT( motor.stop ).once();
     
     stop.move();
 }
+

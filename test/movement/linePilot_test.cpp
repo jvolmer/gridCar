@@ -22,6 +22,7 @@ MOCK_BASE_CLASS( MockPosition, Position )
     MOCK_METHOD( moveForward, 0 );
     MOCK_METHOD( isLocatedAt, 1 );
     MOCK_METHOD( getTurnTrendToReach, 1 );
+    MOCK_METHOD( isAtTurningPointToReach, 1 );
 };
 
 MOCK_BASE_CLASS( MockMotor, Motor )
@@ -51,11 +52,12 @@ BOOST_AUTO_TEST_CASE( starts_in_follow_line_motion )
     MockTracker tracker;
     MockTimer timer;
     MockMotor motor;
-    LinePilot pilot(goal, position, tracker, timer, motor);
-   
-    MOCK_EXPECT( motor.goStraight ).once();
-    MOCK_EXPECT( position.isLocatedAt ).returns( false );
+    LinePilot pilot(goal, position, tracker, timer, motor);   
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::straight );
-        
+    MOCK_EXPECT( position.isLocatedAt ).returns( false );
+    MOCK_EXPECT( position.isAtTurningPointToReach ).returns(false);
+
+    MOCK_EXPECT( motor.goStraight ).once();
+
     pilot.move();
 }
