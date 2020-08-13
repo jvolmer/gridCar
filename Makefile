@@ -101,7 +101,8 @@ $(BIN_DIR)/%.test : $(BUILD_DIR)/%_test.o $(BUILD_DIR)/%.o |$$(@D)/.f
 	@./$@
 	@echo
 
-$(BIN_DIR)/communication/communicatorHeadquaters.test: $(BUILD_DIR)/communication/communicatorHeadquaters_test.o $(BUILD_DIR)/communication/communicatorHeadquaters.o $(BUILD_DIR)/communication/transmission.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/communication/transmission_ostream.o |$$(@D)/.f
+# $(BIN_DIR)/communication/communicatorHeadquaters.test: $(BUILD_DIR)/communication/communicatorHeadquaters_test.o $(BUILD_DIR)/communication/communicatorHeadquaters.o $(BUILD_DIR)/communication/transmission.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/communication/transmission_ostream.o |$$(@D)/.f
+$(BIN_DIR)/communication/messageFromCar.test: $(BUILD_DIR)/communication/messageFromCar_test.o $(BUILD_DIR)/communication/messageFromCar.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/movement/position/coordinate_ostream.o |$$(@D)/.f
 $(BIN_DIR)/movement/stop.test: $(BUILD_DIR)/movement/stop_test.o $(BUILD_DIR)/movement/stop.o $(BUILD_DIR)/movement/position/coordinate.o |$$(@D)/.f
 $(BIN_DIR)/movement/followLine.test: $(BUILD_DIR)/movement/followLine_test.o $(BUILD_DIR)/movement/followLine.o $(BUILD_DIR)/movement/position/coordinate.o |$$(@D)/.f
 $(BIN_DIR)/movement/turnRightFromLine.test: $(BUILD_DIR)/movement/turnRightFromLine_test.o $(BUILD_DIR)/movement/turnRightFromLine.o |$$(@D)/.f
