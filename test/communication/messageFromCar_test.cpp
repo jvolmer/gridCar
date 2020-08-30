@@ -12,8 +12,9 @@
 
 MOCK_BASE_CLASS( MockTransmitter, Transmitter )
 {
-    MOCK_METHOD( receive, 1 );
-    MOCK_METHOD( replyWith, 1 );
+    MOCK_METHOD( setup, 0 );
+    MOCK_METHOD( replyToReception, 1 );
+    MOCK_METHOD( setReply, 1 );
 };
 
 BOOST_AUTO_TEST_CASE( supplies_a_coordinate_to_transmitter )
@@ -23,8 +24,8 @@ BOOST_AUTO_TEST_CASE( supplies_a_coordinate_to_transmitter )
     MessageFromCar message{ transmitter };
     message.set(coordinate);
     
-    MOCK_EXPECT( transmitter.replyWith ).once();
+    MOCK_EXPECT( transmitter.setReply ).once();
 
-    Coordinate sent = message.supply();
+    Coordinate sent = message.supplyForNextReception();
     BOOST_TEST( sent == coordinate );
 }

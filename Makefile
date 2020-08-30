@@ -4,7 +4,7 @@
 ARDUINO_DIR := $(HOME)/bin/arduino-1.8.10
 TURTLE_DIR := $(HOME)/bin/turtle_1.3.1
 # self-compiled arduino library
-ARDUINO_LIB := $(HOME)/lib/arduino/coreObjectFiles/libcore.a
+ARDUINO_LIB := $(HOME)/lib/arduino/coreObjectFiles/libcore_withCommunication.a
 
 # arduino specifications
 
@@ -43,7 +43,7 @@ LDFLAGS  := -lboost_unit_test_framework -lm
 AVRDUDE_FLAGS := -v -p$(MCU) -c$(PROGRAMMER) -P$(PORT) -b$(BAUDRATE) -D
 AVRCOPY_FLAGS := -O ihex -R .eeprom
 
-AVR_INC := -I$(ARDUINO_DIR)/hardware/arduino/avr/cores/arduino/ -I$(ARDUINO_DIR)/hardware/arduino/avr/variants/standard
+AVR_INC := -I$(ARDUINO_DIR)/hardware/arduino/avr/cores/arduino/ -I$(ARDUINO_DIR)/hardware/arduino/avr/variants/standard -I$(ARDUINO_DIR)/hardware/arduino/avr/libraries/RF24 -I$(ARDUINO_DIR)/hardware/arduino/avr/libraries/SPI/src
 CXX_INC := -I$(TURTLE_DIR)/include
 AVRDUDE_CONF := $(ARDUINO_DIR)/hardware/tools/avr/etc/avrdude.conf
 

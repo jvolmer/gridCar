@@ -4,11 +4,11 @@
 
 MessageFromCar::MessageFromCar(Transmitter& transmitter) :
     _transmitter { transmitter },
-    _coordinate { 0, 0 }
+    _message { 0, 0 }
 {}
 
-const Coordinate& MessageFromCar::supply() const
+const Coordinate& MessageFromCar::supplyForNextReception() const
 {
-    _transmitter.replyWith( _coordinate );
-    return _coordinate;
+    _transmitter.setReply( _message );
+    return _message;
 }

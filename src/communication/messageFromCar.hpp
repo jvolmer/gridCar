@@ -9,12 +9,12 @@ class MessageFromCar
 {
 private:
     Transmitter& _transmitter;
-    Coordinate _coordinate;
+    Coordinate _message;
 
 public:
     MessageFromCar(Transmitter& transmitter);
-    void set(Coordinate& coordinate){ _coordinate = coordinate; }
-    const Coordinate& supply() const;
+    void set(Coordinate& message){ _message = message; }
+    const Coordinate& supplyForNextReception() const;
 };
 
 #endif

@@ -1,24 +1,26 @@
-#include "src/timer/arduinoTimer.hpp"
-#include "src/movement/tracker/arduinoTracker.hpp"
-#include "src/movement/motor/arduinoMotor.hpp"
-#include "src/movement/position/arduinoGridPosition.hpp"
+#include "src/communication/arduinoTransmitter.hpp"
 #include "src/movement/position/coordinate.hpp"
-#include "src/movement/motionName.hpp"
-#include "src/movement/linePilot.hpp"
+#include <SPI.h>
+#include <RF24.h>
 
-ArduinoTracker tracker{A1, A2, A3};
-ArduinoTimer timer{};
-ArduinoMotor motor{4, 6, 3, 5};
-ArduinoGridPosition position(Coordinate( 3, 1), Direction::negativeX);
-Coordinate goal{ 1, 0 };
-LinePilot pilot(goal, position, tracker, timer, motor);
+RF24 radio{9, 10};
+const unsigned char address[5] = {'C', 'a', 'r', '0', '1'};
+ArduinoTransmitter transmitter{ address, radio };
+
+Coordinate coordinate{ 1, 0 };
+Coordinate received{0, 0};
 
 void setup() {
-    tracker.setup();
-    motor.setup();
-    pilot.changeMotion( MotionName::followLine );
+    Serial.begin(9600);
+    transmitter.setup();
 }
 
 void loop() {
-    pilot.move();
+    transmitter.setReply(coordinate);
+    transmitter.replyToReception(received);
+    Serial.print(coordinate.getx());
+    Serial.print(", ");
+    Serial.print(coordinate.gety());
+    Serial.println();
+
 }
