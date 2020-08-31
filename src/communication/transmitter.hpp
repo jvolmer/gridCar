@@ -8,7 +8,7 @@ class Transmitter
 {
 public:
     virtual void setup() = 0;
-    virtual void replyToReception(const Coordinate& message) = 0;
+    virtual const Coordinate& replyToReception(const Coordinate& message) = 0;
     virtual void setReply(const Coordinate& message) = 0;
 };
 

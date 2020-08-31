@@ -20,7 +20,7 @@ public:
     ArduinoTransmitter(const unsigned char* address,
                        RF24& radio);
     void setup() override;
-    void replyToReception(const Coordinate& message) override;
+    const Coordinate& replyToReception(const Coordinate& message) override;
     void setReply(const Coordinate& message) override;
 };
 
