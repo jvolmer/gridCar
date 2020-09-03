@@ -4,12 +4,19 @@
 #include "src/movement/position/direction.hpp"
 #include "src/movement/position/coordinate.hpp"
 #include "src/movement/position/gridPosition.hpp"
+#include "src/communication/locationListener.hpp"
 #include "direction_ostream.hpp"
 #include "coordinate_ostream.hpp"
 #include <boost/test/unit_test.hpp>
 #include <boost/test/data/test_case.hpp>
+#include <turtle/mock.hpp>
 
 namespace data = boost::unit_test::data;
+
+MOCK_BASE_CLASS( MockLocationListener, LocationListener )
+{
+    MOCK_METHOD( updateLocation, 1 );
+};
 
 BOOST_AUTO_TEST_SUITE( turn_trend_for_location_at_origin )
 
@@ -253,6 +260,22 @@ BOOST_DATA_TEST_CASE( not_reached,
     bool atTurningPoint = position.isAtTurningPointToReach( coordinate );
 
     BOOST_TEST( atTurningPoint == false );
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
+BOOST_AUTO_TEST_SUITE( broadcasting )
+
+BOOST_AUTO_TEST_CASE( broadcasts_location_to_subscriber_when_moving_forward )
+{
+    GridPosition position = GridPosition(Coordinate(1,2), Direction::positiveX);
+    MockLocationListener listener;
+    position.subscribe(&listener);
+    
+    position.broadcast();
+
+    MOCK_EXPECT( listener.updateLocation );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
