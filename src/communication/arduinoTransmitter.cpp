@@ -25,7 +25,7 @@ void ArduinoTransmitter::setReply(const Coordinate& message)
     _radio.writeAckPayload(_listeningChannel, &message, sizeof(message));
 }
 
-const Coordinate& ArduinoTransmitter::replyToReception(const Coordinate& message)
+const Coordinate& ArduinoTransmitter::replyToReception(Coordinate& message)
 {
     if ( _radio.available() ) {
         _radio.read(&message, sizeof(message));
