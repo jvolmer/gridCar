@@ -21,7 +21,7 @@ void setup() {
 }
 
 void loop() {
-    messageOut.set( send );
+    messageOut.updateLocation( send );
     messageOut.supplyForNextReception();
     received = messageIn.receive();
     

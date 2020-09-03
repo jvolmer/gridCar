@@ -2,10 +2,11 @@
 #define MESSAGE_FROM_CAR_H
 
 #include "../movement/position/coordinate.hpp"
+#include "locationListener.hpp"
 
 class Transmitter;
 
-class MessageFromCar
+class MessageFromCar: public LocationListener
 {
 private:
     Transmitter& _transmitter;
@@ -13,7 +14,7 @@ private:
 
 public:
     MessageFromCar(Transmitter& transmitter);
-    void set(Coordinate& message){ _message = message; }
+    void updateLocation(const Coordinate& message) override { _message = message; }
     const Coordinate& supplyForNextReception() const;
 };
 

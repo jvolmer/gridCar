@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_CASE( supplies_a_coordinate_to_transmitter )
     MockTransmitter transmitter;
     Coordinate coordinate{ 1, 3 };
     MessageFromCar message{ transmitter };
-    message.set(coordinate);
+    message.updateLocation(coordinate);
     
     MOCK_EXPECT( transmitter.setReply ).once();
 
