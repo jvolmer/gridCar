@@ -42,9 +42,24 @@ BOOST_AUTO_TEST_CASE( stops )
     MockPosition position;
     MockMotor motor;
     Stop stop(pilot, goal, position, motor);
-    MOCK_EXPECT(  position.getTurnTrendToReach ).returns( 0 );
+    MOCK_EXPECT( position.isLocatedAt ).returns( true );
     
     MOCK_EXPECT( motor.stop ).once();
+    
+    stop.move();
+}
+
+BOOST_AUTO_TEST_CASE( changes_to_follow_line_motion_when_position_is_not_equal_to_goal )
+{
+    MockPilot pilot;
+    Coordinate goal{ 0 , 1 };
+    MockPosition position;
+    MockMotor motor;
+    Stop stop(pilot, goal, position, motor);
+    MOCK_EXPECT( position.isLocatedAt ).returns( false );
+    MOCK_EXPECT( motor.stop );
+
+    MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::followLine );
     
     stop.move();
 }

@@ -16,4 +16,9 @@ Stop::Stop(Pilot& pilot, Coordinate& goal, Position& position, Motor& motor):
 void Stop::move()
 {    
     _motor.stop();
+
+    if ( !_position.isLocatedAt(_goal) )
+    {
+        _pilot.changeMotion( MotionName::followLine );
+    }
 }
