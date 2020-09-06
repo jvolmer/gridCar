@@ -14,6 +14,7 @@ ArduinoTransmitter::ArduinoTransmitter(const unsigned char* address,
 void ArduinoTransmitter::setup()
 {
     _radio.begin();
+    _radio.setPALevel(RF24_PA_MAX);
     _radio.setDataRate( RF24_250KBPS );
     _radio.openReadingPipe(_listeningChannel, _address);
     _radio.enableAckPayload();
