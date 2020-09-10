@@ -14,15 +14,16 @@
 ArduinoTracker tracker{A1, A2, A3};
 ArduinoTimer timer{};
 ArduinoMotor motor{4, 6, 3, 5};
-ArduinoGridPosition position(Coordinate( 3, 1), Direction::negativeX);
-Coordinate goal{ 1, 0 };
-LinePilot pilot(goal, position, tracker, timer, motor);
+ArduinoGridPosition position(Coordinate( 0, 0), Direction::positiveY);
+Coordinate goal{ 3, 1 };
 
 RF24 radio{9, 10};
 const unsigned char address[5] = {'C', 'a', 'r', '0', '1'};
 ArduinoTransmitter transmitter{ address, radio };
 MessageFromCar messageOut{ transmitter, position };
 MessageToCar messageIn{ transmitter };
+
+LinePilot pilot(goal, position, tracker, timer, motor, messageIn);
 
 void setup() {
     transmitter.setup();
@@ -31,8 +32,9 @@ void setup() {
     pilot.changeMotion( MotionName::followLine );
 }
 
+Coordinate someCoordinate{ 0, 0 };
 void loop() {
+    messageIn.receive();
     pilot.move();
     messageOut.supplyForNextReception();
-    messageIn.receive();
 }

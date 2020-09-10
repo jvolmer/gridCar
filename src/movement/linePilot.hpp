@@ -12,14 +12,16 @@
 #include "alignInLeftTurn.hpp"
 #include "turnLeftToLine.hpp"
 #include "motionName.hpp"
+#include "../communication/coordinateListener.hpp"
+#include "position/coordinate.hpp"
 
-class Coordinate;
 class Position;
 class Tracker;
 class Timer;
 class Motor;
+class CoordinateBroadcaster;
 
-class LinePilot: public Pilot
+class LinePilot: public Pilot, public CoordinateListener
 {
 private:
     Stop _stop;
@@ -31,11 +33,14 @@ private:
     AlignInLeftTurn _alignInLeftTurn;
     TurnLeftToLine _turnLeftToLine;
     Motion* _motion;
+    Coordinate& _goal;
+    CoordinateBroadcaster& _goalBroadcaster;
 
 public:
-    LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor);
+    LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor, CoordinateBroadcaster& goalBroadcaster);
     void move() override { _motion->move(); }
     void changeMotion(MotionName Name) override;
+    void update(const Coordinate& goal) override { _goal = goal; }
 };
 
 #endif

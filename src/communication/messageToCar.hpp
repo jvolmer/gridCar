@@ -7,7 +7,7 @@
 class Transmitter;
 class CoordinateListener;
 
-class MessageToCar : CoordinateBroadcaster
+class MessageToCar : public CoordinateBroadcaster
 {
 private:
     Transmitter& _transmitter;

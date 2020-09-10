@@ -16,7 +16,7 @@ private:
 
 public:
     MessageFromCar(Transmitter& transmitter, CoordinateBroadcaster& broadcaster);
-    void update(const Coordinate& message) override { _message = message; }
+    void update(const Coordinate& location) override { _message = location; }
     const Coordinate& supplyForNextReception() const;
 };
 

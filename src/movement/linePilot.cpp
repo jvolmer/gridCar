@@ -7,13 +7,14 @@
 #include "turnLeftFromLine.hpp"
 #include "alignInLeftTurn.hpp"
 #include "turnLeftToLine.hpp"
+#include "../communication/coordinateBroadcaster.hpp"
 
 class Coordinate;
 class Position;
 class Timer;
 class Motor;
 
-LinePilot::LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor):
+LinePilot::LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor, CoordinateBroadcaster& goalBroadcaster):
     _stop{ Stop(*this, goal, position, motor) },
     _followLine{ FollowLine(*this, goal, position, tracker, motor) },
     _turnRightFromLine{ TurnRightFromLine(*this, tracker, motor) },
@@ -22,8 +23,12 @@ LinePilot::LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Tim
     _turnLeftFromLine{ TurnLeftFromLine(*this, tracker, motor) },
     _alignInLeftTurn{ AlignInLeftTurn(*this, timer, motor) },
     _turnLeftToLine{ TurnLeftToLine(*this, position, tracker, motor) },
-    _motion { &_followLine }
-{}
+    _motion { &_followLine },
+    _goal { goal },
+    _goalBroadcaster { goalBroadcaster }
+{
+    _goalBroadcaster.subscribe(this);
+}
 
 void LinePilot::changeMotion(MotionName name)
 {
