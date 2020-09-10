@@ -1,9 +1,9 @@
 #include "transmitter.hpp"
 #include "../movement/position/coordinate.hpp"
 #include "messageFromCar.hpp"
-#include "../movement/position/locationBroadcaster.hpp"
+#include "coordinateBroadcaster.hpp"
 
-MessageFromCar::MessageFromCar(Transmitter& transmitter, LocationBroadcaster& broadcaster) :
+MessageFromCar::MessageFromCar(Transmitter& transmitter, CoordinateBroadcaster& broadcaster) :
     _transmitter { transmitter },
     _locationBroadcaster { broadcaster },
     _message { 0, 0 }

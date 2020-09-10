@@ -4,7 +4,7 @@
 #include "src/movement/position/direction.hpp"
 #include "src/movement/position/coordinate.hpp"
 #include "src/movement/position/gridPosition.hpp"
-#include "src/communication/locationListener.hpp"
+#include "src/communication/coordinateListener.hpp"
 #include "direction_ostream.hpp"
 #include "coordinate_ostream.hpp"
 #include <boost/test/unit_test.hpp>
@@ -13,9 +13,9 @@
 
 namespace data = boost::unit_test::data;
 
-MOCK_BASE_CLASS( MockLocationListener, LocationListener )
+MOCK_BASE_CLASS( MockLocationListener, CoordinateListener )
 {
-    MOCK_METHOD( updateLocation, 1 );
+    MOCK_METHOD( update, 1 );
 };
 
 BOOST_AUTO_TEST_SUITE( turn_trend_for_location_at_origin )
@@ -275,7 +275,7 @@ BOOST_AUTO_TEST_CASE( broadcasts_location_to_subscriber_when_moving_forward )
     
     position.broadcast();
 
-    MOCK_EXPECT( listener.updateLocation );
+    MOCK_EXPECT( listener.update );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

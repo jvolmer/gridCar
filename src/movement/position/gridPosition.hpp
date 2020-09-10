@@ -4,16 +4,16 @@
 #include "coordinate.hpp"
 #include "direction.hpp"
 #include "position.hpp"
-#include "locationBroadcaster.hpp"
+#include "../../communication/coordinateBroadcaster.hpp"
 
-class LocationListener;
+class CoordinateListener;
 
-class GridPosition: public Position, public LocationBroadcaster
+class GridPosition: public Position, public CoordinateBroadcaster
 {
 private:
     Coordinate _location { Coordinate(0,0) };
     Direction _forwardDirection { Direction::positiveX };
-    LocationListener* _listener;
+    CoordinateListener* _listener;
 
 public:
     GridPosition() {};
@@ -28,7 +28,7 @@ public:
     bool isLocatedAt(const Coordinate& coordinate) const override { return _location == coordinate; }
     int getTurnTrendToReach(const Coordinate& coordinate) const override;
     bool isAtTurningPointToReach(const Coordinate& coordinate) const;
-    void subscribe(LocationListener* listener) override;
+    void subscribe(CoordinateListener* listener) override;
     void broadcast() const override;
 };
 

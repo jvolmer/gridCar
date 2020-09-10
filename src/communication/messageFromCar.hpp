@@ -2,21 +2,21 @@
 #define MESSAGE_FROM_CAR_H
 
 #include "../movement/position/coordinate.hpp"
-#include "locationListener.hpp"
+#include "coordinateListener.hpp"
 
 class Transmitter;
-class LocationBroadcaster;
+class CoordinateBroadcaster;
 
-class MessageFromCar: public LocationListener
+class MessageFromCar: public CoordinateListener
 {
 private:
     Transmitter& _transmitter;
-    LocationBroadcaster& _locationBroadcaster;
+    CoordinateBroadcaster& _locationBroadcaster;
     Coordinate _message;
 
 public:
-    MessageFromCar(Transmitter& transmitter, LocationBroadcaster& broadcaster);
-    void updateLocation(const Coordinate& message) override { _message = message; }
+    MessageFromCar(Transmitter& transmitter, CoordinateBroadcaster& broadcaster);
+    void update(const Coordinate& message) override { _message = message; }
     const Coordinate& supplyForNextReception() const;
 };
 
