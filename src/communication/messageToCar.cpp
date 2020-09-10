@@ -1,6 +1,7 @@
 #include "transmitter.hpp"
 #include "../movement/position/coordinate.hpp"
 #include "messageToCar.hpp"
+#include "coordinateListener.hpp"
 
 MessageToCar::MessageToCar(Transmitter& transmitter) :
     _transmitter { transmitter },
@@ -9,6 +10,18 @@ MessageToCar::MessageToCar(Transmitter& transmitter) :
 
 const Coordinate& MessageToCar::receive()
 {
-    const Coordinate& received = _transmitter.replyToReception( _message );
-    return received;
+    _transmitter.replyToReception( _message );
+    broadcast();
+    return _message;
+}
+
+void MessageToCar::subscribe(CoordinateListener* listener)
+{
+    _listener = listener;
+    broadcast();
+}
+
+void MessageToCar::broadcast() const
+{
+    _listener->update(_message);
 }

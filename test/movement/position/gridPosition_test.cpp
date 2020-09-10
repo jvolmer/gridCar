@@ -265,17 +265,17 @@ BOOST_DATA_TEST_CASE( not_reached,
 BOOST_AUTO_TEST_SUITE_END()
 
 
-BOOST_AUTO_TEST_SUITE( broadcasting )
+BOOST_AUTO_TEST_SUITE( communication )
 
-BOOST_AUTO_TEST_CASE( broadcasts_location_to_subscriber_when_moving_forward )
-{
-    GridPosition position = GridPosition(Coordinate(1,2), Direction::positiveX);
-    MockLocationListener listener;
-    position.subscribe(&listener);
+// BOOST_AUTO_TEST_CASE( broadcasts_location_to_subscriber_when_moving_forward )
+// {
+//     GridPosition position = GridPosition(Coordinate(1,2), Direction::positiveX);
+//     MockLocationListener listener;
+//     position.subscribe(&listener);
     
-    position.broadcast();
+//     position.broadcast();
 
-    MOCK_EXPECT( listener.update );
-}
+//     MOCK_EXPECT( listener.update );
+// }
 
 BOOST_AUTO_TEST_SUITE_END()

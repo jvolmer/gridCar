@@ -5,6 +5,7 @@
 
 #include "src/communication/messageToCar.hpp"
 #include "src/communication/transmitter.hpp"
+#include "src/communication/coordinateListener.hpp"
 #include "src/movement/position/coordinate.hpp"
 #include "test/movement/position/coordinate_ostream.hpp"
 #include <boost/test/unit_test.hpp>
@@ -17,14 +18,35 @@ MOCK_BASE_CLASS( MockTransmitter, Transmitter )
     MOCK_METHOD( setReply, 1 );
 };
 
+MOCK_BASE_CLASS( MockGoalListener, CoordinateListener )
+{
+    MOCK_METHOD( update, 1 );
+};
+
 BOOST_AUTO_TEST_CASE( receives_a_coordinate_from_transmitter )
 {
     MockTransmitter transmitter;
-    MessageToCar message{ transmitter };
-    
+    MessageToCar message{ transmitter };    
     Coordinate coordinate{ 1, 3 };
+    MockGoalListener listener;
+    message.subscribe(&listener);
     MOCK_EXPECT( transmitter.replyToReception ).once().returns( coordinate );
 
     Coordinate received = message.receive();
+    
     BOOST_TEST( received == coordinate );
+}
+
+BOOST_AUTO_TEST_CASE( broadcasts_goal_to_subscriber_when_receiving )
+{
+    MockTransmitter transmitter;
+    MessageToCar message{ transmitter };
+    MockGoalListener listener;
+    message.subscribe(&listener);
+    Coordinate coordinate{ 1, 3 };
+    MOCK_EXPECT( transmitter.replyToReception ).once().returns( coordinate );
+
+    message.receive();
+
+    MOCK_EXPECT( listener.update );
 }

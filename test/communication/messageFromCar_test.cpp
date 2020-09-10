@@ -36,5 +36,6 @@ BOOST_AUTO_TEST_CASE( supplies_a_coordinate_to_transmitter )
     MOCK_EXPECT( transmitter.setReply ).once();
 
     Coordinate sent = message.supplyForNextReception();
+
     BOOST_TEST( sent == coordinate );
 }
