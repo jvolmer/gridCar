@@ -19,7 +19,7 @@ GridPosition::GridPosition(Coordinate&& location, Direction&& direction) :
 void GridPosition::moveForward()
 {
     _location = _location + Coordinate(_forwardDirection);
-    broadcast();
+    broadcast(_location);
 }
 
 int GridPosition::getTurnTrendToReach(const Coordinate& coordinate) const
@@ -58,14 +58,14 @@ bool GridPosition::isAtTurningPointToReach(const Coordinate& coordinate) const
 void GridPosition::subscribe(CoordinateListener* listener)
 {
     _listener = listener;
-    broadcast();
+    broadcast(_location);
 }
 
-void GridPosition::broadcast() const
+void GridPosition::broadcast(const Coordinate& location) const
 {
     if (_listener)
     {
-        _listener->update(_location);
+        _listener->update(location);
     }
 }
 

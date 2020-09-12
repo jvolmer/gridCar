@@ -29,7 +29,7 @@ public:
     int getTurnTrendToReach(const Coordinate& coordinate) const override;
     bool isAtTurningPointToReach(const Coordinate& coordinate) const;
     void subscribe(CoordinateListener* listener) override;
-    void broadcast() const override;
+    void broadcast(const Coordinate& location) const override;
 };
 
 bool operator== (const GridPosition& lhs, const GridPosition& rhs);

@@ -11,20 +11,20 @@ MessageToCar::MessageToCar(Transmitter& transmitter) :
 const Coordinate& MessageToCar::receive()
 {
     _message = _transmitter.replyToReception( _message );
-    broadcast();
+    broadcast(_message);
     return _message;
 }
 
 void MessageToCar::subscribe(CoordinateListener* listener)
 {
     _listener = listener;
-    broadcast();
+    broadcast(_message);
 }
 
-void MessageToCar::broadcast() const
+void MessageToCar::broadcast(const Coordinate& message) const
 {
     if (_listener)
     {
-        _listener->update(_message);
+        _listener->update(message);
     }
 }

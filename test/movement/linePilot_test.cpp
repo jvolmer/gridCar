@@ -49,7 +49,7 @@ MOCK_BASE_CLASS( MockTimer, Timer )
 
 MOCK_BASE_CLASS( MockGoalBroadcaster, CoordinateBroadcaster )
 {
-    MOCK_METHOD( broadcast, 0 );
+    MOCK_METHOD( broadcast, 1 );
     MOCK_METHOD( subscribe, 1 );
 };
 

@@ -18,8 +18,7 @@ public:
     MessageToCar(Transmitter& transmitter);
     const Coordinate& receive();
     void subscribe(CoordinateListener* listener) override;
-    void broadcast() const override;
-
+    void broadcast(const Coordinate& message) const override;
 };
 
 #endif

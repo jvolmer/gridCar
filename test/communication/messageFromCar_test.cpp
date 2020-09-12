@@ -20,7 +20,7 @@ MOCK_BASE_CLASS( MockTransmitter, Transmitter )
 
 MOCK_BASE_CLASS( MockLocationBroadcaster, CoordinateBroadcaster )
 {
-    MOCK_METHOD( broadcast, 0 );
+    MOCK_METHOD( broadcast, 1 );
     MOCK_METHOD( subscribe, 1 );
 };
 
