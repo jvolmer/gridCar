@@ -13,7 +13,7 @@ class GridPosition: public Position, public CoordinateBroadcaster
 private:
     Coordinate _location { Coordinate(0,0) };
     Direction _forwardDirection { Direction::positiveX };
-    CoordinateListener* _listener;
+    CoordinateListener* _listener = nullptr;
 
 public:
     GridPosition() {};

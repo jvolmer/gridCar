@@ -12,7 +12,7 @@ class MessageToCar : public CoordinateBroadcaster
 private:
     Transmitter& _transmitter;
     Coordinate _message;
-    CoordinateListener* _listener;
+    CoordinateListener* _listener = nullptr;
 
 public:
     MessageToCar(Transmitter& transmitter);

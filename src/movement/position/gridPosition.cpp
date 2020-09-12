@@ -63,7 +63,10 @@ void GridPosition::subscribe(CoordinateListener* listener)
 
 void GridPosition::broadcast() const
 {
-    _listener->update(_location);
+    if (_listener)
+    {
+        _listener->update(_location);
+    }
 }
 
 bool operator== (const GridPosition& lhs, const GridPosition& rhs)
