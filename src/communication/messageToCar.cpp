@@ -18,7 +18,6 @@ const Coordinate& MessageToCar::receive()
 void MessageToCar::subscribe(CoordinateListener* listener)
 {
     _listener = listener;
-    broadcast(_message);
 }
 
 void MessageToCar::broadcast(const Coordinate& message) const

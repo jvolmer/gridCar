@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE( starts_in_follow_line_motion )
     MockTimer timer;
     MockMotor motor;
     MockGoalBroadcaster goalBroadcaster;
-    MOCK_EXPECT( goalBroadcaster.subscribe ).once();
+    MOCK_EXPECT( goalBroadcaster.subscribe );
     LinePilot pilot(goal, position, tracker, timer, motor, goalBroadcaster);   
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::straight );
     MOCK_EXPECT( position.isLocatedAt ).returns( false );

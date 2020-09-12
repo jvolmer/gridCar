@@ -37,23 +37,11 @@ BOOST_AUTO_TEST_CASE( receives_a_coordinate_from_transmitter )
     BOOST_TEST( received == coordinate );
 }
 
-BOOST_AUTO_TEST_CASE( broadcasts_to_subscriber_when_subscribing )
-{
-    MockTransmitter transmitter;
-    MessageToCar message{ transmitter };
-    MockGoalListener listener;
-    
-    MOCK_EXPECT( listener.update ).once();
-
-    message.subscribe(&listener);
-}
-
 BOOST_AUTO_TEST_CASE( broadcasts_goal_to_subscriber_when_receiving )
 {
     MockTransmitter transmitter;
     MessageToCar message{ transmitter };
     MockGoalListener listener;
-    MOCK_EXPECT( listener.update ).once();
     message.subscribe( &listener );
     Coordinate coordinate{ 1, 3 };
     MOCK_EXPECT( transmitter.replyToReception ).returns( coordinate );
