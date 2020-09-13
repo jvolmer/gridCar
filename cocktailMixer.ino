@@ -20,15 +20,17 @@ Coordinate goal{ 3, 1 };
 RF24 radio{9, 10};
 const unsigned char address[5] = {'C', 'a', 'r', '0', '1'};
 ArduinoTransmitter transmitter{ address, radio };
-MessageFromCar messageOut{ transmitter, position };
+MessageFromCar messageOut{ transmitter };
 MessageToCar messageIn{ transmitter };
 
-LinePilot pilot(goal, position, tracker, timer, motor, messageIn);
+LinePilot pilot(goal, position, tracker, timer, motor);
 
 void setup() {
     transmitter.setup();
     tracker.setup();
     motor.setup();
+    messageOut.listenTo( position );
+    pilot.listenTo( messageIn );
     pilot.changeMotion( MotionName::followLine );
 }
 

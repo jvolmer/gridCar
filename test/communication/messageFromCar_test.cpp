@@ -27,9 +27,7 @@ MOCK_BASE_CLASS( MockLocationBroadcaster, CoordinateBroadcaster )
 BOOST_AUTO_TEST_CASE( supplies_a_coordinate_to_transmitter )
 {
     MockTransmitter transmitter;
-    MockLocationBroadcaster broadcaster;
-    MOCK_EXPECT( broadcaster.subscribe );
-    MessageFromCar message{ transmitter, broadcaster };
+    MessageFromCar message{ transmitter};
     Coordinate coordinate{ 1, 3 };
     message.update(coordinate);
     
@@ -40,12 +38,13 @@ BOOST_AUTO_TEST_CASE( supplies_a_coordinate_to_transmitter )
     BOOST_TEST( sent == coordinate );
 }
 
-BOOST_AUTO_TEST_CASE( starts_listening_to_location_broadcaster_when_created )
+BOOST_AUTO_TEST_CASE( listens_to_broadcaster )
 {
     MockTransmitter transmitter;
+    MessageFromCar message{ transmitter };
     MockLocationBroadcaster broadcaster;
     
     MOCK_EXPECT( broadcaster.subscribe ).once();
 
-    MessageFromCar message{ transmitter, broadcaster };
+    message.listenTo( broadcaster );
 }

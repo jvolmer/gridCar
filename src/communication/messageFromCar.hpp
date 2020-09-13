@@ -14,9 +14,11 @@ private:
     Coordinate _message;
 
 public:
-    MessageFromCar(Transmitter& transmitter, CoordinateBroadcaster& broadcaster);
-    void update(const Coordinate& location) override { _message = location; }
+    MessageFromCar(Transmitter& transmitter);
     const Coordinate& supplyForNextReception() const;
+    void update(const Coordinate& location) override { _message = location; }
+    void listenTo(CoordinateBroadcaster& broadcaster) override { CoordinateListener::listenTo(broadcaster); }
+
 };
 
 #endif

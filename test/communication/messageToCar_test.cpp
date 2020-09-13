@@ -20,6 +20,7 @@ MOCK_BASE_CLASS( MockTransmitter, Transmitter )
 
 MOCK_BASE_CLASS( MockGoalListener, CoordinateListener )
 {
+    MOCK_METHOD( listenTo, 1 );
     MOCK_METHOD( update, 1 );
 };
 
@@ -28,9 +29,7 @@ BOOST_AUTO_TEST_CASE( receives_a_coordinate_from_transmitter )
     MockTransmitter transmitter;
     MessageToCar message{ transmitter };    
     Coordinate coordinate{ 1, 3 };
-    MockGoalListener listener;
     MOCK_EXPECT( transmitter.replyToReception ).returns( coordinate );
-    MOCK_EXPECT( listener.update );
     
     Coordinate received = message.receive();
     

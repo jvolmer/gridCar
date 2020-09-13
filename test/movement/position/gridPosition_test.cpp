@@ -15,6 +15,7 @@ namespace data = boost::unit_test::data;
 
 MOCK_BASE_CLASS( MockLocationListener, CoordinateListener )
 {
+    MOCK_METHOD( listenTo, 1 );
     MOCK_METHOD( update, 1 );
 };
 
@@ -267,20 +268,21 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( communication )
 
-BOOST_AUTO_TEST_CASE( broadcasts_to_subscriber_when_subscribing )
+BOOST_AUTO_TEST_CASE( broadcasts_current_position_to_subscriber_when_subscribing )
 {
-    GridPosition position = GridPosition(Coordinate(1,2), Direction::positiveX);
+    Coordinate currentPosition{ 4, 5 };
+    GridPosition position = GridPosition(currentPosition, Direction::positiveX);
     MockLocationListener listener;
+ 
+    MOCK_EXPECT( listener.update ).once().with( currentPosition );
 
-    MOCK_EXPECT( listener.update ).once();
-
-    position.subscribe(&listener);
+    position.subscribe( &listener );
 }
 
 BOOST_AUTO_TEST_CASE( broadcasts_new_location_to_subscriber_after_moving_forward )
 {
-    Coordinate initialPosition{ 1, 2 };
-    GridPosition position = GridPosition(initialPosition, Direction::positiveX);
+    Coordinate initialLocation{ 1, 2 };
+    GridPosition position = GridPosition(initialLocation, Direction::positiveX);
     MockLocationListener listener;
     MOCK_EXPECT( listener.update ).once();
     position.subscribe( &listener );

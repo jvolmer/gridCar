@@ -36,10 +36,11 @@ private:
     Coordinate& _goal;
 
 public:
-    LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor, CoordinateBroadcaster& goalBroadcaster);
+    LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor);
     void move() override { _motion->move(); }
     void changeMotion(MotionName Name) override;
     void update(const Coordinate& goal) override { _goal = goal; }
+    void listenTo(CoordinateBroadcaster& broadcaster) override { CoordinateListener::listenTo(broadcaster); }
 };
 
 #endif

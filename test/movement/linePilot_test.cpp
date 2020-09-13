@@ -61,9 +61,7 @@ BOOST_AUTO_TEST_CASE( starts_in_follow_line_motion )
     MockTracker tracker;
     MockTimer timer;
     MockMotor motor;
-    MockGoalBroadcaster goalBroadcaster;
-    MOCK_EXPECT( goalBroadcaster.subscribe );
-    LinePilot pilot(goal, position, tracker, timer, motor, goalBroadcaster);   
+    LinePilot pilot(goal, position, tracker, timer, motor);
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::straight );
     MOCK_EXPECT( position.isLocatedAt ).returns( false );
     MOCK_EXPECT( position.isAtTurningPointToReach ).returns(false);
@@ -73,18 +71,19 @@ BOOST_AUTO_TEST_CASE( starts_in_follow_line_motion )
     pilot.move();
 }
 
-BOOST_AUTO_TEST_CASE( starts_listening_to_goal_broadcaster_when_created )
+BOOST_AUTO_TEST_CASE( listens_to_broadcaster )
 {
     Coordinate goal{ 0, 0 };
     MockPosition position;
     MockTracker tracker;
     MockTimer timer;
     MockMotor motor;
-    MockGoalBroadcaster goalBroadcaster;
+    LinePilot pilot(goal, position, tracker, timer, motor);
+    MockGoalBroadcaster broadcaster;
 
-    MOCK_EXPECT( goalBroadcaster.subscribe ).once();
-    
-    LinePilot pilot(goal, position, tracker, timer, motor, goalBroadcaster);
+    MOCK_EXPECT( broadcaster.subscribe ).once();
+
+    pilot.listenTo( broadcaster );
 }
 
 BOOST_AUTO_TEST_CASE( updates_goal )
@@ -94,9 +93,7 @@ BOOST_AUTO_TEST_CASE( updates_goal )
     MockTracker tracker;
     MockTimer timer;
     MockMotor motor;
-    MockGoalBroadcaster goalBroadcaster;
-    MOCK_EXPECT( goalBroadcaster.subscribe ).once();
-    LinePilot pilot(goal, position, tracker, timer, motor, goalBroadcaster);   
+    LinePilot pilot(goal, position, tracker, timer, motor);   
 
     Coordinate newGoal{ 1, 4 };
     pilot.update( newGoal );
