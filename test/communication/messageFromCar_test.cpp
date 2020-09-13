@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE( starts_listening_to_location_broadcaster_when_created )
 {
     MockTransmitter transmitter;
     MockLocationBroadcaster broadcaster;
-
+    
     MOCK_EXPECT( broadcaster.subscribe ).once();
 
     MessageFromCar message{ transmitter, broadcaster };

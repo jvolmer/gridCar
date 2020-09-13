@@ -11,7 +11,6 @@ class MessageFromCar: public CoordinateListener
 {
 private:
     Transmitter& _transmitter;
-    CoordinateBroadcaster& _locationBroadcaster;
     Coordinate _message;
 
 public:

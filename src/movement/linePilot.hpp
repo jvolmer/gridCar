@@ -34,7 +34,6 @@ private:
     TurnLeftToLine _turnLeftToLine;
     Motion* _motion;
     Coordinate& _goal;
-    CoordinateBroadcaster& _goalBroadcaster;
 
 public:
     LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor, CoordinateBroadcaster& goalBroadcaster);

@@ -5,10 +5,9 @@
 
 MessageFromCar::MessageFromCar(Transmitter& transmitter, CoordinateBroadcaster& broadcaster) :
     _transmitter { transmitter },
-    _locationBroadcaster { broadcaster },
     _message { 0, 0 }
 {
-    _locationBroadcaster.subscribe(this);
+    broadcaster.subscribe(this);
 }
 
 const Coordinate& MessageFromCar::supplyForNextReception() const

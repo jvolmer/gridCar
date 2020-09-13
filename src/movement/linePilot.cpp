@@ -24,10 +24,9 @@ LinePilot::LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Tim
     _alignInLeftTurn{ AlignInLeftTurn(*this, timer, motor) },
     _turnLeftToLine{ TurnLeftToLine(*this, position, tracker, motor) },
     _motion { &_followLine },
-    _goal { goal },
-    _goalBroadcaster { goalBroadcaster }
+    _goal { goal }
 {
-    _goalBroadcaster.subscribe(this);
+    goalBroadcaster.subscribe(this);
 }
 
 void LinePilot::changeMotion(MotionName name)
