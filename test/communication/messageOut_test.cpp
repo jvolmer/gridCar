@@ -1,9 +1,9 @@
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_message_from_car
+#define BOOST_TEST_MODULE test_outgoing_message
 
 #include <iostream>
 
-#include "src/communication/messageFromCar.hpp"
+#include "src/communication/messageOut.hpp"
 #include "src/communication/transmitter.hpp"
 #include "src/communication/coordinateBroadcaster.hpp"
 #include "src/movement/position/coordinate.hpp"
@@ -27,7 +27,7 @@ MOCK_BASE_CLASS( MockLocationBroadcaster, CoordinateBroadcaster )
 BOOST_AUTO_TEST_CASE( supplies_a_coordinate_to_transmitter )
 {
     MockTransmitter transmitter;
-    MessageFromCar message{ transmitter};
+    MessageOut message{ transmitter};
     Coordinate coordinate{ 1, 3 };
     message.update(coordinate);
     
@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE( supplies_a_coordinate_to_transmitter )
 BOOST_AUTO_TEST_CASE( listens_to_broadcaster )
 {
     MockTransmitter transmitter;
-    MessageFromCar message{ transmitter };
+    MessageOut message{ transmitter };
     MockLocationBroadcaster broadcaster;
     
     MOCK_EXPECT( broadcaster.subscribe ).once();

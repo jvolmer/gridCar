@@ -6,8 +6,8 @@
 #include "src/movement/motionName.hpp"
 #include "src/movement/linePilot.hpp"
 #include "src/communication/arduinoTransmitter.hpp"
-#include "src/communication/messageToCar.hpp"
-#include "src/communication/messageFromCar.hpp"
+#include "src/communication/messageIn.hpp"
+#include "src/communication/messageOut.hpp"
 #include <SPI.h>
 #include <RF24.h>
 
@@ -20,8 +20,8 @@ Coordinate goal{ 3, 1 };
 RF24 radio{9, 10};
 const unsigned char address[5] = {'C', 'a', 'r', '0', '1'};
 ArduinoTransmitter transmitter{ address, radio };
-MessageFromCar messageOut{ transmitter };
-MessageToCar messageIn{ transmitter };
+MessageOut messageOut{ transmitter };
+MessageIn messageIn{ transmitter };
 
 LinePilot pilot(goal, position, tracker, timer, motor);
 

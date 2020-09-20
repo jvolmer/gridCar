@@ -1,5 +1,5 @@
-#ifndef MESSAGE_TO_CAR_H
-#define MESSAGE_TO_CAR_H
+#ifndef MESSAGE_IN_H
+#define MESSAGE_In_H
 
 #include "coordinateBroadcaster.hpp"
 #include "../movement/position/coordinate.hpp"
@@ -7,14 +7,14 @@
 class Transmitter;
 class CoordinateListener;
 
-class MessageToCar : public CoordinateBroadcaster
+class MessageIn : public CoordinateBroadcaster
 {
 private:
     Transmitter& _transmitter;
     Coordinate _message;
 
 public:
-    MessageToCar(Transmitter& transmitter);
+    MessageIn(Transmitter& transmitter);
     const Coordinate& receive();
     void subscribe(CoordinateListener* listener) override { CoordinateBroadcaster::subscribe(listener); }
     void broadcast(const Coordinate& message) const override { CoordinateBroadcaster::broadcast(message); }

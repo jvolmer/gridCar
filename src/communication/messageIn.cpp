@@ -1,13 +1,13 @@
 #include "transmitter.hpp"
 #include "../movement/position/coordinate.hpp"
-#include "messageToCar.hpp"
+#include "messageIn.hpp"
 
-MessageToCar::MessageToCar(Transmitter& transmitter) :
+MessageIn::MessageIn(Transmitter& transmitter) :
     _transmitter { transmitter },
     _message { 0, 0}
 {}
 
-const Coordinate& MessageToCar::receive()
+const Coordinate& MessageIn::receive()
 {
     _message = _transmitter.replyToReception( _message );
     broadcast(_message);
