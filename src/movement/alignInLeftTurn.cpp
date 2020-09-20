@@ -33,6 +33,6 @@ void AlignInLeftTurn::turnLeftToLineAfterAlignmentPeriod()
     if (_timer.moment() - _startingTime >= _alignmentPeriod)
     {
         _started = false;
-        _pilot.changeMotion( MotionName::turnLeftToLine );
+        _pilot.changeMotion( MotionName::findLineInLeftTurn );
     }
 }

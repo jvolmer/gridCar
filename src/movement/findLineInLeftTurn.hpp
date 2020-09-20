@@ -1,5 +1,5 @@
-#ifndef TURN_LEFT_TO_LINE_H
-#define TURN_LEFT_TO_LINE_H
+#ifndef FIND_LINE_IN_LEFT_TURN_H
+#define FIND_LINE_IN_LEFT_TURN_H
 
 #include "motion.hpp"
 
@@ -8,7 +8,7 @@ class Position;
 class Tracker;
 class Motor;
 
-class TurnLeftToLine: public Motion
+class FindLineInLeftTurn: public Motion
 {
 private:
     Pilot& _pilot;
@@ -17,7 +17,7 @@ private:
     Motor& _motor;
 
 public:
-    TurnLeftToLine(Pilot& pilot, Position& position, Tracker& tracker, Motor& motor);
+    FindLineInLeftTurn(Pilot& pilot, Position& position, Tracker& tracker, Motor& motor);
     void move() override;    
 };
 

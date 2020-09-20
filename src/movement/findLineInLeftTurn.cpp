@@ -4,16 +4,16 @@
 #include "tracker/tracker.hpp"
 #include "tracker/roadLayout.hpp"
 #include "motionName.hpp"
-#include "turnLeftToLine.hpp"
+#include "findLineInLeftTurn.hpp"
 
-TurnLeftToLine::TurnLeftToLine(Pilot& pilot, Position& position, Tracker& tracker, Motor& motor) :
+FindLineInLeftTurn::FindLineInLeftTurn(Pilot& pilot, Position& position, Tracker& tracker, Motor& motor) :
     _pilot { pilot },
     _position { position },
     _tracker { tracker },
     _motor { motor }
 {}
 
-void TurnLeftToLine::move()
+void FindLineInLeftTurn::move()
 {
     _motor.turnLeft();
     if ( _tracker.checkRoad() == RoadLayout::straight )

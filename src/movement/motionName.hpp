@@ -5,12 +5,14 @@ enum class MotionName
 {
     stop,
     followLine,
-    turnRightFromLine,
+    startRightTurn,
     alignInRightTurn,
-    turnRightToLine,
-    turnLeftFromLine,
+    findLineInRightTurn,
+    startLeftTurn,
     alignInLeftTurn,
-    turnLeftToLine
+    findLineInLeftTurn,
+    startTurnAround,
+    findLineInTurnAround
 };
 
 #endif

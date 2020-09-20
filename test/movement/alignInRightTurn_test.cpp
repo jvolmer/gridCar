@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE( goes_straight_for_a_short_period )
     alignInRightTurn.move();
 }
 
-BOOST_AUTO_TEST_CASE( changes_to_turn_right_to_line_when_gone_straight_for_more_than_300_milli_seconds )
+BOOST_AUTO_TEST_CASE( changes_to_find_line_in_right_turn_when_gone_straight_for_more_than_300_milli_seconds )
 {
     MockPilot pilot;
     MockTimer timer;
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE( changes_to_turn_right_to_line_when_gone_straight_for_more_
     MOCK_EXPECT( timer.moment ).once().in(s).returns( 3040 );
     MOCK_EXPECT( motor.goStraight );
 
-    MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::turnRightToLine );
+    MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::findLineInRightTurn );
     
     alignInRightTurn.move();
 }

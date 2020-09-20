@@ -1,5 +1,5 @@
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_turnRightToLine
+#define BOOST_TEST_MODULE test_findLineInRightTurn
 
 #include "src/movement/pilot.hpp"
 #include "src/movement/position/position.hpp"
@@ -8,7 +8,7 @@
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/motionName.hpp"
 #include "src/movement/tracker/roadLayout.hpp"
-#include "src/movement/turnRightToLine.hpp"
+#include "src/movement/findLineInRightTurn.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 
@@ -50,13 +50,13 @@ BOOST_AUTO_TEST_CASE( turns_right )
     MockPosition position;
     MockTracker tracker;
     MockMotor motor;
-    TurnRightToLine turnRightToLine(pilot, position, tracker, motor);
+    FindLineInRightTurn findLineInRightTurn(pilot, position, tracker, motor);
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::none );
     MOCK_EXPECT( position.turnRight );
     
     MOCK_EXPECT( motor.turnRight ).once();
 
-    turnRightToLine.move();
+    findLineInRightTurn.move();
 }
 
 BOOST_AUTO_TEST_CASE( updates_position_to_turn_right )
@@ -65,14 +65,14 @@ BOOST_AUTO_TEST_CASE( updates_position_to_turn_right )
     MockPosition position;
     MockTracker tracker;
     MockMotor motor;
-    TurnRightToLine turnRightToLine(pilot, position, tracker, motor);
+    FindLineInRightTurn findLineInRightTurn(pilot, position, tracker, motor);
     MOCK_EXPECT( position.turnRight );
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::none );
     MOCK_EXPECT( motor.turnRight );
     
     MOCK_EXPECT( position.turnRight );
 
-    turnRightToLine.move();
+    findLineInRightTurn.move();
 }
 
 BOOST_AUTO_TEST_CASE( changes_to_follow_line_motion_when_on_line )
@@ -81,12 +81,12 @@ BOOST_AUTO_TEST_CASE( changes_to_follow_line_motion_when_on_line )
     MockPosition position;
     MockTracker tracker;
     MockMotor motor;
-    TurnRightToLine turnRightToLine(pilot, position, tracker, motor);
+    FindLineInRightTurn findLineInRightTurn(pilot, position, tracker, motor);
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::straight );
     MOCK_EXPECT( motor.turnRight );
     MOCK_EXPECT( position.turnRight );
 
     MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::followLine );
     
-    turnRightToLine.move();
+    findLineInRightTurn.move();
 }

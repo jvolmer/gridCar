@@ -5,12 +5,12 @@
 #include "motion.hpp"
 #include "stop.hpp"
 #include "followLine.hpp"
-#include "turnRightFromLine.hpp"
+#include "startRightTurn.hpp"
 #include "alignInRightTurn.hpp"
-#include "turnRightToLine.hpp"
-#include "turnLeftFromLine.hpp"
+#include "findLineInRightTurn.hpp"
+#include "startLeftTurn.hpp"
 #include "alignInLeftTurn.hpp"
-#include "turnLeftToLine.hpp"
+#include "findLineInLeftTurn.hpp"
 #include "motionName.hpp"
 #include "../communication/coordinateListener.hpp"
 #include "position/coordinate.hpp"
@@ -26,12 +26,12 @@ class LinePilot: public Pilot, public CoordinateListener
 private:
     Stop _stop;
     FollowLine _followLine;
-    TurnRightFromLine _turnRightFromLine;
+    StartRightTurn _startRightTurn;
     AlignInRightTurn _alignInRightTurn;
-    TurnRightToLine _turnRightToLine;
-    TurnLeftFromLine _turnLeftFromLine;
+    FindLineInRightTurn _findLineInRightTurn;
+    StartLeftTurn _startLeftTurn;
     AlignInLeftTurn _alignInLeftTurn;
-    TurnLeftToLine _turnLeftToLine;
+    FindLineInLeftTurn _findLineInLeftTurn;
     Motion* _motion;
     Coordinate& _goal;
 

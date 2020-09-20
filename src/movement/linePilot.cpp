@@ -1,12 +1,12 @@
 #include "stop.hpp"
 #include "followLine.hpp"
 #include "linePilot.hpp"
-#include "turnRightFromLine.hpp"
+#include "startRightTurn.hpp"
 #include "alignInRightTurn.hpp"
-#include "turnRightToLine.hpp"
-#include "turnLeftFromLine.hpp"
+#include "findLineInRightTurn.hpp"
+#include "startLeftTurn.hpp"
 #include "alignInLeftTurn.hpp"
-#include "turnLeftToLine.hpp"
+#include "findLineInLeftTurn.hpp"
 
 class Coordinate;
 class Position;
@@ -16,12 +16,12 @@ class Motor;
 LinePilot::LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor) :
     _stop{ Stop(*this, goal, position, motor) },
     _followLine{ FollowLine(*this, goal, position, tracker, motor) },
-    _turnRightFromLine{ TurnRightFromLine(*this, tracker, motor) },
+    _startRightTurn{ StartRightTurn(*this, tracker, motor) },
     _alignInRightTurn{ AlignInRightTurn(*this, timer, motor) },
-    _turnRightToLine{ TurnRightToLine(*this, position, tracker, motor) },
-    _turnLeftFromLine{ TurnLeftFromLine(*this, tracker, motor) },
+    _findLineInRightTurn{ FindLineInRightTurn(*this, position, tracker, motor) },
+    _startLeftTurn{ StartLeftTurn(*this, tracker, motor) },
     _alignInLeftTurn{ AlignInLeftTurn(*this, timer, motor) },
-    _turnLeftToLine{ TurnLeftToLine(*this, position, tracker, motor) },
+    _findLineInLeftTurn{ FindLineInLeftTurn(*this, position, tracker, motor) },
     _motion { &_followLine },
     _goal { goal }
 {}
@@ -36,23 +36,23 @@ void LinePilot::changeMotion(MotionName name)
     case MotionName::followLine:
         _motion = &_followLine;
         break;
-    case MotionName::turnRightFromLine:
-        _motion = &_turnRightFromLine;
+    case MotionName::startRightTurn:
+        _motion = &_startRightTurn;
         break;
     case MotionName::alignInRightTurn:
         _motion = &_alignInRightTurn;
         break;
-    case MotionName::turnRightToLine:
-        _motion = &_turnRightToLine;
+    case MotionName::findLineInRightTurn:
+        _motion = &_findLineInRightTurn;
         break;
-    case MotionName::turnLeftFromLine:
-        _motion = &_turnLeftFromLine;
+    case MotionName::startLeftTurn:
+        _motion = &_startLeftTurn;
         break;
     case MotionName::alignInLeftTurn:
         _motion = &_alignInLeftTurn;
         break;
-    case MotionName::turnLeftToLine:
-        _motion = &_turnLeftToLine;
+    case MotionName::findLineInLeftTurn:
+        _motion = &_findLineInLeftTurn;
         break;
     default:
         _motion = &_stop;

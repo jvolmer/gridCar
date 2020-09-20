@@ -28,10 +28,10 @@ void FollowLine::move()
     {
         int turnTrend = _position.getTurnTrendToReach(_goal);
         if (turnTrend == 1) {
-            _pilot.changeMotion( MotionName::turnRightFromLine );
+            _pilot.changeMotion( MotionName::startRightTurn );
         }
         else if (turnTrend == -1) {
-            _pilot.changeMotion( MotionName::turnLeftFromLine );
+            _pilot.changeMotion( MotionName::startLeftTurn );
         }
     }
 }

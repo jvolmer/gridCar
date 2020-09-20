@@ -3,15 +3,15 @@
 #include "tracker/tracker.hpp"
 #include "tracker/roadLayout.hpp"
 #include "motionName.hpp"
-#include "turnLeftFromLine.hpp"
+#include "startLeftTurn.hpp"
 
-TurnLeftFromLine::TurnLeftFromLine(Pilot& pilot, Tracker& tracker, Motor& motor) :
+StartLeftTurn::StartLeftTurn(Pilot& pilot, Tracker& tracker, Motor& motor) :
     _pilot { pilot },
     _tracker { tracker },
     _motor { motor }
 {}
 
-void TurnLeftFromLine::move()
+void StartLeftTurn::move()
 {
     _motor.turnLeft();
     if ( _tracker.checkRoad() == RoadLayout::sharpRight )
