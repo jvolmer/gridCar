@@ -12,14 +12,14 @@ AlignInLeftTurn::AlignInLeftTurn(Pilot& pilot, Timer& timer, Motor& motor) :
 
 void AlignInLeftTurn::move()
 {
-    startTimer();
+    setStartingTime();
 
     _motor.goStraight();
 
-    turnLeftToLineAfterAShortPeriod();
+    turnLeftToLineAfterAlignmentPeriod();
 }
 
-void AlignInLeftTurn::startTimer()
+void AlignInLeftTurn::setStartingTime()
 {
     if ( !_started )
     {
@@ -28,9 +28,9 @@ void AlignInLeftTurn::startTimer()
     }
 }
 
-void AlignInLeftTurn::turnLeftToLineAfterAShortPeriod()
+void AlignInLeftTurn::turnLeftToLineAfterAlignmentPeriod()
 {
-    if (_timer.moment() - _startingTime >= _shortPeriod)
+    if (_timer.moment() - _startingTime >= _alignmentPeriod)
     {
         _started = false;
         _pilot.changeMotion( MotionName::turnLeftToLine );

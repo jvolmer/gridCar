@@ -18,8 +18,6 @@ public:
     GridPosition() {};
     GridPosition(const Coordinate& location, const Direction& direction);
     GridPosition(Coordinate&& location, Direction&& direction);
-    const Coordinate& getLocation() const { return _location; }
-    const Direction& getForwardDirection() const { return _forwardDirection; }
 
     void turnLeft() override { _forwardDirection = _forwardDirection - 1; }
     void turnRight() override { _forwardDirection = _forwardDirection + 1; }
@@ -27,10 +25,12 @@ public:
     bool isLocatedAt(const Coordinate& coordinate) const override { return _location == coordinate; }
     int getTurnTrendToReach(const Coordinate& coordinate) const override;
     bool isAtTurningPointToReach(const Coordinate& coordinate) const;
+
     void subscribe(CoordinateListener* listener) override { CoordinateBroadcaster::subscribe(listener); broadcast(_location); }
     void broadcast(const Coordinate& location) const override { CoordinateBroadcaster::broadcast(location); }
+
+    friend bool operator== (const GridPosition& lhs, const GridPosition& rhs);
 };
 
-bool operator== (const GridPosition& lhs, const GridPosition& rhs);
 
 #endif

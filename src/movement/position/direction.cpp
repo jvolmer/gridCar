@@ -7,11 +7,11 @@ Direction operator+(const Direction& direction, const int number)
 
 Direction operator-(const Direction& direction, const int number)
 {
-    int sum = (int)direction - number;
-    if (sum < 0) {
-        int integerQuotienOfSumDevidedBy4 = (int)(-sum / 4);
-        return (Direction)(sum + 4*(integerQuotienOfSumDevidedBy4+1));
+    int diff = (int)direction - number;
+    if (diff < 0) {
+        int negativeDiffQuaterInt = (int)(-diff / 4);
+        return (Direction)(diff + 4 * (negativeDiffQuaterInt + 1));
     } else {
-        return (Direction)sum;
+        return (Direction)diff;
     }
 }

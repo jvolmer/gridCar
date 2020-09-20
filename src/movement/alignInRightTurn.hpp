@@ -13,16 +13,17 @@ private:
     Pilot& _pilot;
     Timer& _timer;
     Motor& _motor;
-    const unsigned long _shortPeriod { 100 };
+    unsigned long _alignmentPeriod { 100 };
     bool _started { false };
     unsigned long _startingTime;
 
-    void startTimer();
-    void turnRightToLineAfterAShortPeriod();
+    void setStartingTime();
+    void turnRightToLineAfterAlignmentPeriod();
 
 public:
     AlignInRightTurn(Pilot& pilot, Timer& timer, Motor& motor);
     void move() override;
+    void setAlignmentPeriod(unsigned long period) { _alignmentPeriod = period; }
 };
 
 #endif

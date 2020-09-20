@@ -2,7 +2,6 @@
 #include "direction.hpp"
 #include "gridPosition.hpp"
 #include "../../communication/coordinateListener.hpp"
-#include <math.h>
 
 GridPosition::GridPosition(const Coordinate& location, const Direction& direction) :
     _location { location },
@@ -24,7 +23,7 @@ int GridPosition::getTurnTrendToReach(const Coordinate& coordinate) const
 {
     const double pi = 3.141592653589793;
     Coordinate diff = coordinate - _location;
-    double directDirectionToCoordinateInPi = atan2(diff.gety(), diff.getx()) / pi;
+    double directDirectionToCoordinateInPi = diff.arctan2() / pi;
     double forwardDirectionInPi = ((4 - (int)_forwardDirection) % 4) * .5;
     double turningDirectionInPi = forwardDirectionInPi - directDirectionToCoordinateInPi;
     
@@ -47,15 +46,15 @@ bool GridPosition::isAtTurningPointToReach(const Coordinate& coordinate) const
     return
         ( ( _forwardDirection == Direction::positiveY ||
             _forwardDirection == Direction::negativeY    ) &&
-          _location.gety() == coordinate.gety() ) ||
+          _location.hasSameYAs( coordinate ) ) ||
         ( ( _forwardDirection == Direction::positiveX ||
             _forwardDirection == Direction::negativeX    ) &&
-          _location.getx() == coordinate.getx() );
+          _location.hasSameXAs( coordinate ) );
 }
 
 bool operator== (const GridPosition& lhs, const GridPosition& rhs)
 {
-    return ( lhs.getLocation() == rhs.getLocation() &&
-             lhs.getForwardDirection() == rhs.getForwardDirection() );
+    return ( lhs._location == rhs._location &&
+             lhs._forwardDirection == rhs._forwardDirection );
 }
 

@@ -11,7 +11,6 @@ private:
     const byte _pinTrackingLeft;
     const byte _pinTrackingMiddle;
     const byte _pinTrackingRight;
-    RoadLayout _roadLayout { RoadLayout::none };
 
 public:
     ArduinoTracker();
@@ -20,9 +19,6 @@ public:
                    const byte pinTrackingRight);
     void setup() override;
     RoadLayout checkRoad() override;
-    void print();
-
-    RoadLayout getRoadLayout(){ return _roadLayout; }
 };
 
 #endif

@@ -43,18 +43,18 @@ Coordinate& Coordinate::operator= (const Coordinate& point)
 
 bool operator== (const Coordinate& lhs, const Coordinate& rhs)
 {
-    return ( lhs.getx() == rhs.getx() &&
-             lhs.gety() == rhs.gety() );
+    return ( lhs._x == rhs._x &&
+             lhs._y == rhs._y );
 }
 
 Coordinate operator+(const Coordinate& coordinate1, const Coordinate& coordinate2)
 {
-    return Coordinate( coordinate1.getx() + coordinate2.getx(),
-                       coordinate1.gety() + coordinate2.gety() );
+    return Coordinate( coordinate1._x + coordinate2._x,
+                       coordinate1._y + coordinate2._y );
 }
 
 Coordinate operator-(const Coordinate& coordinate1, const Coordinate& coordinate2)
 {
-    return Coordinate( coordinate1.getx() - coordinate2.getx(),
-                       coordinate1.gety() - coordinate2.gety() );
+    return Coordinate( coordinate1._x - coordinate2._x,
+                       coordinate1._y - coordinate2._y );
 }

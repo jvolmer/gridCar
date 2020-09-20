@@ -12,7 +12,7 @@ class Message;
 class ArduinoTransmitter: public Transmitter
 {
 private:
-    const unsigned char* _address; // = {'0', '0', '0', '1'};
+    const unsigned char* _address;
     RF24& _radio;
     const byte _listeningChannel = 0;
     

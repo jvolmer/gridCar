@@ -51,32 +51,3 @@ void ArduinoMotor::run(int speedl, int speedr)
     analogWrite(_pinMotorLeft, speedl);
     analogWrite(_pinMotorRight, speedr);
 }
-
-void ArduinoMotor::turnRight()
-{
-    run(_averageSpeed, -_averageSpeed);
-}
-
-void ArduinoMotor::turnLeft()
-{
-    run(-_averageSpeed, _averageSpeed);
-}
-
-void ArduinoMotor::goStraight()
-{
-    run(_averageSpeed, _averageSpeed);
-}
-
-void ArduinoMotor::stop()
-{
-    run(0, 0);
-}
-
-void ArduinoMotor::print()
-{
-    Serial.print("Motor | left speed: ");
-    Serial.print(_leftSpeed);
-    Serial.print(", right speed: ");
-    Serial.print(_rightSpeed);
-    Serial.println();
-}

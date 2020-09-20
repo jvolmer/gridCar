@@ -58,3 +58,9 @@ void LinePilot::changeMotion(MotionName name)
         _motion = &_stop;
     }
 }
+
+void LinePilot::setAlignmentPeriodInTurn(unsigned long period)
+{
+    _alignInRightTurn.setAlignmentPeriod(period);
+    _alignInLeftTurn.setAlignmentPeriod(period);
+}

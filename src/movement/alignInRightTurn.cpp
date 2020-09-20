@@ -12,14 +12,14 @@ AlignInRightTurn::AlignInRightTurn(Pilot& pilot, Timer& timer, Motor& motor) :
 
 void AlignInRightTurn::move()
 {
-    startTimer();
+    setStartingTime();
 
     _motor.goStraight();
 
-    turnRightToLineAfterAShortPeriod();
+    turnRightToLineAfterAlignmentPeriod();
 }
 
-void AlignInRightTurn::startTimer()
+void AlignInRightTurn::setStartingTime()
 {
     if ( !_started )
     {
@@ -28,9 +28,9 @@ void AlignInRightTurn::startTimer()
     }
 }
 
-void AlignInRightTurn::turnRightToLineAfterAShortPeriod()
+void AlignInRightTurn::turnRightToLineAfterAlignmentPeriod()
 {
-    if ( _timer.moment() - _startingTime >= _shortPeriod )
+    if ( _timer.moment() - _startingTime >= _alignmentPeriod )
     {
         _started = false;;
         _pilot.changeMotion( MotionName::turnRightToLine );

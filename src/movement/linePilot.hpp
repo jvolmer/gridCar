@@ -41,6 +41,7 @@ public:
     void changeMotion(MotionName Name) override;
     void update(const Coordinate& goal) override { _goal = goal; }
     void listenTo(CoordinateBroadcaster& broadcaster) override { CoordinateListener::listenTo(broadcaster); }
+    void setAlignmentPeriodInTurn(unsigned long period);
 };
 
 #endif
