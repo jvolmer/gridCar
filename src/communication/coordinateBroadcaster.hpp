@@ -6,6 +6,9 @@ class Coordinate;
 
 class CoordinateBroadcaster
 {
+private:
+    CoordinateListener* _listener = nullptr;
+
 public:
     virtual void subscribe(CoordinateListener* listener) = 0;
     virtual void broadcast(const Coordinate& coordinate) const = 0;

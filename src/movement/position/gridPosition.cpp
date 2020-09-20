@@ -4,8 +4,6 @@
 #include "../../communication/coordinateListener.hpp"
 #include <math.h>
 
-class CoordinateListener;
-
 GridPosition::GridPosition(const Coordinate& location, const Direction& direction) :
     _location { location },
     _forwardDirection { direction }
@@ -53,20 +51,6 @@ bool GridPosition::isAtTurningPointToReach(const Coordinate& coordinate) const
         ( ( _forwardDirection == Direction::positiveX ||
             _forwardDirection == Direction::negativeX    ) &&
           _location.getx() == coordinate.getx() );
-}
-
-void GridPosition::subscribe(CoordinateListener* listener)
-{
-    _listener = listener;
-    broadcast(_location);
-}
-
-void GridPosition::broadcast(const Coordinate& location) const
-{
-    if (_listener)
-    {
-        _listener->update(location);
-    }
 }
 
 bool operator== (const GridPosition& lhs, const GridPosition& rhs)

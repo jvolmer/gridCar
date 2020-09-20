@@ -12,13 +12,12 @@ class MessageToCar : public CoordinateBroadcaster
 private:
     Transmitter& _transmitter;
     Coordinate _message;
-    CoordinateListener* _listener = nullptr;
 
 public:
     MessageToCar(Transmitter& transmitter);
     const Coordinate& receive();
-    void subscribe(CoordinateListener* listener) override;
-    void broadcast(const Coordinate& message) const override;
+    void subscribe(CoordinateListener* listener) override { CoordinateBroadcaster::subscribe(listener); }
+    void broadcast(const Coordinate& message) const override { CoordinateBroadcaster::broadcast(message); }
 };
 
 #endif

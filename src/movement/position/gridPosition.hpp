@@ -13,7 +13,6 @@ class GridPosition: public Position, public CoordinateBroadcaster
 private:
     Coordinate _location { Coordinate(0,0) };
     Direction _forwardDirection { Direction::positiveX };
-    CoordinateListener* _listener = nullptr;
 
 public:
     GridPosition() {};
@@ -28,8 +27,8 @@ public:
     bool isLocatedAt(const Coordinate& coordinate) const override { return _location == coordinate; }
     int getTurnTrendToReach(const Coordinate& coordinate) const override;
     bool isAtTurningPointToReach(const Coordinate& coordinate) const;
-    void subscribe(CoordinateListener* listener) override;
-    void broadcast(const Coordinate& location) const override;
+    void subscribe(CoordinateListener* listener) override { CoordinateBroadcaster::subscribe(listener); broadcast(_location); }
+    void broadcast(const Coordinate& location) const override { CoordinateBroadcaster::broadcast(location); }
 };
 
 bool operator== (const GridPosition& lhs, const GridPosition& rhs);
