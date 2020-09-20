@@ -4,6 +4,7 @@
 #include "coordinate.hpp"
 #include "direction.hpp"
 #include "position.hpp"
+#include "relativeDirection.hpp"
 #include "../../communication/coordinateBroadcaster.hpp"
 
 class CoordinateListener;
@@ -23,8 +24,7 @@ public:
     void turnRight() override { _forwardDirection = _forwardDirection + 1; }
     void moveForward() override;
     bool isLocatedAt(const Coordinate& coordinate) const override { return _location == coordinate; }
-    int getTurnTrendToReach(const Coordinate& coordinate) const override;
-    bool isAtTurningPointToReach(const Coordinate& coordinate) const;
+    RelativeDirection relativeDirectionToReach(const Coordinate& coordinate) const override;
 
     void subscribe(CoordinateListener* listener) override { CoordinateBroadcaster::subscribe(listener); broadcast(_location); }
     void broadcast(const Coordinate& location) const override { CoordinateBroadcaster::broadcast(location); }

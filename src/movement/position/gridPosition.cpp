@@ -1,6 +1,7 @@
 #include "coordinate.hpp"
 #include "direction.hpp"
 #include "gridPosition.hpp"
+#include "relativeDirection.hpp"
 #include "../../communication/coordinateListener.hpp"
 
 GridPosition::GridPosition(const Coordinate& location, const Direction& direction) :
@@ -19,8 +20,13 @@ void GridPosition::moveForward()
     broadcast(_location);
 }
 
-int GridPosition::getTurnTrendToReach(const Coordinate& coordinate) const
+RelativeDirection GridPosition::relativeDirectionToReach(const Coordinate& coordinate) const
 {
+    if (isLocatedAt(coordinate))
+    {
+        return RelativeDirection::at;
+    }
+
     const double pi = 3.141592653589793;
     Coordinate diff = coordinate - _location;
     double directDirectionToCoordinateInPi = diff.arctan2() / pi;
@@ -30,26 +36,26 @@ int GridPosition::getTurnTrendToReach(const Coordinate& coordinate) const
     if ( ((turningDirectionInPi > -.25) && (turningDirectionInPi < .25)) ||
          ((turningDirectionInPi > 1.75) && (turningDirectionInPi < 2.25)) )
     {
-        return 0;
+        return RelativeDirection::inFront;
     }
-    else if ( ((turningDirectionInPi >= -1) && (turningDirectionInPi <=-.25)) ||
-              ((turningDirectionInPi >= 1)  && (turningDirectionInPi <= 1.75)) )
+    else if ( ((turningDirectionInPi > -1) && (turningDirectionInPi <=-.25)) ||
+              ((turningDirectionInPi > 1)  && (turningDirectionInPi <= 1.75)) )
     {
-        return -1;
+        return RelativeDirection::onTheLeft;
+    }
+    else if ( ((turningDirectionInPi < 1) && (turningDirectionInPi >= .25)) ||
+              ((turningDirectionInPi < 2) && (turningDirectionInPi >= 2.25)) )
+    {
+        return RelativeDirection::onTheRight;
+    }
+    else if ( (turningDirectionInPi == -1) || (turningDirectionInPi == 1) )
+    {
+        return RelativeDirection::exactlyBehind;
     }
     else
-        return 1;
-}
-
-bool GridPosition::isAtTurningPointToReach(const Coordinate& coordinate) const
-{
-    return
-        ( ( _forwardDirection == Direction::positiveY ||
-            _forwardDirection == Direction::negativeY    ) &&
-          _location.hasSameYAs( coordinate ) ) ||
-        ( ( _forwardDirection == Direction::positiveX ||
-            _forwardDirection == Direction::negativeX    ) &&
-          _location.hasSameXAs( coordinate ) );
+    {
+        return RelativeDirection::undefined;
+    }
 }
 
 bool operator== (const GridPosition& lhs, const GridPosition& rhs)

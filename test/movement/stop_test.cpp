@@ -16,8 +16,7 @@ MOCK_BASE_CLASS( MockPosition, Position )
     MOCK_METHOD( turnRight, 0 );
     MOCK_METHOD( moveForward, 0 );
     MOCK_METHOD( isLocatedAt, 1 );
-    MOCK_METHOD( getTurnTrendToReach, 1 );
-    MOCK_METHOD( isAtTurningPointToReach, 1 );
+    MOCK_METHOD( relativeDirectionToReach, 1 );
 };
 
 MOCK_BASE_CLASS( MockMotor, Motor )

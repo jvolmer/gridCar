@@ -1,5 +1,6 @@
 #include "pilot.hpp"
 #include "position/position.hpp"
+#include "position/relativeDirection.hpp"
 #include "tracker/tracker.hpp"
 #include "tracker/roadLayout.hpp"
 #include "motor/motor.hpp"
@@ -20,18 +21,24 @@ void FollowLine::move()
 {
     followLine();
 
-    if ( _position.isLocatedAt(_goal) )
+    if ( isAtCrossing )
     {
-        _pilot.changeMotion( MotionName::stop );
-    }
-    else if ( _position.isAtTurningPointToReach(_goal))
-    {
-        int turnTrend = _position.getTurnTrendToReach(_goal);
-        if (turnTrend == 1) {
+        switch( _position.relativeDirectionToReach(_goal) )
+        {
+        case RelativeDirection::at :
+            _pilot.changeMotion( MotionName::stop );
+            break;
+        case RelativeDirection::onTheRight :
             _pilot.changeMotion( MotionName::startRightTurn );
-        }
-        else if (turnTrend == -1) {
+            break;
+        case RelativeDirection::onTheLeft :
             _pilot.changeMotion( MotionName::startLeftTurn );
+            break;
+        case RelativeDirection::exactlyBehind :
+            _pilot.changeMotion( MotionName::turnAround );
+            break;
+        default:
+            break;
         }
     }
 }
