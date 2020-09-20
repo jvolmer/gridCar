@@ -11,8 +11,7 @@ enum class MotionName
     startLeftTurn,
     alignInLeftTurn,
     findLineInLeftTurn,
-    startTurnAround,
-    findLineInTurnAround
+    turnAround
 };
 
 #endif
