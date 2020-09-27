@@ -3,6 +3,7 @@
 
 #include "pilot.hpp"
 #include "motion.hpp"
+
 #include "stop.hpp"
 #include "followLine.hpp"
 #include "startRightTurn.hpp"
@@ -11,6 +12,13 @@
 #include "startLeftTurn.hpp"
 #include "alignInLeftTurn.hpp"
 #include "findLineInLeftTurn.hpp"
+#include "startTurnAround.hpp"
+#include "alignInTurnAround.hpp"
+#include "findLineInTurnAround.hpp"
+#include "leaveFirstLineInTurnAround.hpp"
+#include "findSecondLineInTurnAround.hpp"
+#include "stopFinally.hpp"
+
 #include "motionName.hpp"
 #include "../communication/coordinateListener.hpp"
 #include "position/coordinate.hpp"
@@ -32,6 +40,12 @@ private:
     StartLeftTurn _startLeftTurn;
     AlignInLeftTurn _alignInLeftTurn;
     FindLineInLeftTurn _findLineInLeftTurn;
+    StartTurnAround _startTurnAround;
+    AlignInTurnAround _alignInTurnAround;
+    FindLineInTurnAround _findLineInTurnAround;
+    LeaveFirstLineInTurnAround _leaveFirstLineInTurnAround;
+    FindSecondLineInTurnAround _findSecondLineInTurnAround;
+    StopFinally _stopFinally;
     Motion* _motion;
     Coordinate& _goal;
 

@@ -7,6 +7,12 @@
 #include "startLeftTurn.hpp"
 #include "alignInLeftTurn.hpp"
 #include "findLineInLeftTurn.hpp"
+#include "startTurnAround.hpp"
+#include "alignInTurnAround.hpp"
+#include "findLineInTurnAround.hpp"
+#include "leaveFirstLineInTurnAround.hpp"
+#include "findSecondLineInTurnAround.hpp"
+#include "stopFinally.hpp"
 
 class Coordinate;
 class Position;
@@ -22,6 +28,12 @@ LinePilot::LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Tim
     _startLeftTurn{ StartLeftTurn(*this, tracker, motor) },
     _alignInLeftTurn{ AlignInLeftTurn(*this, timer, motor) },
     _findLineInLeftTurn{ FindLineInLeftTurn(*this, position, tracker, motor) },
+    _startTurnAround{ StartTurnAround(*this, tracker, motor) },
+    _alignInTurnAround{ AlignInTurnAround(*this, timer, motor) },
+    _findLineInTurnAround{ FindLineInTurnAround(*this, position, tracker, motor) },
+    _leaveFirstLineInTurnAround{ LeaveFirstLineInTurnAround(*this, tracker, motor) },
+    _findSecondLineInTurnAround{ FindSecondLineInTurnAround(*this, position, tracker, motor) },
+    _stopFinally{ StopFinally( motor ) },
     _motion { &_followLine },
     _goal { goal }
 {}
@@ -54,8 +66,25 @@ void LinePilot::changeMotion(MotionName name)
     case MotionName::findLineInLeftTurn:
         _motion = &_findLineInLeftTurn;
         break;
+    case MotionName::startTurnAround:
+        _motion = &_startTurnAround;
+        break;
+    case MotionName::alignInTurnAround:
+        _motion = &_alignInTurnAround;
+        break;
+    case MotionName::findLineInTurnAround:
+        _motion = &_findLineInTurnAround;
+        break;
+    case MotionName::leaveFirstLineInTurnAround:
+        _motion = &_leaveFirstLineInTurnAround;
+        break;
+    case MotionName::findSecondLineInTurnAround:
+        _motion = &_findSecondLineInTurnAround;
+        break;
+    case MotionName::stopFinally:
+        _motion = &_stopFinally;
     default:
-        _motion = &_stop;
+        _motion = &_stopFinally;
     }
 }
 

@@ -35,7 +35,7 @@ void FollowLine::move()
             _pilot.changeMotion( MotionName::startLeftTurn );
             break;
         case RelativeDirection::exactlyBehind :
-            _pilot.changeMotion( MotionName::turnAround );
+            _pilot.changeMotion( MotionName::startTurnAround );
             break;
         default:
             break;

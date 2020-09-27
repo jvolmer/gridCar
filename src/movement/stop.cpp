@@ -19,6 +19,22 @@ void Stop::move()
 
     if ( !_position.isLocatedAt(_goal) )
     {
-        _pilot.changeMotion( MotionName::followLine );
+        switch( _position.relativeDirectionToReach(_goal) )
+        {
+        case RelativeDirection::inFront :
+            _pilot.changeMotion( MotionName::followLine );
+            break;
+        case RelativeDirection::onTheRight :
+            _pilot.changeMotion( MotionName::startRightTurn );
+            break;
+        case RelativeDirection::onTheLeft :
+            _pilot.changeMotion( MotionName::startLeftTurn );
+            break;
+        case RelativeDirection::exactlyBehind :
+            _pilot.changeMotion( MotionName::alignInTurnAround );
+            break;
+        default:
+            break;
+        }
     }
 }
