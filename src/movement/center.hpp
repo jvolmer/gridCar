@@ -1,28 +1,27 @@
-#ifndef ALIGN_IN_RIGHT_TURN_H
-#define ALIGN_IN_RIGHT_TURN_H
+#ifndef CENTER_H
+#define CENTER_H
 
 #include "motion.hpp"
+#include "motionName.hpp"
 
-class Pilot;
 class Timer;
-class Motor;
 
-class AlignInRightTurn: public Motion
+class Center: public Motion
 {
 private:
-    Pilot& _pilot;
     Timer& _timer;
-    Motor& _motor;
     unsigned long _alignmentPeriod { 100 };
     bool _started { false };
     unsigned long _startingTime;
 
     void setStartingTime();
-    void turnRightToLineAfterAlignmentPeriod();
+    void changeMotionAfterAlignmentPeriod();
 
 public:
-    AlignInRightTurn(Pilot& pilot, Timer& timer, Motor& motor);
-    void move() override;
+    Center(Timer& timer);
+    virtual void move() override;
+    virtual void align() = 0;
+    virtual void changeMotion() = 0;
     void setAlignmentPeriod(unsigned long period) { _alignmentPeriod = period; }
 };
 

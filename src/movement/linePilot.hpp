@@ -6,17 +6,18 @@
 
 #include "stop.hpp"
 #include "followLine.hpp"
-#include "startRightTurn.hpp"
-#include "alignInRightTurn.hpp"
-#include "findLineInRightTurn.hpp"
-#include "startLeftTurn.hpp"
-#include "alignInLeftTurn.hpp"
-#include "findLineInLeftTurn.hpp"
-#include "startTurnAround.hpp"
-#include "alignInTurnAround.hpp"
-#include "findLineInTurnAround.hpp"
-#include "leaveFirstLineInTurnAround.hpp"
-#include "findSecondLineInTurnAround.hpp"
+#include "linePilot.hpp"
+#include "centerInRightTurn.hpp"
+#include "leaveOriginLineInRightTurn.hpp"
+#include "findNextLineInRightTurn.hpp"
+#include "centerInLeftTurn.hpp"
+#include "leaveOriginLineInLeftTurn.hpp"
+#include "findNextLineInLeftTurn.hpp"
+#include "centerInTurnAround.hpp"
+#include "leaveOriginLineInTurnAround.hpp"
+#include "findNextLineInTurnAround.hpp"
+#include "leaveNextLineInTurnAround.hpp"
+#include "findNextToNextLineInTurnAround.hpp"
 #include "stopFinally.hpp"
 
 #include "motionName.hpp"
@@ -32,20 +33,21 @@ class CoordinateBroadcaster;
 class LinePilot: public Pilot, public CoordinateListener
 {
 private:
+    StopFinally _stopFinally;
     Stop _stop;
     FollowLine _followLine;
-    StartRightTurn _startRightTurn;
-    AlignInRightTurn _alignInRightTurn;
-    FindLineInRightTurn _findLineInRightTurn;
-    StartLeftTurn _startLeftTurn;
-    AlignInLeftTurn _alignInLeftTurn;
-    FindLineInLeftTurn _findLineInLeftTurn;
-    StartTurnAround _startTurnAround;
-    AlignInTurnAround _alignInTurnAround;
-    FindLineInTurnAround _findLineInTurnAround;
-    LeaveFirstLineInTurnAround _leaveFirstLineInTurnAround;
-    FindSecondLineInTurnAround _findSecondLineInTurnAround;
-    StopFinally _stopFinally;
+    CenterInRightTurn _centerInRightTurn;
+    LeaveOriginLineInRightTurn _leaveOriginLineInRightTurn;
+    FindNextLineInRightTurn _findNextLineInRightTurn;
+    CenterInLeftTurn _centerInLeftTurn;
+    LeaveOriginLineInLeftTurn _leaveOriginLineInLeftTurn;
+    FindNextLineInLeftTurn _findNextLineInLeftTurn;
+    CenterInTurnAround _centerInTurnAround;
+    LeaveOriginLineInTurnAround _leaveOriginLineInTurnAround;
+    FindNextLineInTurnAround _findNextLineInTurnAround;
+    LeaveNextLineInTurnAround _leaveNextLineInTurnAround;
+    FindNextToNextLineInTurnAround _findNextToNextLineInTurnAround;
+
     Motion* _motion;
     Coordinate& _goal;
 

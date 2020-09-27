@@ -25,13 +25,13 @@ void Stop::move()
             _pilot.changeMotion( MotionName::followLine );
             break;
         case RelativeDirection::onTheRight :
-            _pilot.changeMotion( MotionName::startRightTurn );
+            _pilot.changeMotion( MotionName::centerInRightTurn );
             break;
         case RelativeDirection::onTheLeft :
-            _pilot.changeMotion( MotionName::startLeftTurn );
+            _pilot.changeMotion( MotionName::centerInLeftTurn );
             break;
         case RelativeDirection::exactlyBehind :
-            _pilot.changeMotion( MotionName::alignInTurnAround );
+            _pilot.changeMotion( MotionName::centerInTurnAround );
             break;
         default:
             break;

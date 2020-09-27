@@ -22,16 +22,18 @@ MessageOut messageOut{ transmitter };
 MessageIn messageIn{ transmitter };
 
 Coordinate goal{ 0, 0 };
-GridPosition position(Coordinate( 0, 1), Direction::positiveY);
+GridPosition position(Coordinate( 0, 0), Direction::positiveY);
 LinePilot pilot(goal, position, tracker, timer, motor);
 
 void setup() {
     transmitter.setup();
     tracker.setup();
     motor.setup();
-    motor.setDefaultSpeed(100);
-    pilot.changeMotion( MotionName::stop );
+
+    motor.setDefaultSpeed( 100 );
     pilot.setAlignmentPeriodInTurn( 50 );
+    pilot.changeMotion( MotionName::followLine );
+
     pilot.listenTo( messageIn );
     messageOut.listenTo( position );
 }
