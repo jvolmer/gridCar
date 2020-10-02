@@ -19,7 +19,9 @@ public:
     GridPosition() {};
     GridPosition(const Coordinate& location, const Direction& direction);
     GridPosition(Coordinate&& location, Direction&& direction);
-
+    void setLocation(Coordinate&& location) { _location = location; }
+    void setDirection(Direction direction) { _forwardDirection = direction; }
+    
     void turnLeft() override { _forwardDirection = _forwardDirection - 1; }
     void turnRight() override { _forwardDirection = _forwardDirection + 1; }
     void moveForward() override;

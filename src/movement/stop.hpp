@@ -4,7 +4,7 @@
 #include "motion.hpp"
 
 class Pilot;
-class Coordinate;
+class Goal;
 class Position;
 class Motor;
 
@@ -12,12 +12,12 @@ class Stop: public Motion
 {
 private:
     Pilot& _pilot;
-    Coordinate& _goal;
+    Goal& _goal;
     Position& _position;
     Motor& _motor;
     
 public:
-    Stop(Pilot& pilot, Coordinate& goal, Position& position, Motor& motor);
+    Stop(Pilot& pilot, Goal& goal, Position& position, Motor& motor);
     void move() override;
 };
 

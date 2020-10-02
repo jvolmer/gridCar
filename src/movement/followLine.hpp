@@ -6,7 +6,7 @@
 #include "motionName.hpp"
 
 class Pilot;
-class Coordinate;
+class Goal;
 class Position;
 class Tracker;
 class Motor;
@@ -15,7 +15,7 @@ class FollowLine: public Motion
 {
 private:
     Pilot& _pilot;
-    Coordinate& _goal;
+    Goal& _goal;
     Position& _position;
     Tracker& _tracker;
     Motor& _motor;
@@ -24,7 +24,7 @@ private:
     void followLine();
     
 public:
-    FollowLine(Pilot& pilot, Coordinate& goal, Position& position, Tracker& tracker, Motor& motor);
+    FollowLine(Pilot& pilot, Goal& goal, Position& position, Tracker& tracker, Motor& motor);
     void move() override;
 };
 

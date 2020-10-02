@@ -3,6 +3,7 @@
 
 #include "pilot.hpp"
 #include "motion.hpp"
+#include "motionName.hpp"
 
 #include "stop.hpp"
 #include "followLine.hpp"
@@ -20,17 +21,13 @@
 #include "findNextToNextLineInTurnAround.hpp"
 #include "stopFinally.hpp"
 
-#include "motionName.hpp"
-#include "../communication/coordinateListener.hpp"
-#include "position/coordinate.hpp"
-
+class Goal;
 class Position;
 class Tracker;
 class Timer;
 class Motor;
-class CoordinateBroadcaster;
 
-class LinePilot: public Pilot, public CoordinateListener
+class LinePilot: public Pilot
 {
 private:
     StopFinally _stopFinally;
@@ -49,14 +46,12 @@ private:
     FindNextToNextLineInTurnAround _findNextToNextLineInTurnAround;
 
     Motion* _motion;
-    Coordinate& _goal;
+    Goal& _goal;
 
 public:
-    LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor);
+    LinePilot(Goal& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor);
     void move() override { _motion->move(); }
     void changeMotion(MotionName Name) override;
-    void update(const Coordinate& goal) override { _goal = goal; }
-    void listenTo(CoordinateBroadcaster& broadcaster) override { CoordinateListener::listenTo(broadcaster); }
     void setAlignmentPeriodInTurn(unsigned long period);
 };
 

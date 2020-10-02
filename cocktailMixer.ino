@@ -5,6 +5,7 @@
 #include "src/movement/position/coordinate.hpp"
 #include "src/movement/motionName.hpp"
 #include "src/movement/linePilot.hpp"
+#include "src/movement/gridGoal.hpp"
 #include "src/communication/arduinoTransmitter.hpp"
 #include "src/communication/messageIn.hpp"
 #include "src/communication/messageOut.hpp"
@@ -21,8 +22,8 @@ ArduinoTransmitter transmitter{ address, radio };
 MessageOut messageOut{ transmitter };
 MessageIn messageIn{ transmitter };
 
-Coordinate goal{ 0, 0 };
-GridPosition position(Coordinate( 0, 0), Direction::positiveY);
+GridPosition position;
+GridGoal goal{ Coordinate(3, 2) };
 LinePilot pilot(goal, position, tracker, timer, motor);
 
 void setup() {
@@ -32,9 +33,13 @@ void setup() {
 
     motor.setDefaultSpeed( 100 );
     pilot.setAlignmentPeriodInTurn( 50 );
-    pilot.changeMotion( MotionName::followLine );
 
-    pilot.listenTo( messageIn );
+    position.setLocation( Coordinate(0, 0) );
+    position.setDirection( Direction::positiveY );
+    goal.set( Coordinate(2, 1) );
+    pilot.changeMotion( MotionName::followLine );
+    
+    goal.listenTo( messageIn );
     messageOut.listenTo( position );
 }
 

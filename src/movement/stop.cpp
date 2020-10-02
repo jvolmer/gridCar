@@ -1,12 +1,13 @@
 #include "pilot.hpp"
 #include "motor/motor.hpp"
 #include "position/position.hpp"
+#include "goal.hpp"
 #include "motionName.hpp"
 #include "stop.hpp"
 
 class Coordinate;
 
-Stop::Stop(Pilot& pilot, Coordinate& goal, Position& position, Motor& motor):
+Stop::Stop(Pilot& pilot, Goal& goal, Position& position, Motor& motor):
     _pilot { pilot },
     _goal { goal },
     _position { position },
@@ -17,9 +18,9 @@ void Stop::move()
 {    
     _motor.stop();
 
-    if ( !_position.isLocatedAt(_goal) )
+    if ( !_position.isLocatedAt(_goal.get()) )
     {
-        switch( _position.relativeDirectionToReach(_goal) )
+        switch( _position.relativeDirectionToReach(_goal.get()) )
         {
         case RelativeDirection::inFront :
             _pilot.changeMotion( MotionName::followLine );

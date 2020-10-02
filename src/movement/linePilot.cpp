@@ -15,11 +15,13 @@
 #include "stopFinally.hpp"
 
 class Coordinate;
+class Goal;
 class Position;
 class Timer;
 class Motor;
 
-LinePilot::LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor) :
+LinePilot::LinePilot(Goal& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor) :
+    _stopFinally{ StopFinally( motor ) },
     _stop{ Stop(*this, goal, position, motor) },
     _followLine{ FollowLine(*this, goal, position, tracker, motor) },
     _centerInRightTurn{ CenterInRightTurn(*this, timer, motor) },
@@ -33,7 +35,6 @@ LinePilot::LinePilot(Coordinate& goal, Position& position, Tracker& tracker, Tim
     _findNextLineInTurnAround{ FindNextLineInTurnAround(*this, position, tracker, motor) },
     _leaveNextLineInTurnAround{ LeaveNextLineInTurnAround(*this, tracker, motor) },
     _findNextToNextLineInTurnAround{ FindNextToNextLineInTurnAround(*this, position, tracker, motor) },
-    _stopFinally{ StopFinally( motor ) },
     _motion { &_followLine },
     _goal { goal }
 {}
