@@ -33,10 +33,10 @@ BOOST_AUTO_TEST_CASE( position_is_at_coordinate )
     BOOST_TEST( direction == RelativeDirection::at );
 }
 
-BOOST_DATA_TEST_CASE( coordinate_is_in_front_of_position,
-                      data::make({Coordinate(2, -1),
+BOOST_DATA_TEST_CASE( coordinate_in_forward_180_degrees_without_boundaries_is_in_front_of_position,
+                      data::make({Coordinate(1, -1),
                                   Coordinate(1, 0),
-                                  Coordinate(2, 1)}),
+                                  Coordinate(1, 1)}),
                       coordinate )
 {
     GridPosition position = GridPosition(Coordinate(0,0), Direction::positiveX);
@@ -46,9 +46,8 @@ BOOST_DATA_TEST_CASE( coordinate_is_in_front_of_position,
     BOOST_TEST( direction == RelativeDirection::inFront );
 }
 
-BOOST_DATA_TEST_CASE( coordinate_is_on_the_left_of_position,
-                      data::make({Coordinate(1, 1),
-                                  Coordinate(0, 1),
+BOOST_DATA_TEST_CASE( coordinate_in_back_left_90_degrees_with_left_boundary_is_on_the_left_of_position,
+                      data::make({Coordinate(0, 1),
                                   Coordinate(-1, 1),
                                   Coordinate(-2, 1)}),
                       coordinate )
@@ -60,11 +59,10 @@ BOOST_DATA_TEST_CASE( coordinate_is_on_the_left_of_position,
     BOOST_TEST( direction == RelativeDirection::onTheLeft );
 }
 
-BOOST_DATA_TEST_CASE( coordinate_is_on_the_right_of_position,
+BOOST_DATA_TEST_CASE( coordinate_in_back_right_90_degrees_with_right_boundary_is_on_the_right_of_position,
                       data::make({Coordinate(-2, -1),
                                   Coordinate(-1, -1),
-                                  Coordinate(0, -1),
-                                  Coordinate(1, -1)}),
+                                  Coordinate(0, -1)}),
                       coordinate )
 {
     GridPosition position = GridPosition(Coordinate(0,0), Direction::positiveX);

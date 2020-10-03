@@ -37,7 +37,7 @@ void setup() {
     position.setLocation( Coordinate(0, 0) );
     position.setDirection( Direction::positiveY );
     goal.set( Coordinate(2, 1) );
-    pilot.changeMotion( MotionName::followLine );
+    pilot.changeMotion( MotionName::stop );
     
     goal.listenTo( messageIn );
     messageOut.listenTo( position );

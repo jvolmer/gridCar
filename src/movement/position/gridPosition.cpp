@@ -31,20 +31,20 @@ RelativeDirection GridPosition::relativeDirectionToReach(const Coordinate& coord
     Coordinate diff = coordinate - _location;
     double directDirectionToCoordinateInPi = diff.arctan2() / pi;
     double forwardDirectionInPi = ((4 - (int)_forwardDirection) % 4) * .5;
-    double turningDirectionInPi = forwardDirectionInPi - directDirectionToCoordinateInPi;
+    double turningDirectionInPi = directDirectionToCoordinateInPi - forwardDirectionInPi;
     
-    if ( ((turningDirectionInPi > -.25) && (turningDirectionInPi < .25)) ||
-         ((turningDirectionInPi > 1.75) && (turningDirectionInPi < 2.25)) )
+    if ( ((turningDirectionInPi > -.5) && (turningDirectionInPi < .5)) ||
+         ((turningDirectionInPi > 1.5) && (turningDirectionInPi < 2.5)) )
     {
         return RelativeDirection::inFront;
     }
-    else if ( ((turningDirectionInPi > -1) && (turningDirectionInPi <=-.25)) ||
-              ((turningDirectionInPi > 1)  && (turningDirectionInPi <= 1.75)) )
+    else if ( ((turningDirectionInPi < -1) && (turningDirectionInPi >=-1.5)) ||
+              ((turningDirectionInPi < 1)  && (turningDirectionInPi >= .5)) )
     {
         return RelativeDirection::onTheLeft;
     }
-    else if ( ((turningDirectionInPi < 1) && (turningDirectionInPi >= .25)) ||
-              ((turningDirectionInPi < 2) && (turningDirectionInPi >= 2.25)) )
+    else if ( ((turningDirectionInPi > -1) && (turningDirectionInPi <= -.5)) ||
+              ((turningDirectionInPi > 1) && (turningDirectionInPi >= 1.5)) )
     {
         return RelativeDirection::onTheRight;
     }
