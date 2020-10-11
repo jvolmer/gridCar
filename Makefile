@@ -125,12 +125,21 @@ $(BIN_DIR)/movement/followLine.test: \
 	$(BUILD_DIR)/movement/followLine.o \
 	$(BUILD_DIR)/movement/position/coordinate.o \
 	|$$(@D)/.f
-# $(BIN_DIR)/movement/startRightTurn.test: $(BUILD_DIR)/movement/startRightTurn_test.o $(BUILD_DIR)/movement/startRightTurn.o |$$(@D)/.f
-# $(BIN_DIR)/movement/alignInRightTurn.test: $(BUILD_DIR)/movement/alignInRightTurn_test.o $(BUILD_DIR)/movement/alignInRightTurn.o |$$(@D)/.f
-# $(BIN_DIR)/movement/findLineInRightTurn.test: \
-# 	$(BUILD_DIR)/movement/findLineInRightTurn_test.o \
-# 	$(BUILD_DIR)/movement/findLineInRightTurn.o \
-# 	|$$(@D)/.f
+$(BIN_DIR)/movement/leaveOriginLineInRightTurn.test: \
+	$(BUILD_DIR)/movement/leaveOriginLineInRightTurn_test.o \
+	$(BUILD_DIR)/movement/leaveOriginLineInRightTurn.o \
+	$(BUILD_DIR)/movement/leaveLine.o \
+	|$$(@D)/.f
+$(BIN_DIR)/movement/centerInRightTurn.test: \
+	$(BUILD_DIR)/movement/centerInRightTurn_test.o \
+	$(BUILD_DIR)/movement/centerInRightTurn.o \
+	$(BUILD_DIR)/movement/center.o \
+	|$$(@D)/.f
+$(BIN_DIR)/movement/findNextLineInRightTurn.test: \
+	$(BUILD_DIR)/movement/findNextLineInRightTurn_test.o \
+	$(BUILD_DIR)/movement/findNextLineInRightTurn.o \
+	$(BUILD_DIR)/movement/findLine.o \
+	|$$(@D)/.f
 # $(BIN_DIR)/movement/turnAround.test: \
 # 	$(BUILD_DIR)/movement/turnAround_test.o \
 # 	$(BUILD_DIR)/movement/turnAround.o \
