@@ -178,6 +178,13 @@ $(BIN_DIR)/movement/position/gridPosition.test: \
 	$(BUILD_DIR)/movement/position/relativeDirection_ostream.o \
 	$(BUILD_DIR)/movement/position/coordinate_ostream.o \
 	|$$(@D)/.f
+$(BIN_DIR)/movement/gridGoal.test: \
+	$(BUILD_DIR)/movement/gridGoal_test.o \
+	$(BUILD_DIR)/movement/gridGoal.o \
+	$(BUILD_DIR)/movement/position/coordinate.o \
+	$(BUILD_DIR)/communication/coordinateListener.o \
+	$(BUILD_DIR)/movement/position/coordinate_ostream.o \
+	|$$(@D)/.f
 
 
 $(BUILD_DIR)/%_test.o : $(TEST_DIR)/%_test.cpp |$$(@D)/.f

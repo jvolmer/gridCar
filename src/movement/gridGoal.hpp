@@ -15,10 +15,11 @@ private:
 
 public:
     GridGoal(Coordinate&& boundary);
-    void set(Coordinate&& coordinate) override;
+    void set(const Coordinate& coordinate) override;
+    void set(Coordinate&& coordinate){ set(coordinate); }
     const Coordinate& get() override { return _coordinate; }
     
-    void update(const Coordinate& goal) override { _coordinate = goal; }
+    void update(const Coordinate& coordinate) override { set(coordinate); }
     void listenTo(CoordinateBroadcaster& broadcaster) override { CoordinateListener::listenTo(broadcaster); }
 
 };

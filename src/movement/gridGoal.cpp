@@ -6,7 +6,7 @@ GridGoal::GridGoal(Coordinate&& boundary) :
     _boundary { boundary }
 {}
 
-void GridGoal::set(Coordinate&& coordinate)
+void GridGoal::set(const Coordinate& coordinate)
 {
     if (coordinate.getx() <= _boundary.getx() &&
         coordinate.gety() <= _boundary.gety())

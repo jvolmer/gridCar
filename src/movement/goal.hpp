@@ -6,7 +6,7 @@ class Coordinate;
 class Goal
 {
 public:
-    virtual void set(Coordinate&& coordinate) = 0;
+    virtual void set(const Coordinate& coordinate) = 0;
     virtual const Coordinate& get() = 0;
 };
 
