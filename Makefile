@@ -101,18 +101,83 @@ $(BIN_DIR)/%.test : $(BUILD_DIR)/%_test.o $(BUILD_DIR)/%.o |$$(@D)/.f
 	@./$@
 	@echo
 
-$(BIN_DIR)/communication/messageOut.test: $(BUILD_DIR)/communication/messageOut_test.o $(BUILD_DIR)/communication/messageOut.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/movement/position/coordinate_ostream.o  $(BUILD_DIR)/communication/coordinateListener.o |$$(@D)/.f
-$(BIN_DIR)/communication/messageIn.test: $(BUILD_DIR)/communication/messageIn_test.o $(BUILD_DIR)/communication/messageIn.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/movement/position/coordinate_ostream.o $(BUILD_DIR)/communication/coordinateBroadcaster.o |$$(@D)/.f
-$(BIN_DIR)/movement/stop.test: $(BUILD_DIR)/movement/stop_test.o $(BUILD_DIR)/movement/stop.o $(BUILD_DIR)/movement/position/coordinate.o |$$(@D)/.f
-$(BIN_DIR)/movement/followLine.test: $(BUILD_DIR)/movement/followLine_test.o $(BUILD_DIR)/movement/followLine.o $(BUILD_DIR)/movement/position/coordinate.o |$$(@D)/.f
-$(BIN_DIR)/movement/startRightTurn.test: $(BUILD_DIR)/movement/startRightTurn_test.o $(BUILD_DIR)/movement/startRightTurn.o |$$(@D)/.f
-$(BIN_DIR)/movement/alignInRightTurn.test: $(BUILD_DIR)/movement/alignInRightTurn_test.o $(BUILD_DIR)/movement/alignInRightTurn.o |$$(@D)/.f
-$(BIN_DIR)/movement/findLineInRightTurn.test: $(BUILD_DIR)/movement/findLineInRightTurn_test.o $(BUILD_DIR)/movement/findLineInRightTurn.o |$$(@D)/.f
-$(BIN_DIR)/movement/turnAround.test: $(BUILD_DIR)/movement/turnAround_test.o $(BUILD_DIR)/movement/turnAround.o |$$(@D)/.f
-$(BIN_DIR)/movement/linePilot.test: $(BUILD_DIR)/movement/linePilot_test.o $(BUILD_DIR)/movement/linePilot.o $(BUILD_DIR)/movement/stop.o $(BUILD_DIR)/movement/followLine.o $(BUILD_DIR)/movement/startRightTurn.o $(BUILD_DIR)/movement/alignInRightTurn.o $(BUILD_DIR)/movement/findLineInRightTurn.o $(BUILD_DIR)/movement/startLeftTurn.o $(BUILD_DIR)/movement/alignInLeftTurn.o $(BUILD_DIR)/movement/findLineInLeftTurn.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/movement/position/coordinate_ostream.o $(BUILD_DIR)/communication/coordinateListener.o |$$(@D)/.f
-$(BIN_DIR)/movement/position/coordinate.test: $(BUILD_DIR)/movement/position/coordinate_test.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/movement/position/direction.o $(BUILD_DIR)/movement/position/coordinate_ostream.o |$$(@D)/.f
-$(BIN_DIR)/movement/position/direction.test: $(BUILD_DIR)/movement/position/direction_test.o $(BUILD_DIR)/movement/position/direction.o $(BUILD_DIR)/movement/position/direction_ostream.o |$$(@D)/.
-$(BIN_DIR)/movement/position/gridPosition.test: $(BUILD_DIR)/movement/position/gridPosition_test.o $(BUILD_DIR)/movement/position/direction.o $(BUILD_DIR)/movement/position/coordinate.o $(BUILD_DIR)/communication/coordinateBroadcaster.o $(BUILD_DIR)/movement/position/direction_ostream.o $(BUILD_DIR)/movement/position/relativeDirection_ostream.o $(BUILD_DIR)/movement/position/coordinate_ostream.o |$$(@D)/.f
+$(BIN_DIR)/communication/messageOut.test: \
+	$(BUILD_DIR)/communication/messageOut_test.o \
+	$(BUILD_DIR)/communication/messageOut.o \
+	$(BUILD_DIR)/movement/position/coordinate.o \
+	$(BUILD_DIR)/movement/position/coordinate_ostream.o \
+	$(BUILD_DIR)/communication/coordinateListener.o \
+	|$$(@D)/.f
+$(BIN_DIR)/communication/messageIn.test: \
+	$(BUILD_DIR)/communication/messageIn_test.o \
+	$(BUILD_DIR)/communication/messageIn.o \
+	$(BUILD_DIR)/movement/position/coordinate.o \
+	$(BUILD_DIR)/movement/position/coordinate_ostream.o \
+	$(BUILD_DIR)/communication/coordinateBroadcaster.o \
+	|$$(@D)/.f
+$(BIN_DIR)/movement/stop.test: \
+	$(BUILD_DIR)/movement/stop_test.o \
+	$(BUILD_DIR)/movement/stop.o \
+	$(BUILD_DIR)/movement/position/coordinate.o \
+	|$$(@D)/.f
+$(BIN_DIR)/movement/followLine.test: \
+	$(BUILD_DIR)/movement/followLine_test.o \
+	$(BUILD_DIR)/movement/followLine.o \
+	$(BUILD_DIR)/movement/position/coordinate.o \
+	|$$(@D)/.f
+# $(BIN_DIR)/movement/startRightTurn.test: $(BUILD_DIR)/movement/startRightTurn_test.o $(BUILD_DIR)/movement/startRightTurn.o |$$(@D)/.f
+# $(BIN_DIR)/movement/alignInRightTurn.test: $(BUILD_DIR)/movement/alignInRightTurn_test.o $(BUILD_DIR)/movement/alignInRightTurn.o |$$(@D)/.f
+# $(BIN_DIR)/movement/findLineInRightTurn.test: \
+# 	$(BUILD_DIR)/movement/findLineInRightTurn_test.o \
+# 	$(BUILD_DIR)/movement/findLineInRightTurn.o \
+# 	|$$(@D)/.f
+# $(BIN_DIR)/movement/turnAround.test: \
+# 	$(BUILD_DIR)/movement/turnAround_test.o \
+# 	$(BUILD_DIR)/movement/turnAround.o \
+# 	|$$(@D)/.f
+$(BIN_DIR)/movement/linePilot.test: \
+	$(BUILD_DIR)/movement/linePilot_test.o \
+	$(BUILD_DIR)/movement/linePilot.o \
+	$(BUILD_DIR)/movement/stopFinally.o \
+	$(BUILD_DIR)/movement/stop.o \
+	$(BUILD_DIR)/movement/followLine.o \
+	$(BUILD_DIR)/movement/center.o \
+	$(BUILD_DIR)/movement/leaveLine.o \
+	$(BUILD_DIR)/movement/findLine.o \
+	$(BUILD_DIR)/movement/centerInRightTurn.o \
+	$(BUILD_DIR)/movement/leaveOriginLineInRightTurn.o \
+	$(BUILD_DIR)/movement/findNextLineInRightTurn.o \
+	$(BUILD_DIR)/movement/centerInLeftTurn.o \
+	$(BUILD_DIR)/movement/leaveOriginLineInLeftTurn.o \
+	$(BUILD_DIR)/movement/findNextLineInLeftTurn.o \
+	$(BUILD_DIR)/movement/centerInTurnAround.o \
+	$(BUILD_DIR)/movement/leaveOriginLineInTurnAround.o \
+	$(BUILD_DIR)/movement/findNextLineInTurnAround.o \
+	$(BUILD_DIR)/movement/leaveNextLineInTurnAround.o \
+	$(BUILD_DIR)/movement/findNextToNextLineInTurnAround.o \
+	$(BUILD_DIR)/movement/position/coordinate.o \
+	$(BUILD_DIR)/movement/position/coordinate_ostream.o \
+	|$$(@D)/.f
+$(BIN_DIR)/movement/position/coordinate.test: \
+	$(BUILD_DIR)/movement/position/coordinate_test.o \
+	$(BUILD_DIR)/movement/position/coordinate.o \
+	$(BUILD_DIR)/movement/position/direction.o \
+	$(BUILD_DIR)/movement/position/coordinate_ostream.o \
+	|$$(@D)/.f
+$(BIN_DIR)/movement/position/direction.test: \
+	$(BUILD_DIR)/movement/position/direction_test.o \
+	$(BUILD_DIR)/movement/position/direction.o \
+	$(BUILD_DIR)/movement/position/direction_ostream.o \
+	|$$(@D)/.
+$(BIN_DIR)/movement/position/gridPosition.test: \
+	$(BUILD_DIR)/movement/position/gridPosition_test.o \
+	$(BUILD_DIR)/movement/position/direction.o \
+	$(BUILD_DIR)/movement/position/coordinate.o \
+	$(BUILD_DIR)/communication/coordinateBroadcaster.o \
+	$(BUILD_DIR)/movement/position/direction_ostream.o \
+	$(BUILD_DIR)/movement/position/relativeDirection_ostream.o \
+	$(BUILD_DIR)/movement/position/coordinate_ostream.o \
+	|$$(@D)/.f
 
 
 $(BUILD_DIR)/%_test.o : $(TEST_DIR)/%_test.cpp |$$(@D)/.f

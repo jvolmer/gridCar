@@ -4,6 +4,7 @@
 #include "src/movement/pilot.hpp"
 #include "src/movement/position/coordinate.hpp"
 #include "src/movement/position/position.hpp"
+#include "src/movement/goal.hpp"
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/stop.hpp"
 
@@ -12,6 +13,8 @@
 
 MOCK_BASE_CLASS( MockPosition, Position )
 {
+    MOCK_METHOD( setLocation, 1 );
+    MOCK_METHOD( setDirection, 1 );
     MOCK_METHOD( turnLeft, 0 );
     MOCK_METHOD( turnRight, 0 );
     MOCK_METHOD( moveForward, 0 );
@@ -34,14 +37,21 @@ MOCK_BASE_CLASS( MockPilot, Pilot )
     MOCK_METHOD( changeMotion, 1 );
 };
 
+MOCK_BASE_CLASS( MockGoal, Goal )
+{
+    MOCK_METHOD( set, 1 );
+    MOCK_METHOD( get, 0 );
+};
+
 BOOST_AUTO_TEST_CASE( stops )
 {
     MockPilot pilot;
-    Coordinate goal{ 0 , 1 };
+    MockGoal goal;
     MockPosition position;
     MockMotor motor;
     Stop stop(pilot, goal, position, motor);
     MOCK_EXPECT( position.isLocatedAt ).returns( true );
+    MOCK_EXPECT( goal.get ).returns( Coordinate(1,0) );
     
     MOCK_EXPECT( motor.stop ).once();
     
@@ -51,11 +61,13 @@ BOOST_AUTO_TEST_CASE( stops )
 BOOST_AUTO_TEST_CASE( changes_to_follow_line_motion_when_position_is_not_equal_to_goal )
 {
     MockPilot pilot;
-    Coordinate goal{ 0 , 1 };
+    MockGoal goal;
     MockPosition position;
     MockMotor motor;
     Stop stop(pilot, goal, position, motor);
     MOCK_EXPECT( position.isLocatedAt ).returns( false );
+    MOCK_EXPECT( position.relativeDirectionToReach ).returns( RelativeDirection::inFront );
+    MOCK_EXPECT( goal.get ).returns( Coordinate(1,0) );
     MOCK_EXPECT( motor.stop );
 
     MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::followLine );

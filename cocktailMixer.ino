@@ -32,7 +32,7 @@ void setup() {
     motor.setup();
 
     motor.setDefaultSpeed( 100 );
-    pilot.setAlignmentPeriodInTurn( 50 );
+    pilot.setAlignmentPeriodInTurn( 100 );
 
     position.setLocation( Coordinate(0, 0) );
     position.setDirection( Direction::positiveY );
