@@ -35,7 +35,7 @@ LinePilot::LinePilot(Goal& goal, Position& position, Tracker& tracker, Timer& ti
     _findNextLineInTurnAround{ FindNextLineInTurnAround(*this, position, tracker, motor) },
     _leaveNextLineInTurnAround{ LeaveNextLineInTurnAround(*this, tracker, motor) },
     _findNextToNextLineInTurnAround{ FindNextToNextLineInTurnAround(*this, position, tracker, motor) },
-    _motion { &_followLine },
+    _motion { &_stop },
     _goal { goal }
 {}
 

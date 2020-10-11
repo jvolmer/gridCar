@@ -17,8 +17,8 @@ private:
 
 public:
     GridPosition() {};
-    GridPosition(const Coordinate& location, const Direction& direction);
-    GridPosition(Coordinate&& location, Direction&& direction);
+    GridPosition(const Coordinate& location, Direction direction);
+    GridPosition(Coordinate&& location, Direction direction);
     void setLocation(Coordinate&& location) { _location = location; }
     void setDirection(Direction direction) { _forwardDirection = direction; }
     
@@ -31,6 +31,8 @@ public:
     void subscribe(CoordinateListener* listener) override { CoordinateBroadcaster::subscribe(listener); broadcast(_location); }
     void broadcast(const Coordinate& location) const override { CoordinateBroadcaster::broadcast(location); }
 
+    const Coordinate& sitsAt() const { return _location; }
+    Direction headsTo() const { return _forwardDirection; }
     friend bool operator== (const GridPosition& lhs, const GridPosition& rhs);
 };
 

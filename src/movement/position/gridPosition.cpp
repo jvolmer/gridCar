@@ -4,12 +4,12 @@
 #include "relativeDirection.hpp"
 #include "../../communication/coordinateListener.hpp"
 
-GridPosition::GridPosition(const Coordinate& location, const Direction& direction) :
+GridPosition::GridPosition(const Coordinate& location, Direction direction) :
     _location { location },
     _forwardDirection { direction }
 {}
 
-GridPosition::GridPosition(Coordinate&& location, Direction&& direction) :
+GridPosition::GridPosition(Coordinate&& location, Direction direction) :
     _location { location },
     _forwardDirection { direction }
 {}

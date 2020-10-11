@@ -115,6 +115,7 @@ $(BIN_DIR)/communication/messageIn.test: \
 	$(BUILD_DIR)/movement/position/coordinate_ostream.o \
 	$(BUILD_DIR)/communication/coordinateBroadcaster.o \
 	|$$(@D)/.f
+
 $(BIN_DIR)/movement/stop.test: \
 	$(BUILD_DIR)/movement/stop_test.o \
 	$(BUILD_DIR)/movement/stop.o \
@@ -140,10 +141,6 @@ $(BIN_DIR)/movement/findNextLineInRightTurn.test: \
 	$(BUILD_DIR)/movement/findNextLineInRightTurn.o \
 	$(BUILD_DIR)/movement/findLine.o \
 	|$$(@D)/.f
-# $(BIN_DIR)/movement/turnAround.test: \
-# 	$(BUILD_DIR)/movement/turnAround_test.o \
-# 	$(BUILD_DIR)/movement/turnAround.o \
-# 	|$$(@D)/.f
 $(BIN_DIR)/movement/linePilot.test: \
 	$(BUILD_DIR)/movement/linePilot_test.o \
 	$(BUILD_DIR)/movement/linePilot.o \
@@ -165,7 +162,14 @@ $(BIN_DIR)/movement/linePilot.test: \
 	$(BUILD_DIR)/movement/leaveNextLineInTurnAround.o \
 	$(BUILD_DIR)/movement/findNextToNextLineInTurnAround.o \
 	$(BUILD_DIR)/movement/position/coordinate.o \
+	$(BUILD_DIR)/movement/position/direction.o \
+	$(BUILD_DIR)/movement/gridGoal.o \
+	$(BUILD_DIR)/movement/position/gridPosition.o \
+	$(BUILD_DIR)/communication/coordinateListener.o \
+	$(BUILD_DIR)/communication/coordinateBroadcaster.o \
+	$(BUILD_DIR)/movement/position/gridPosition_ostream.o \
 	$(BUILD_DIR)/movement/position/coordinate_ostream.o \
+	$(BUILD_DIR)/movement/position/direction_ostream.o \
 	|$$(@D)/.f
 $(BIN_DIR)/movement/position/coordinate.test: \
 	$(BUILD_DIR)/movement/position/coordinate_test.o \
@@ -180,6 +184,7 @@ $(BIN_DIR)/movement/position/direction.test: \
 	|$$(@D)/.
 $(BIN_DIR)/movement/position/gridPosition.test: \
 	$(BUILD_DIR)/movement/position/gridPosition_test.o \
+	$(BUILD_DIR)/movement/position/gridPosition.o \
 	$(BUILD_DIR)/movement/position/direction.o \
 	$(BUILD_DIR)/movement/position/coordinate.o \
 	$(BUILD_DIR)/communication/coordinateBroadcaster.o \
