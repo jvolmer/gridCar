@@ -22,11 +22,10 @@ public:
     void setLocation(Coordinate&& location) { _location = location; }
     void setDirection(Direction direction) { _forwardDirection = direction; }
     
-    void turnLeft() override { _forwardDirection = _forwardDirection - 1; }
-    void turnRight() override { _forwardDirection = _forwardDirection + 1; }
+    void turnLeft() override { _forwardDirection = _forwardDirection + 1; }
+    void turnRight() override { _forwardDirection = _forwardDirection - 1; }
     void moveForward() override;
     bool isLocatedAt(const Coordinate& coordinate) const override { return _location == coordinate; }
-    // RelativeDirection relativeDirectionToReach(const Coordinate& coordinate) const override;
     double turningAngleToReach(const Coordinate& coordinate) const override;
 
     void subscribe(CoordinateListener* listener) override { CoordinateBroadcaster::subscribe(listener); broadcast(_location); }

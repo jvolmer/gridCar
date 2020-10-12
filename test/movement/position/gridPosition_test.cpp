@@ -21,80 +21,12 @@ MOCK_BASE_CLASS( MockLocationListener, CoordinateListener )
     MOCK_METHOD( update, 1 );
 };
 
-// BOOST_AUTO_TEST_SUITE( relative_direction )
-
-// BOOST_AUTO_TEST_CASE( position_is_at_coordinate )
-// {
-//     GridPosition position = GridPosition(Coordinate(1,1), Direction::positiveX);
-//     Coordinate coordinate{ 1, 1 };
-
-//     RelativeDirection direction = position.relativeDirectionToReach( coordinate );
-
-//     BOOST_TEST( direction == RelativeDirection::at );
-// }
-
-// BOOST_DATA_TEST_CASE( coordinate_in_forward_180_degrees_without_boundaries_is_in_front_of_position,
-//                       data::make({Coordinate(1, -1),
-//                                   Coordinate(1, 0),
-//                                   Coordinate(1, 1)}),
-//                       coordinate )
-// {
-//     GridPosition position = GridPosition(Coordinate(0,0), Direction::positiveX);
-
-//     RelativeDirection direction = position.relativeDirectionToReach( coordinate );
-
-//     BOOST_TEST( direction == RelativeDirection::inFront );
-// }
-
-// BOOST_DATA_TEST_CASE( coordinate_in_back_left_90_degrees_with_left_boundary_is_on_the_left_of_position,
-//                       data::make({Coordinate(0, 1),
-//                                   Coordinate(-1, 1),
-//                                   Coordinate(-2, 1)}),
-//                       coordinate )
-// {
-//     GridPosition position = GridPosition(Coordinate(0,0), Direction::positiveX);
-
-//     RelativeDirection direction = position.relativeDirectionToReach( coordinate );
-
-//     BOOST_TEST( direction == RelativeDirection::onTheLeft );
-// }
-
-// BOOST_DATA_TEST_CASE( coordinate_in_back_right_90_degrees_with_right_boundary_is_on_the_right_of_position,
-//                       data::make({Coordinate(-2, -1),
-//                                   Coordinate(-1, -1),
-//                                   Coordinate(0, -1)}),
-//                       coordinate )
-// {
-//     GridPosition position = GridPosition(Coordinate(0,0), Direction::positiveX);
-
-//     RelativeDirection direction = position.relativeDirectionToReach( coordinate );
-
-//     BOOST_TEST( direction == RelativeDirection::onTheRight );
-// }
-
-// BOOST_DATA_TEST_CASE( coordinate_is_exctly_behind_position,
-//                       data::make({Coordinate(-1, 0),
-//                                   Coordinate(-2, 0),
-//                                   Coordinate(-10, 0)}),
-//                       coordinate )
-// {
-//     GridPosition position = GridPosition(Coordinate(0,0), Direction::positiveX);
-
-//     RelativeDirection direction = position.relativeDirectionToReach( coordinate );
-
-//     BOOST_TEST( direction == RelativeDirection::exactlyBehind );
-// }
-
-// BOOST_AUTO_TEST_SUITE_END()
-
-
-
 BOOST_AUTO_TEST_SUITE( relative_angle )
 
 BOOST_DATA_TEST_CASE( gives_relative_turning_angle_to_reach_coordinate,
                       data::make({Coordinate(0, 1), Coordinate(1, 0), Coordinate(0, -1), Coordinate(-1, 0)}) ^
-                      data::make({0., -.5, -1., .5}),
-    coordinate, expectedAngle )
+                      data::make({0., -90., -180., 90.}),
+                      coordinate, expectedAngle )
 {
     GridPosition position = GridPosition(Coordinate(0,0), Direction::positiveY);
 

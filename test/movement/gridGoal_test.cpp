@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE( is_at_position )
 }
 
 BOOST_DATA_TEST_CASE( is_in_front_of_location_in_forward_180_degrees,
-                      data::make({-.49, 0., .49}),
+                      data::make({-89., 0., 89.}),
                       relativeAngle )
 {
     GridGoal goal{ Coordinate(1,1) };
@@ -90,7 +90,7 @@ BOOST_DATA_TEST_CASE( is_in_front_of_location_in_forward_180_degrees,
 }
 
 BOOST_DATA_TEST_CASE( is_on_the_left_of_location_in_back_left_90_degrees,
-                      data::make({.5, .75, .99}),
+                      data::make({90., 135., 179.}),
                       relativeAngle )
 {
     GridGoal goal{ Coordinate(1,1) };
@@ -104,7 +104,7 @@ BOOST_DATA_TEST_CASE( is_on_the_left_of_location_in_back_left_90_degrees,
 }
 
 BOOST_DATA_TEST_CASE( is_on_the_right_of_location_in_back_right_90_degrees,
-                      data::make({-.5, -.75, -.99}),
+                      data::make({-90., -135., -179.}),
                       relativeAngle )
 {
     GridGoal goal{ Coordinate(1,1) };
@@ -118,7 +118,7 @@ BOOST_DATA_TEST_CASE( is_on_the_right_of_location_in_back_right_90_degrees,
 }
 
 BOOST_DATA_TEST_CASE( is_exactly_behind_location,
-                      data::make({1,-1}),
+                      data::make({180., -180.}),
                       relativeAngle )
 {
     GridGoal goal{ Coordinate(1,1) };

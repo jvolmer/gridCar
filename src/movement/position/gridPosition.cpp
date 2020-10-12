@@ -24,9 +24,9 @@ double GridPosition::turningAngleToReach(const Coordinate& coordinate) const
 {
     const double pi = 3.141592653589793;
     Coordinate diff = coordinate - _location;
-    double directDirectionToCoordinateInPi = diff.arctan2() / pi;
-    double forwardDirectionInPi = ((4 - (int)_forwardDirection) % 4) * .5;
-    return directDirectionToCoordinateInPi - forwardDirectionInPi;
+    double totalAngleToCoordinate = diff.arctan2() * 180./ pi;
+    double forwardDirectionAngle = (int)_forwardDirection * 90.;
+    return totalAngleToCoordinate - forwardDirectionAngle;
 }
 
 bool operator== (const GridPosition& lhs, const GridPosition& rhs)
