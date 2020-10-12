@@ -2,11 +2,12 @@
 #define BOOST_TEST_MODULE test_stop
 
 #include "src/movement/pilot.hpp"
-#include "src/movement/position/coordinate.hpp"
 #include "src/movement/position/position.hpp"
 #include "src/movement/goal.hpp"
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/stop.hpp"
+#include "src/movement/motionName.hpp"
+#include "src/movement/position/relativeDirection.hpp"
 
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
@@ -19,7 +20,7 @@ MOCK_BASE_CLASS( MockPosition, Position )
     MOCK_METHOD( turnRight, 0 );
     MOCK_METHOD( moveForward, 0 );
     MOCK_METHOD( isLocatedAt, 1 );
-    MOCK_METHOD( relativeDirectionToReach, 1 );
+    MOCK_METHOD( turningAngleToReach, 1 );
 };
 
 MOCK_BASE_CLASS( MockMotor, Motor )
@@ -41,6 +42,7 @@ MOCK_BASE_CLASS( MockGoal, Goal )
 {
     MOCK_METHOD( set, 1 );
     MOCK_METHOD( get, 0 );
+    MOCK_METHOD( turningDirectionFrom, 1 );
 };
 
 BOOST_AUTO_TEST_CASE( stops )
@@ -50,8 +52,7 @@ BOOST_AUTO_TEST_CASE( stops )
     MockPosition position;
     MockMotor motor;
     Stop stop(pilot, goal, position, motor);
-    MOCK_EXPECT( position.isLocatedAt ).returns( true );
-    MOCK_EXPECT( goal.get ).returns( Coordinate(1,0) );
+    MOCK_EXPECT( goal.turningDirectionFrom ).returns( RelativeDirection::at );
     
     MOCK_EXPECT( motor.stop ).once();
     
@@ -65,9 +66,7 @@ BOOST_AUTO_TEST_CASE( changes_to_follow_line_motion_when_goal_is_in_front )
     MockPosition position;
     MockMotor motor;
     Stop stop(pilot, goal, position, motor);
-    MOCK_EXPECT( position.isLocatedAt ).returns( false );
-    MOCK_EXPECT( position.relativeDirectionToReach ).returns( RelativeDirection::inFront );
-    MOCK_EXPECT( goal.get ).returns( Coordinate(1,0) );
+    MOCK_EXPECT( goal.turningDirectionFrom ).returns( RelativeDirection::inFront );
     MOCK_EXPECT( motor.stop );
 
     MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::followLine );
@@ -82,9 +81,7 @@ BOOST_AUTO_TEST_CASE( changes_to_turn_around_motion_at_crossing_when_goal_is_exa
     MockPosition position;
     MockMotor motor;
     Stop stop(pilot, goal, position, motor);
-    MOCK_EXPECT( position.isLocatedAt ).returns( false );
-    MOCK_EXPECT( position.relativeDirectionToReach ).returns( RelativeDirection::exactlyBehind );
-    MOCK_EXPECT( goal.get ).returns( Coordinate(1,0) );
+    MOCK_EXPECT( goal.turningDirectionFrom ).returns( RelativeDirection::exactlyBehind );
     MOCK_EXPECT( motor.stop );
 
     MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::centerInTurnAround );
@@ -99,9 +96,7 @@ BOOST_AUTO_TEST_CASE( changes_to_start_right_turn_motion_at_crossing_when_goal_i
     MockPosition position;
     MockMotor motor;
     Stop stop(pilot, goal, position, motor);
-    MOCK_EXPECT( position.isLocatedAt ).returns( false );
-    MOCK_EXPECT( position.relativeDirectionToReach ).returns( RelativeDirection::onTheRight );
-    MOCK_EXPECT( goal.get ).returns( Coordinate(1,0) );
+    MOCK_EXPECT( goal.turningDirectionFrom ).returns( RelativeDirection::onTheRight );
     MOCK_EXPECT( motor.stop );
 
     MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::centerInRightTurn );
@@ -116,9 +111,7 @@ BOOST_AUTO_TEST_CASE( changes_to_start_left_turn_motion_at_crossing_when_goal_is
     MockPosition position;
     MockMotor motor;
     Stop stop(pilot, goal, position, motor);
-    MOCK_EXPECT( position.isLocatedAt ).returns( false );
-    MOCK_EXPECT( position.relativeDirectionToReach ).returns( RelativeDirection::onTheLeft );
-    MOCK_EXPECT( goal.get ).returns( Coordinate(1,0) );
+    MOCK_EXPECT( goal.turningDirectionFrom ).returns( RelativeDirection::onTheLeft );
     MOCK_EXPECT( motor.stop );
 
     MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::centerInLeftTurn );

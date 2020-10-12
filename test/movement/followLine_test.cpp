@@ -5,9 +5,6 @@
 #include "src/movement/position/position.hpp"
 #include "src/movement/tracker/tracker.hpp"
 #include "src/movement/motor/motor.hpp"
-#include "src/movement/position/coordinate.hpp"
-#include "src/movement/position/relativeDirection.hpp"
-#include "src/movement/goal.hpp"
 #include "src/movement/followLine.hpp"
 #include "src/movement/motionName.hpp"
 #include "src/movement/tracker/roadLayout.hpp"
@@ -28,7 +25,7 @@ MOCK_BASE_CLASS( MockPosition, Position )
     MOCK_METHOD( turnRight, 0 );
     MOCK_METHOD( moveForward, 0 );
     MOCK_METHOD( isLocatedAt, 1 );
-    MOCK_METHOD( relativeDirectionToReach, 1 );
+    MOCK_METHOD( turningAngleToReach, 1 );
 };
 
 MOCK_BASE_CLASS( MockTracker, Tracker )
@@ -46,20 +43,13 @@ MOCK_BASE_CLASS( MockMotor, Motor )
     MOCK_METHOD( stop, 0 );
 };
 
-MOCK_BASE_CLASS( MockGoal, Goal )
-{
-    MOCK_METHOD( set, 1 );
-    MOCK_METHOD( get, 0 );
-};
-
 BOOST_AUTO_TEST_CASE( goes_straight_when_road_goes_straight )
 {
     MockPilot pilot;
-    MockGoal goal;
     MockPosition position;
     MockTracker tracker;
     MockMotor motor;
-    FollowLine followLine(pilot, goal, position, tracker, motor);
+    FollowLine followLine(pilot, position, tracker, motor);
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::straight );
 
     MOCK_EXPECT( motor.goStraight ).once();
@@ -70,15 +60,12 @@ BOOST_AUTO_TEST_CASE( goes_straight_when_road_goes_straight )
 BOOST_AUTO_TEST_CASE( updates_position_to_move_forward_at_crossing )
 {
     MockPilot pilot;
-    MockGoal goal;
     MockPosition position;
     MockTracker tracker;
     MockMotor motor;
-    FollowLine followLine(pilot, goal, position, tracker, motor);
-    MOCK_EXPECT( position.isLocatedAt ).returns(false);
+    FollowLine followLine(pilot, position, tracker, motor);
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
-    MOCK_EXPECT( goal.get ).returns( Coordinate(1,0) );
-    MOCK_EXPECT( position.relativeDirectionToReach ).returns( RelativeDirection::undefined );
+    MOCK_EXPECT( pilot.changeMotion );
     MOCK_EXPECT( motor.goStraight );
     
     MOCK_EXPECT( position.moveForward ).once();
@@ -86,78 +73,18 @@ BOOST_AUTO_TEST_CASE( updates_position_to_move_forward_at_crossing )
     followLine.move();
 }
 
-BOOST_AUTO_TEST_CASE( changes_to_stop_motion_at_crossing_when_goal_is_reached )
+BOOST_AUTO_TEST_CASE( changes_to_stop_motion_at_crossing )
 {
     MockPilot pilot;
-    MockGoal goal;
     MockPosition position;
     MockTracker tracker;
     MockMotor motor;
-    FollowLine followLine(pilot, goal, position, tracker, motor);
+    FollowLine followLine(pilot, position, tracker, motor);
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
-    MOCK_EXPECT( goal.get ).returns( Coordinate(1,0) );
-    MOCK_EXPECT( position.relativeDirectionToReach ).returns( RelativeDirection::at );
-    MOCK_EXPECT( motor.goStraight );
     MOCK_EXPECT( position.moveForward );
+    MOCK_EXPECT( motor.goStraight );
 
     MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::stop );
-
-    followLine.move();
-}
-
-BOOST_AUTO_TEST_CASE( changes_to_turn_around_motion_at_crossing_when_goal_is_exactly_in_opposite_direction )
-{
-    MockPilot pilot;
-    MockGoal goal;
-    MockPosition position;
-    MockTracker tracker;
-    MockMotor motor;
-    FollowLine followLine(pilot, goal, position, tracker, motor);
-    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
-    MOCK_EXPECT( goal.get ).returns( Coordinate(1,0) );
-    MOCK_EXPECT( position.relativeDirectionToReach ).returns( RelativeDirection::exactlyBehind );
-    MOCK_EXPECT( motor.goStraight );
-    MOCK_EXPECT( position.moveForward );
-
-    MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::centerInTurnAround );
-
-    followLine.move();
-}
-
-BOOST_AUTO_TEST_CASE( changes_to_start_right_turn_motion_at_crossing_when_goal_is_on_the_right )
-{
-    MockPilot pilot;
-    MockGoal goal;
-    MockPosition position;
-    MockTracker tracker;
-    MockMotor motor;
-    FollowLine followLine(pilot, goal, position, tracker, motor);
-    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
-    MOCK_EXPECT( goal.get ).returns( Coordinate(1,0) );
-    MOCK_EXPECT( position.relativeDirectionToReach ).returns( RelativeDirection::onTheRight );
-    MOCK_EXPECT( motor.goStraight );
-    MOCK_EXPECT( position.moveForward );
-
-    MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::centerInRightTurn );
-
-    followLine.move();
-}
-
-BOOST_AUTO_TEST_CASE( changes_to_start_left_turn_motion_at_crossing_when_goal_is_on_the_left )
-{
-    MockPilot pilot;
-    MockGoal goal;
-    MockPosition position;
-    MockTracker tracker;
-    MockMotor motor;
-    FollowLine followLine(pilot, goal, position, tracker, motor);
-    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
-    MOCK_EXPECT( goal.get ).returns( Coordinate(1,0) );
-    MOCK_EXPECT( position.relativeDirectionToReach ).returns( RelativeDirection::onTheLeft );
-    MOCK_EXPECT( motor.goStraight );
-    MOCK_EXPECT( position.moveForward );
-
-    MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::centerInLeftTurn );
 
     followLine.move();
 }

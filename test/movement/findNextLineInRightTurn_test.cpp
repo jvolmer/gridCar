@@ -26,7 +26,7 @@ MOCK_BASE_CLASS( MockPosition, Position )
     MOCK_METHOD( turnRight, 0 );
     MOCK_METHOD( moveForward, 0 );
     MOCK_METHOD( isLocatedAt, 1 );
-    MOCK_METHOD( relativeDirectionToReach, 1 );
+    MOCK_METHOD( turningAngleToReach, 1 );
 };
 
 MOCK_BASE_CLASS( MockTracker, Tracker )

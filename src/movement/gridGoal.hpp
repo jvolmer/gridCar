@@ -3,9 +3,11 @@
 
 #include "position/coordinate.hpp"
 #include "../communication/coordinateListener.hpp"
+#include "position/relativeDirection.hpp"
 #include "goal.hpp"
 
 class CoordinateBroadcaster;
+class Position;
 
 class GridGoal : public Goal, public CoordinateListener
 {
@@ -18,7 +20,7 @@ public:
     void set(const Coordinate& coordinate) override;
     void set(Coordinate&& coordinate){ set(coordinate); }
     const Coordinate& get() override { return _coordinate; }
-    
+    RelativeDirection turningDirectionFrom(const Position& position) const override;
     void update(const Coordinate& coordinate) override { set(coordinate); }
     void listenTo(CoordinateBroadcaster& broadcaster) override { CoordinateListener::listenTo(broadcaster); }
 

@@ -198,6 +198,7 @@ $(BIN_DIR)/movement/gridGoal.test: \
 	$(BUILD_DIR)/movement/position/coordinate.o \
 	$(BUILD_DIR)/communication/coordinateListener.o \
 	$(BUILD_DIR)/movement/position/coordinate_ostream.o \
+	$(BUILD_DIR)/movement/position/relativeDirection_ostream.o \
 	|$$(@D)/.f
 
 

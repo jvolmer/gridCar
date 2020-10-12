@@ -18,10 +18,10 @@ void Stop::move()
 {    
     _motor.stop();
 
-    if ( !_position.isLocatedAt(_goal.get()) )
+    switch( _goal.turningDirectionFrom(_position))
     {
-        switch( _position.relativeDirectionToReach(_goal.get()) )
-        {
+        case RelativeDirection::at :
+            break;
         case RelativeDirection::inFront :
             _pilot.changeMotion( MotionName::followLine );
             break;
@@ -36,6 +36,5 @@ void Stop::move()
             break;
         default:
             break;
-        }
     }
 }

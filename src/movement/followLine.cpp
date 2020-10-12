@@ -6,13 +6,11 @@
 #include "motor/motor.hpp"
 #include "motionName.hpp"
 #include "followLine.hpp"
-#include "goal.hpp"
 
 class Coordinate;
 
-FollowLine::FollowLine(Pilot& pilot, Goal& goal, Position& position, Tracker& tracker, Motor& motor):
+FollowLine::FollowLine(Pilot& pilot, Position& position, Tracker& tracker, Motor& motor):
     _pilot { pilot },
-    _goal { goal },
     _position { position },
     _tracker { tracker },
     _motor { motor }
@@ -24,23 +22,7 @@ void FollowLine::move()
 
     if ( isAtCrossing )
     {
-        switch( _position.relativeDirectionToReach(_goal.get()) )
-        {
-        case RelativeDirection::at :
-            _pilot.changeMotion( MotionName::stop );
-            break;
-        case RelativeDirection::onTheRight :
-            _pilot.changeMotion( MotionName::centerInRightTurn );
-            break;
-        case RelativeDirection::onTheLeft :
-            _pilot.changeMotion( MotionName::centerInLeftTurn );
-            break;
-        case RelativeDirection::exactlyBehind :
-            _pilot.changeMotion( MotionName::centerInTurnAround );
-            break;
-        default:
-            break;
-        }
+        _pilot.changeMotion( MotionName::stop );
     }
 }
 

@@ -14,7 +14,7 @@ class GridPosition: public Position, public CoordinateBroadcaster
 private:
     Coordinate _location { Coordinate(0,0) };
     Direction _forwardDirection { Direction::positiveX };
-
+    
 public:
     GridPosition() {};
     GridPosition(const Coordinate& location, Direction direction);
@@ -26,7 +26,8 @@ public:
     void turnRight() override { _forwardDirection = _forwardDirection + 1; }
     void moveForward() override;
     bool isLocatedAt(const Coordinate& coordinate) const override { return _location == coordinate; }
-    RelativeDirection relativeDirectionToReach(const Coordinate& coordinate) const override;
+    // RelativeDirection relativeDirectionToReach(const Coordinate& coordinate) const override;
+    double turningAngleToReach(const Coordinate& coordinate) const override;
 
     void subscribe(CoordinateListener* listener) override { CoordinateBroadcaster::subscribe(listener); broadcast(_location); }
     void broadcast(const Coordinate& location) const override { CoordinateBroadcaster::broadcast(location); }

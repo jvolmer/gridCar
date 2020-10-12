@@ -13,6 +13,7 @@
 #include "src/movement/position/coordinate.hpp"
 #include "test/movement/position/gridPosition_ostream.hpp"
 #include "src/movement/position/direction.hpp"
+#include "src/movement/position/relativeDirection.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 
@@ -24,7 +25,7 @@ MOCK_BASE_CLASS( MockPosition, Position )
     MOCK_METHOD( turnRight, 0 );
     MOCK_METHOD( moveForward, 0 );
     MOCK_METHOD( isLocatedAt, 1 );
-    MOCK_METHOD( relativeDirectionToReach, 1 );
+    MOCK_METHOD( turningAngleToReach, 1 );
 };
 
 MOCK_BASE_CLASS( MockMotor, Motor )
@@ -46,6 +47,7 @@ MOCK_BASE_CLASS( MockGoal, Goal )
 {
     MOCK_METHOD( set, 1 );
     MOCK_METHOD( get, 0 );
+    MOCK_METHOD( turningDirectionFrom, 1 );
 };
 
 MOCK_BASE_CLASS( MockTimer, Timer )
@@ -61,8 +63,7 @@ BOOST_AUTO_TEST_CASE( starts_in_stop_motion )
     MockTimer timer;
     MockMotor motor;
     LinePilot pilot(goal, position, tracker, timer, motor);
-    MOCK_EXPECT( goal.get ).returns( Coordinate(0,1) );
-    MOCK_EXPECT( position.isLocatedAt ).returns( true );
+    MOCK_EXPECT( goal.turningDirectionFrom ).returns( RelativeDirection::at );
     MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::straight );
 
     MOCK_EXPECT( motor.stop ).once();
@@ -80,11 +81,11 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_front_and_to_the_right )
     LinePilot pilot(goal, position, tracker, timer, motor);
     MOCK_EXPECT( motor.goStraight );
     MOCK_EXPECT( motor.turnRight );
-
+    MOCK_EXPECT( motor.stop );
+    
     Coordinate goalCoordinate{ Coordinate(2,1) };
     goal.set( goalCoordinate );
 
-    MOCK_EXPECT( motor.stop ).once();
     pilot.move();    
     MOCK_EXPECT( tracker.checkRoad ).once().returns( RoadLayout::straight );
     pilot.move();
@@ -93,6 +94,7 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_front_and_to_the_right )
 
     BOOST_TEST( position == GridPosition(Coordinate(0,1), Direction::positiveY ));
 
+    pilot.move();
     mock::sequence s;
     MOCK_EXPECT( timer.moment ).once().in(s).returns( 0 );
     MOCK_EXPECT( timer.moment ).once().in(s).returns( 3040 );
@@ -111,15 +113,13 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_front_and_to_the_right )
 
     BOOST_TEST( position == GridPosition(Coordinate(1,1), Direction::positiveX ));
 
+    pilot.move();
     MOCK_EXPECT( tracker.checkRoad ).once().returns( RoadLayout::straight );
     pilot.move();
     MOCK_EXPECT( tracker.checkRoad ).once().returns( RoadLayout::blocked );
     pilot.move();
     
     BOOST_TEST( position == GridPosition(goalCoordinate, Direction::positiveX ));
-
-    MOCK_EXPECT( motor.stop ).once();
-    pilot.move();
 }
 
 BOOST_AUTO_TEST_CASE( moves_to_goal_in_front_and_to_the_left )
@@ -132,11 +132,11 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_front_and_to_the_left )
     LinePilot pilot(goal, position, tracker, timer, motor);
     MOCK_EXPECT( motor.goStraight );
     MOCK_EXPECT( motor.turnLeft );
+    MOCK_EXPECT( motor.stop );
 
     Coordinate goalCoordinate{ Coordinate(2,1) };
     goal.set( goalCoordinate );
 
-    MOCK_EXPECT( motor.stop ).once();
     pilot.move();    
     MOCK_EXPECT( tracker.checkRoad ).once().returns( RoadLayout::straight );
     pilot.move();
@@ -145,6 +145,7 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_front_and_to_the_left )
 
     BOOST_TEST( position == GridPosition(Coordinate(1,0), Direction::positiveX ));
 
+    pilot.move();
     MOCK_EXPECT( tracker.checkRoad ).once().returns( RoadLayout::straight );
     pilot.move();
     MOCK_EXPECT( tracker.checkRoad ).once().returns( RoadLayout::blocked );
@@ -152,6 +153,7 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_front_and_to_the_left )
 
     BOOST_TEST( position == GridPosition(Coordinate(2,0), Direction::positiveX ));
 
+    pilot.move();
     mock::sequence s;
     MOCK_EXPECT( timer.moment ).once().in(s).returns( 0 );
     MOCK_EXPECT( timer.moment ).once().in(s).returns( 3040 );
@@ -169,9 +171,6 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_front_and_to_the_left )
     pilot.move();
 
     BOOST_TEST( position == GridPosition(goalCoordinate, Direction::positiveY ));
-
-    MOCK_EXPECT( motor.stop ).once();
-    pilot.move();
 }
 
 BOOST_AUTO_TEST_CASE( moves_to_goal_directly_in_the_back )
@@ -184,11 +183,11 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_directly_in_the_back )
     LinePilot pilot(goal, position, tracker, timer, motor);
     MOCK_EXPECT( motor.goStraight );
     MOCK_EXPECT( motor.turnRight );
+    MOCK_EXPECT( motor.stop );
 
     Coordinate goalCoordinate{ Coordinate(0,2) };
     goal.set( goalCoordinate );
 
-    MOCK_EXPECT( motor.stop ).once();
     pilot.move();
 
     mock::sequence s;
@@ -216,15 +215,13 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_directly_in_the_back )
 
     BOOST_TEST( position == GridPosition(Coordinate(0,1), Direction::positiveY ));    
 
+    pilot.move();
     MOCK_EXPECT( tracker.checkRoad ).once().returns( RoadLayout::straight );
     pilot.move();
     MOCK_EXPECT( tracker.checkRoad ).once().returns( RoadLayout::blocked );
     pilot.move();
 
     BOOST_TEST( position == GridPosition(goalCoordinate, Direction::positiveY ));
-
-    MOCK_EXPECT( motor.stop ).once();
-    pilot.move();
 }
 
 BOOST_AUTO_TEST_CASE( moves_to_goal_in_back_and_to_the_right )
@@ -237,12 +234,13 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_back_and_to_the_right )
     LinePilot pilot(goal, position, tracker, timer, motor);
     MOCK_EXPECT( motor.goStraight );
     MOCK_EXPECT( motor.turnRight );
+    MOCK_EXPECT( motor.stop );
 
     Coordinate goalCoordinate{ Coordinate(2,1) };
     goal.set( goalCoordinate );
-
-    MOCK_EXPECT( motor.stop ).once();
+    
     pilot.move();    
+
     mock::sequence s1;
     MOCK_EXPECT( timer.moment ).once().in(s1).returns( 0 );
     MOCK_EXPECT( timer.moment ).once().in(s1).returns( 3040 );
@@ -261,6 +259,7 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_back_and_to_the_right )
 
     BOOST_TEST( position == GridPosition(Coordinate(0,1), Direction::positiveY ));
 
+    pilot.move();
     mock::sequence s2;
     MOCK_EXPECT( timer.moment ).once().in(s2).returns( 0 );
     MOCK_EXPECT( timer.moment ).once().in(s2).returns( 3040 );
@@ -279,15 +278,13 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_back_and_to_the_right )
 
     BOOST_TEST( position == GridPosition(Coordinate(1,1), Direction::positiveX ));
 
+    pilot.move();
     MOCK_EXPECT( tracker.checkRoad ).once().returns( RoadLayout::straight );
     pilot.move();
     MOCK_EXPECT( tracker.checkRoad ).once().returns( RoadLayout::blocked );
     pilot.move();
     
     BOOST_TEST( position == GridPosition(goalCoordinate, Direction::positiveX ));
-
-    MOCK_EXPECT( motor.stop ).once();
-    pilot.move();
 }
 
 BOOST_AUTO_TEST_CASE( moves_to_goal_in_back_and_to_the_left )
@@ -300,11 +297,11 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_back_and_to_the_left )
     LinePilot pilot(goal, position, tracker, timer, motor);
     MOCK_EXPECT( motor.goStraight );
     MOCK_EXPECT( motor.turnLeft );
+    MOCK_EXPECT( motor.stop );
 
     Coordinate goalCoordinate{ Coordinate(2,1) };
     goal.set( goalCoordinate );
 
-    MOCK_EXPECT( motor.stop ).once();
     pilot.move();    
     mock::sequence s1;
     MOCK_EXPECT( timer.moment ).once().in(s1).returns( 0 );
@@ -324,6 +321,7 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_back_and_to_the_left )
 
     BOOST_TEST( position == GridPosition(Coordinate(1,0), Direction::positiveX ));
 
+    pilot.move();
     MOCK_EXPECT( tracker.checkRoad ).once().returns( RoadLayout::straight );
     pilot.move();
     MOCK_EXPECT( tracker.checkRoad ).once().returns( RoadLayout::blocked );
@@ -331,6 +329,7 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_back_and_to_the_left )
 
     BOOST_TEST( position == GridPosition(Coordinate(2,0), Direction::positiveX ));    
 
+    pilot.move();
     mock::sequence s2;
     MOCK_EXPECT( timer.moment ).once().in(s2).returns( 0 );
     MOCK_EXPECT( timer.moment ).once().in(s2).returns( 3040 );
@@ -348,7 +347,5 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_back_and_to_the_left )
     pilot.move();
 
     BOOST_TEST( position == GridPosition(goalCoordinate, Direction::positiveY ));
-
-    MOCK_EXPECT( motor.stop ).once();
-    pilot.move();
 }
+

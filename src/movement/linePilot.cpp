@@ -23,7 +23,7 @@ class Motor;
 LinePilot::LinePilot(Goal& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor) :
     _stopFinally{ StopFinally( motor ) },
     _stop{ Stop(*this, goal, position, motor) },
-    _followLine{ FollowLine(*this, goal, position, tracker, motor) },
+    _followLine{ FollowLine(*this, position, tracker, motor) },
     _centerInRightTurn{ CenterInRightTurn(*this, timer, motor) },
     _leaveOriginLineInRightTurn{ LeaveOriginLineInRightTurn(*this, tracker, motor) },
     _findNextLineInRightTurn{ FindNextLineInRightTurn(*this, position, tracker, motor) },

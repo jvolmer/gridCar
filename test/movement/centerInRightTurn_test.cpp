@@ -52,7 +52,8 @@ BOOST_AUTO_TEST_CASE( changes_to_leave_origin_line_in_right_turn_after_a_short_p
     CenterInRightTurn centerInRightTurn(pilot, timer, motor);
     mock::sequence s;
     MOCK_EXPECT( timer.moment ).once().in(s).returns( 0 );
-    MOCK_EXPECT( timer.moment ).once().in(s).returns( 3040 );
+    MOCK_EXPECT( timer.moment ).once().in(s).returns( 3000 );
+
     MOCK_EXPECT( motor.goStraight );
 
     MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::leaveOriginLineInRightTurn );
