@@ -2,7 +2,6 @@
 #define FOLLOW_LINE_H
 
 #include "motion.hpp"
-#include "stop.hpp"
 #include "motionName.hpp"
 
 class Pilot;

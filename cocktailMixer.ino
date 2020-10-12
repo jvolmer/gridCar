@@ -3,7 +3,7 @@
 #include "src/movement/motor/arduinoMotor.hpp"
 #include "src/movement/position/gridPosition.hpp"
 #include "src/movement/position/coordinate.hpp"
-#include "src/movement/motionName.hpp"
+#include "src/movement/motion/motionName.hpp"
 #include "src/movement/linePilot.hpp"
 #include "src/movement/gridGoal.hpp"
 #include "src/communication/arduinoTransmitter.hpp"

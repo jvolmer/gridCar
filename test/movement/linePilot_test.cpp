@@ -2,7 +2,6 @@
 #define BOOST_TEST_MODULE test_linePilot
 
 #include "src/movement/linePilot.hpp"
-#include "src/timer/timer.hpp"
 #include "src/movement/position/position.hpp"
 #include "src/movement/position/gridPosition.hpp"
 #include "src/movement/goal.hpp"
@@ -11,9 +10,11 @@
 #include "src/movement/tracker/tracker.hpp"
 #include "src/movement/tracker/roadLayout.hpp"
 #include "src/movement/position/coordinate.hpp"
-#include "test/movement/position/gridPosition_ostream.hpp"
 #include "src/movement/position/direction.hpp"
 #include "src/movement/position/relativeDirection.hpp"
+#include "src/timer/timer.hpp"
+#include "test/movement/position/gridPosition_ostream.hpp"
+
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 

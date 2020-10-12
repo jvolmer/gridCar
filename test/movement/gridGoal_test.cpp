@@ -3,10 +3,11 @@
 
 #include "src/communication/coordinateBroadcaster.hpp"
 #include "src/movement/position/coordinate.hpp"
-#include "test/movement/position/coordinate_ostream.hpp"
 #include "src/movement/position/position.hpp"
 #include "src/movement/gridGoal.hpp"
+#include "test/movement/position/coordinate_ostream.hpp"
 #include "test/movement/position/relativeDirection_ostream.hpp"
+
 #include <boost/test/unit_test.hpp>
 #include <boost/test/data/test_case.hpp>
 #include <turtle/mock.hpp>

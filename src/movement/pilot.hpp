@@ -1,7 +1,7 @@
 #ifndef PILOT_H
 #define PILOT_H
 
-#include "motionName.hpp"
+#include "motion/motionName.hpp"
 
 class Pilot
 {

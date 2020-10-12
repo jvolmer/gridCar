@@ -3,11 +3,11 @@
 
 #include "src/movement/pilot.hpp"
 #include "src/movement/position/position.hpp"
+#include "src/movement/position/relativeDirection.hpp"
 #include "src/movement/goal.hpp"
 #include "src/movement/motor/motor.hpp"
-#include "src/movement/stop.hpp"
-#include "src/movement/motionName.hpp"
-#include "src/movement/position/relativeDirection.hpp"
+#include "src/movement/motion/motionName.hpp"
+#include "src/movement/motion/stop.hpp"
 
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>

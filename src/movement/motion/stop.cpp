@@ -1,7 +1,7 @@
-#include "pilot.hpp"
-#include "motor/motor.hpp"
-#include "position/position.hpp"
-#include "goal.hpp"
+#include "../pilot.hpp"
+#include "../motor/motor.hpp"
+#include "../position/position.hpp"
+#include "../goal.hpp"
 #include "motionName.hpp"
 #include "stop.hpp"
 

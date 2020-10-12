@@ -1,4 +1,4 @@
-#include "motor/motor.hpp"
+#include "../motor/motor.hpp"
 #include "stopFinally.hpp"
 
 class Coordinate;

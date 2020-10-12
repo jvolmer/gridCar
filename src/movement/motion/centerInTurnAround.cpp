@@ -1,6 +1,6 @@
 #include "center.hpp"
-#include "pilot.hpp"
-#include "motor/motor.hpp"
+#include "../pilot.hpp"
+#include "../motor/motor.hpp"
 #include "motionName.hpp"
 #include "centerInTurnAround.hpp"
 

@@ -1,4 +1,4 @@
-#include "../timer/timer.hpp"
+#include "../../timer/timer.hpp"
 #include "center.hpp"
 
 Center::Center(Timer& timer) :

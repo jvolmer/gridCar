@@ -4,8 +4,9 @@
 #include "src/timer/timer.hpp"
 #include "src/movement/pilot.hpp"
 #include "src/movement/motor/motor.hpp"
-#include "src/movement/motionName.hpp"
-#include "src/movement/centerInRightTurn.hpp"
+#include "src/movement/motion/motionName.hpp"
+#include "src/movement/motion/centerInRightTurn.hpp"
+
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 

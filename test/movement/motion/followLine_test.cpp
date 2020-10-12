@@ -4,10 +4,11 @@
 #include "src/movement/pilot.hpp"
 #include "src/movement/position/position.hpp"
 #include "src/movement/tracker/tracker.hpp"
-#include "src/movement/motor/motor.hpp"
-#include "src/movement/followLine.hpp"
-#include "src/movement/motionName.hpp"
 #include "src/movement/tracker/roadLayout.hpp"
+#include "src/movement/motor/motor.hpp"
+#include "src/movement/motion/motionName.hpp"
+#include "src/movement/motion/followLine.hpp"
+
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
 

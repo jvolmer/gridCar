@@ -2,24 +2,24 @@
 #define LINE_PILOT_H
 
 #include "pilot.hpp"
-#include "motion.hpp"
-#include "motionName.hpp"
 
-#include "stop.hpp"
-#include "followLine.hpp"
-#include "linePilot.hpp"
-#include "centerInRightTurn.hpp"
-#include "leaveOriginLineInRightTurn.hpp"
-#include "findNextLineInRightTurn.hpp"
-#include "centerInLeftTurn.hpp"
-#include "leaveOriginLineInLeftTurn.hpp"
-#include "findNextLineInLeftTurn.hpp"
-#include "centerInTurnAround.hpp"
-#include "leaveOriginLineInTurnAround.hpp"
-#include "findNextLineInTurnAround.hpp"
-#include "leaveNextLineInTurnAround.hpp"
-#include "findNextToNextLineInTurnAround.hpp"
-#include "stopFinally.hpp"
+#include "motion/motion.hpp"
+#include "motion/motionName.hpp"
+
+#include "motion/stopFinally.hpp"
+#include "motion/stop.hpp"
+#include "motion/followLine.hpp"
+#include "motion/centerInRightTurn.hpp"
+#include "motion/leaveOriginLineInRightTurn.hpp"
+#include "motion/findNextLineInRightTurn.hpp"
+#include "motion/centerInLeftTurn.hpp"
+#include "motion/leaveOriginLineInLeftTurn.hpp"
+#include "motion/findNextLineInLeftTurn.hpp"
+#include "motion/centerInTurnAround.hpp"
+#include "motion/leaveOriginLineInTurnAround.hpp"
+#include "motion/findNextLineInTurnAround.hpp"
+#include "motion/leaveNextLineInTurnAround.hpp"
+#include "motion/findNextToNextLineInTurnAround.hpp"
 
 class Goal;
 class Position;
