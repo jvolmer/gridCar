@@ -118,7 +118,7 @@ BOOST_DATA_TEST_CASE( is_on_the_right_of_location_in_back_right_90_degrees,
 }
 
 BOOST_DATA_TEST_CASE( is_exactly_behind_location,
-                      data::make({180., -180.}),
+                      data::make({-180.}),
                       relativeAngle )
 {
     GridGoal goal{ Coordinate(1,1) };

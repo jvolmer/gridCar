@@ -26,22 +26,19 @@ RelativeDirection GridGoal::turningDirectionFrom(const Position& position) const
 
     double angle = position.turningAngleToReach(_coordinate);
 
-    if ( ((angle > -90) && (angle < 90)) ||
-         ((angle > 270) && (angle < 450)) )
+    if (angle > -90 && angle < 90)
     {
         return RelativeDirection::inFront;
     }
-    else if ( ((angle < -180) && (angle >= -270)) ||
-              ((angle < 180)  && (angle >= 90)) )
+    else if (angle < 180  && angle >= 90)
     {
         return RelativeDirection::onTheLeft;
     }
-    else if ( ((angle > -180) && (angle <= -90)) ||
-              ((angle > 180) && (angle >= 270)) )
+    else if (angle > -180 && angle <= -90)
     {
         return RelativeDirection::onTheRight;
     }
-    else if ( (angle == -180) || (angle == 180) )
+    else if (angle == -180)
     {
         return RelativeDirection::exactlyBehind;
     }

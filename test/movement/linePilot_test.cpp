@@ -349,4 +349,3 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_back_and_to_the_left )
 
     BOOST_TEST( position == GridPosition(goalCoordinate, Direction::positiveY ));
 }
-
