@@ -7,9 +7,6 @@ Right now this includes the code for the self-driving Freenove-4WD-Car that is c
 ## Setting prerequisites:
 - the floor on which the car travels is a perpendicular grid of black lines. The car gets its travel commands in the form of points on that grid.
 
-## Class structure:
-![alternative text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jvolmer/cocktailMixer/feature/carMovement/doc/classStructure.txt)
-
 ## Software - Prerequisites:
 - Arduino-IDE
 
@@ -20,14 +17,14 @@ or
 - g++ Compiler (for at least c++14)
 - Precompiled Arduino Core Library (can be done by yourself using the Arduino-Tools, I will upload a Makefile in a short while)
 
-For ```make tests``` to work:
+For tests to work:
 - [Boost.Test](https://www.boost.org/doc/libs/1_66_0/libs/test/doc/html/index.html)
 - [Turtle](http://turtle.sourceforge.net)
 
 ## Usage when not using the IDE:
 Run tests:
 ```bash
-make tests
+make test
 ```
 
 Compile the program with entry point cocktailMixer.ino to bin/cocktailMixer.hex
