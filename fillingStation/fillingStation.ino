@@ -1,6 +1,5 @@
-#include "src/filling/pump/arduinoPump.hpp"
+#include "src/pump/arduinoPump.hpp"
 
-ArduinoPump{4, 5, 6, 7};
 
 void setup()
 {
