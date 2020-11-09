@@ -33,5 +33,6 @@ void PumpedBeverage::stopPouring()
     {
         _pump.stop();
         _started = false;
+        _pouringDurationInSeconds = 0;
     }
 }

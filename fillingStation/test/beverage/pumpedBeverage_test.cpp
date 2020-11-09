@@ -61,3 +61,21 @@ BOOST_AUTO_TEST_CASE( stops_pump_after_pouring_duration )
     
     beverage.pour();
 }
+
+BOOST_AUTO_TEST_CASE( not_start_pump_again_after_pouring_duration_is_over_and_pump_stopped )
+{
+    MockPump pump;
+    MockTimer timer;
+    PumpedBeverage beverage{ pump, timer };
+    beverage.setPouringDurationInSeconds( 1 );
+    mock::sequence s;
+    MOCK_EXPECT( timer.moment ).once().in(s).returns(0);
+    MOCK_EXPECT( timer.moment ).once().in(s).returns(1000);
+    MOCK_EXPECT( pump.start ).once();
+    MOCK_EXPECT( pump.stop ).once();
+    beverage.pour();
+
+    MOCK_EXPECT( pump.start ).never();
+    
+    beverage.pour();
+}
