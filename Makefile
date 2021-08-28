@@ -1,4 +1,4 @@
-include ../common.mk
+include ./common.mk
 
 $(BIN_DIR)/communication/messageOut.test: \
 	$(BUILD_DIR)/communication/messageOut_test.o \

@@ -1,39 +1,75 @@
-# Cocktail-Mixer
+# GridCar
 
-This cocktail-mixer is composed of several self-driving miniature car, where each one transports a cocktail glas from filling station to filling station where different beverages are added.
+> Autonomous car navigates to any point on a grid
 
-This project was initiated by the VDI Cologne Group 4-to-90 but it currently paused.
+## Background
 
-## Car
+Exact localization in a small area of space can be difficult. This autonomous car orients itself on a grid of lines and can be send to any of the grid's line-crossings. It receives its destination via radio signal. It sends out its own location via radio signal as well.
 
-A self-driving Freenove-4WD-Car is controlled by an Arduino. It can navigate on a perpendicular grid of black lines (with unit lengths around 20cm) between filling stations which are placed on top of some line crossings. The car gets its instructions via radio frequency (using an RF24 radio chip) and sends its own location out.
+Check out [this video](https://nc.nullteilerfrei.de/index.php/s/nyYEFXyPgEe5ZH5) to see the car in action.
 
-Difficulties:
-* The car has no external reference points, it knows its position and direction only due to counting crossings and turns. Therefore this counting has to be done precisely.
-* Turning at a crossing involves several different car motions.
+This localization approach comes with some challenges:
+* The car has no external reference points, it knows its location and direction only due to counting crossings and turns. Therefore this counting has to be done precisely. For that, I tuned parameters and made sure that the exectuation of any code-part does not block the car detectors from measuring frequently.
+* Turning at a crossing involves several different car motions. I tried out several ideas before arriving at the best sequence of motions.
 
-The car logic is already working, have a look at a [demonstration](https://nc.nullteilerfrei.de/index.php/s/nyYEFXyPgEe5ZH5)
+To make the implementation robust, the code is based on three design principles:
+* Domain Driven Design: The code includes as many domain knowledge as possible to make the code easy and intuitive to read.
+* Test Driven Design: All non Arduino-specific code is covered by unit tests and a few integration tests, to make sure that everything works as expected after changing something in the code.
+* Design Patterns: Design patterns are used where appropriate to make the code more readable and effective: The _state pattern_ is used for the movements of the car (movement states are for example go straight, stopped or different turning states). With the _observer pattern_ the car listens to the incoming radio signals and notifies the car of changes, such that it can adapt its driving direction. The car also listens to changes in its own location. This change happens when the car arrives at a crossing. It then notifies its communication unit which sends this location via radio out.
 
-## Control
+## Code Structure
 
-The control - also an Arduino board with an RF24 radio chip - sends destination coordinates to the car via radio signal and receives the current position of the car. In the future, the control should coordinate the movement of several cars simultaneously.
+This repository includes code for two devices: 
+1. the car,
+2. the control which sends destinations to the car and receives the car's locations.
 
-The current rough implementation is sufficient to send destinations to one car.
+The main focus of this repository is the car, most of the code is writte for it and its main entry point is [gridCar.ino](gridCar.ino).
 
-## Filling Station
+The control directory includes code for the control. This code has no structure and is written with the only purpose that the car code is working as intended.
 
-A filling station is positioned above one line crossing, includes currently four bottles for different beverages and one Arduino which controls pouring the beverages into the cocktail glas on top of the car. Each bottle has its own pump which pumps the liquid out of the bottle. The filling station itself knows which liquid is in which bottle and how long a pump has to pump to pour some ml of this specific beverage.
+## Hardware Setup
 
-Alternatives:
-* The control knows when a car is located underneath a specific filling station. It sends a singal to the filling station including the name and the amoung of the desired beverage.
-* The car communicates with the filling station. Therefore the car has to know that it is located underneath a filling station and the desired amount of specific beverage.
+The code is written for Arduino Uno boards, one for the car, one for the control. 
 
-The filling station implemention is not yet finished.
+For the car I used a Freenove-4WD-Car which is controlled by one of the Arduinos, but any other car can be used - with possibly slight modifications parameters and ping numbers. The Arduino is connected to an RF24 radio chip to be able to send and receive radio signals.
 
-## Implementation
+The control is an Arduino Uni board with an RF24 radio chip as well. You can connect this board to a computer and send destination coordinates via Serial input very easily from within the Arduino IDE.
 
-Mostly applies to the car:
+## Usage
 
-* I tried to add as many domain knowledge as possible to the code to make the code easy and intuitive to read.
-* Most non Arduino-specific code is covered by unit tests and a few integration tests.
-* Design patterns are used where appropriate: The state pattern is used for the movements of the car (movement states are for example go straight, stopped or different turning states). With the observer pattern the car listens to the incoming radio signals and notifies the car of changes, such that it can adapt its driving direction. The car also listens to changes in its own position which changes when it arrives at a crossing and notifies its communication unit which sends this position via radio out.
+Either use the Arduino IDE to compile and upload the program, or do it via command line:
+
+Compile the program with entry point gridCar.ino to bin/gridCar.hex
+```bash
+make
+```
+
+(Compile and) Upload the program to Arduino:
+```bash
+make upload
+```
+
+Upload the car code to the car and the control code to the control unit. Set the car onto a crossing point on the grid and switch it on. Now you can send coordinates via Serial input in the format `(x,y)` from the control to the car. Be aware that these coordinates are relative to the starting position of the car.
+
+### Tests
+All Arduino-specific car code is covered by unit tests and a few integration tests. Run all tests with
+```bash
+make test
+```
+
+## Install
+
+- [Arduino-IDE](https://www.arduino.cc/en/software)
+
+or
+
+- Arduino-Tools (installing the Arduino-IDE will install all of this)
+- [GNU make](https://www.gnu.org/software/make/manual/make.html)
+- g++ Compiler (for at least c++14)
+- Precompiled Arduino Core Library (can be done by yourself using the Arduino-Tools, I will upload a Makefile in a short while)
+
+For tests to work:
+- [Boost.Test](https://www.boost.org/doc/libs/1_66_0/libs/test/doc/html/index.html)
+- [Turtle](http://turtle.sourceforge.net)
+
+Adapt the first lines of common.mk to the installation paths in your system and the specifics of your Arduino boards.
