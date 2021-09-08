@@ -1,6 +1,3 @@
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_stop
-
 #include "src/movement/pilot.hpp"
 #include "src/movement/position/position.hpp"
 #include "src/movement/position/relativeDirection.hpp"
@@ -8,9 +5,10 @@
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/motion/motionName.hpp"
 #include "src/movement/motion/stop.hpp"
-
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
+
+BOOST_AUTO_TEST_SUITE( StopTest )
 
 MOCK_BASE_CLASS( MockPosition, Position )
 {
@@ -118,3 +116,5 @@ BOOST_AUTO_TEST_CASE( changes_to_start_left_turn_motion_at_crossing_when_goal_is
 
     stop.move();
 }
+
+BOOST_AUTO_TEST_SUITE_END()

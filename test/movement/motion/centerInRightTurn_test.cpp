@@ -1,14 +1,12 @@
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_centerInRightTurn
-
 #include "src/timer/timer.hpp"
 #include "src/movement/pilot.hpp"
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/motion/motionName.hpp"
 #include "src/movement/motion/centerInRightTurn.hpp"
-
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
+
+BOOST_AUTO_TEST_SUITE( CenterInRightTurnTest )
 
 MOCK_BASE_CLASS( MockPilot, Pilot )
 {
@@ -61,3 +59,5 @@ BOOST_AUTO_TEST_CASE( changes_to_leave_origin_line_in_right_turn_after_a_short_p
     
     centerInRightTurn.move();
 }
+
+BOOST_AUTO_TEST_SUITE_END()

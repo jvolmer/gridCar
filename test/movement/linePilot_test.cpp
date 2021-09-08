@@ -1,6 +1,3 @@
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_linePilot
-
 #include "src/movement/linePilot.hpp"
 #include "src/movement/position/position.hpp"
 #include "src/movement/position/gridPosition.hpp"
@@ -14,9 +11,10 @@
 #include "src/movement/position/relativeDirection.hpp"
 #include "src/timer/timer.hpp"
 #include "test/movement/position/gridPosition_ostream.hpp"
-
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
+
+BOOST_AUTO_TEST_SUITE( LinePilotTest )
 
 MOCK_BASE_CLASS( MockPosition, Position )
 {
@@ -349,3 +347,5 @@ BOOST_AUTO_TEST_CASE( moves_to_goal_in_back_and_to_the_left )
 
     BOOST_TEST( position == GridPosition(goalCoordinate, Direction::positiveY ));
 }
+
+BOOST_AUTO_TEST_SUITE_END()

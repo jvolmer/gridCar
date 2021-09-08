@@ -1,11 +1,9 @@
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_coordinate
-
 #include "src/movement/position/coordinate.hpp"
 #include "src/movement/position/direction.hpp"
 #include "coordinate_ostream.hpp"
 #include <boost/test/unit_test.hpp>
 
+BOOST_AUTO_TEST_SUITE( CoordinateTest )
 
 BOOST_AUTO_TEST_CASE( createsCoordinateOutOfADirection )
 {
@@ -24,3 +22,5 @@ BOOST_AUTO_TEST_CASE( subtractsCoordinates )
 {
     BOOST_TEST( Coordinate(3,6) - Coordinate(2,1) == Coordinate(1,5) );
 }
+
+BOOST_AUTO_TEST_SUITE_END()

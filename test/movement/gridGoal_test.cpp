@@ -1,16 +1,14 @@
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_gridGoal
-
 #include "src/communication/coordinateBroadcaster.hpp"
 #include "src/movement/position/coordinate.hpp"
 #include "src/movement/position/position.hpp"
 #include "src/movement/gridGoal.hpp"
 #include "test/movement/position/coordinate_ostream.hpp"
 #include "test/movement/position/relativeDirection_ostream.hpp"
-
 #include <boost/test/unit_test.hpp>
 #include <boost/test/data/test_case.hpp>
 #include <turtle/mock.hpp>
+
+BOOST_AUTO_TEST_SUITE( GridGoalTest )
 
 namespace data = boost::unit_test::data;
 
@@ -130,5 +128,7 @@ BOOST_DATA_TEST_CASE( is_exactly_behind_location,
 
     BOOST_TEST( direction == RelativeDirection::exactlyBehind );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

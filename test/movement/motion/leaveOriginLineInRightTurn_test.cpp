@@ -1,6 +1,3 @@
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_leaveOriginLineInRightTurn
-
 #include "src/movement/pilot.hpp"
 #include "src/movement/tracker/tracker.hpp"
 #include "src/movement/tracker/roadLayout.hpp"
@@ -8,9 +5,10 @@
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/motion/motionName.hpp"
 #include "src/movement/motion/leaveOriginLineInRightTurn.hpp"
-
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
+
+BOOST_AUTO_TEST_SUITE( LeaveOriginLineInRightTurnTest )
 
 MOCK_BASE_CLASS( MockPilot, Pilot )
 {
@@ -60,3 +58,5 @@ BOOST_AUTO_TEST_CASE( changes_to_find_next_line_in_right_turn_motion_tracking_li
 
     leaveOriginLineInRightTurn.move();
 }
+
+BOOST_AUTO_TEST_SUITE_END()

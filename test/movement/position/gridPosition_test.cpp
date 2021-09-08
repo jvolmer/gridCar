@@ -1,6 +1,3 @@
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_gridPosition
-
 #include "src/movement/position/direction.hpp"
 #include "src/movement/position/coordinate.hpp"
 #include "src/movement/position/gridPosition.hpp"
@@ -12,6 +9,8 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/test/data/test_case.hpp>
 #include <turtle/mock.hpp>
+
+BOOST_AUTO_TEST_SUITE( GridPositionTest )
 
 namespace data = boost::unit_test::data;
 
@@ -65,5 +64,7 @@ BOOST_AUTO_TEST_CASE( broadcasts_new_location_to_subscriber_after_moving_forward
     
     position.moveForward();
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

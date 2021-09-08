@@ -1,6 +1,3 @@
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_followLine
-
 #include "src/movement/pilot.hpp"
 #include "src/movement/position/position.hpp"
 #include "src/movement/tracker/tracker.hpp"
@@ -8,9 +5,10 @@
 #include "src/movement/motor/motor.hpp"
 #include "src/movement/motion/motionName.hpp"
 #include "src/movement/motion/followLine.hpp"
-
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
+
+BOOST_AUTO_TEST_SUITE( FollowLineTest )
 
 MOCK_BASE_CLASS( MockPilot, Pilot )
 {
@@ -89,3 +87,5 @@ BOOST_AUTO_TEST_CASE( changes_to_stop_motion_at_crossing )
 
     followLine.move();
 }
+
+BOOST_AUTO_TEST_SUITE_END()

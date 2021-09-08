@@ -1,6 +1,3 @@
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_findNextLineInRightTurn
-
 #include "src/movement/pilot.hpp"
 #include "src/movement/position/position.hpp"
 #include "src/movement/tracker/tracker.hpp"
@@ -9,9 +6,10 @@
 #include "src/movement/tracker/roadLayout.hpp"
 #include "src/movement/motion/motionName.hpp"
 #include "src/movement/motion/findNextLineInRightTurn.hpp"
-
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
+
+BOOST_AUTO_TEST_SUITE( FindNextLineInRightTurnTest )
 
 MOCK_BASE_CLASS( MockPilot, Pilot )
 {
@@ -92,3 +90,5 @@ BOOST_AUTO_TEST_CASE( changes_to_follow_line_motion_when_arriving_at_a_line )
     
     findNextLineInRightTurn.move();
 }
+
+BOOST_AUTO_TEST_SUITE_END()

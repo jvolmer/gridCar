@@ -1,8 +1,3 @@
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE test_outgoing_message
-
-#include <iostream>
-
 #include "src/communication/messageOut.hpp"
 #include "src/communication/transmitter.hpp"
 #include "src/communication/coordinateBroadcaster.hpp"
@@ -10,6 +5,8 @@
 #include "test/movement/position/coordinate_ostream.hpp"
 #include <boost/test/unit_test.hpp>
 #include <turtle/mock.hpp>
+
+BOOST_AUTO_TEST_SUITE( MessageOutTest )
 
 MOCK_BASE_CLASS( MockTransmitter, Transmitter )
 {
@@ -48,3 +45,5 @@ BOOST_AUTO_TEST_CASE( listens_to_broadcaster )
 
     message.listenTo( broadcaster );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
