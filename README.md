@@ -1,4 +1,4 @@
-# GridCar
+# GridCar [![Build](https://github.com/jvolmer/gridCar/actions/workflows/test.yml/badge.svg)](https://github.com/jvolmer/gridCar/actions/workflows/test.yml) [![Code Coverage](https://codecov.io/gh/jvolmer/gridCar/branch/main/graph/badge.svg)](https://codecov.io/gh/jvolmer/gridCar)
 
 > Autonomous car navigates to any point on a grid
 
