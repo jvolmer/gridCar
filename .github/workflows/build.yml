@@ -1,0 +1,44 @@
+  name: tests
+
+  on:
+    push:
+      branches: [ main ]
+    pull_request:
+      branches: [ main ]
+      
+  jobs:
+    
+    build:
+      
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies with conan.io
+        run: |
+          pip install conan
+          conan profile new default --detect
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan install --install-folder build .
+      - name: Initialize cmake
+        run: cmake -S . -B build -D CMAKE_BUILD_TYPE=Debug
+      - name: Install and configure arduino-cli
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+          export PATH=/home/runner/work/gridCar/gridCar/bin:$PATH
+          cmake --build build --target configure
+      - name: Compile executable
+        run: |
+          export PATH=/home/runner/work/gridCar/gridCar/bin:$PATH
+          cmake --build build --target compile
+      - name: Compile and run tests
+        run: cmake --build build --target test
+      - name: Create coverage report
+        run: |
+          pip install gcovr
+          gcovr --xml=coverage.xml --txt -r .
+      - name: Upload coverage to codecov.io
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
