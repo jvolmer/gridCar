@@ -1,4 +1,4 @@
-# GridCar [![Build](https://github.com/jvolmer/gridCar/actions/workflows/test.yml/badge.svg)](https://github.com/jvolmer/gridCar/actions/workflows/test.yml) [![Code Coverage](https://codecov.io/gh/jvolmer/gridCar/branch/main/graph/badge.svg)](https://codecov.io/gh/jvolmer/gridCar)
+# GridCar [![Build](https://github.com/jvolmer/gridCar/actions/workflows/build.yml/badge.svg)](https://github.com/jvolmer/gridCar/actions/workflows/build.yml) [![Code Coverage](https://codecov.io/gh/jvolmer/gridCar/branch/main/graph/badge.svg)](https://codecov.io/gh/jvolmer/gridCar)
 
 > Autonomous car navigates to any point on a grid
 
@@ -37,39 +37,46 @@ The control is an Arduino Uni board with an RF24 radio chip as well. You can con
 
 ## Usage
 
-Either use the Arduino IDE to compile and upload the program, or do it via command line:
-
-Compile the program with entry point gridCar.ino to bin/gridCar.hex
+Then you can build the car executable with
 ```bash
-make
+cmake --build build/
 ```
 
-(Compile and) Upload the program to Arduino:
+Upload the car program to the Arduino via
 ```bash
-make upload
+cmake --build build/ --target upload
 ```
 
-Upload the car code to the car and the control code to the control unit. Set the car onto a crossing point on the grid and switch it on. Now you can send coordinates via Serial input in the format `(x,y)` from the control to the car. Be aware that these coordinates are relative to the starting position of the car.
+Upload the car code to the car and the control code to the control unit (with `cmake --build build/ --target upload_control`). Set the car onto a crossing point on the grid and switch it on. Now you can send coordinates via Serial input in the format `(x,y)` from the control to the car. Be aware that these coordinates are relative to the starting position of the car.
 
 ### Tests
-All Arduino-specific car code is covered by unit tests and a few integration tests. Run all tests with
+All non Arduino-specific car code is covered by unit tests and a few integration tests. Run all tests with
 ```bash
-make test
+cmake --build build/ --target test
 ```
 
 ## Install
+### Prerequisites
+These are the prerequisites you need to install in order to build the program:
+* [Arduino CLI](https://arduino.github.io/arduino-cli/0.19/installation/)
+* [Conan.io](https://docs.conan.io/en/latest/installation.html)
+* [cmake 3.13+](https://cmake.org/download/)
+* C++ compiler, e.g. GNU C++ Compiler g++
 
-- [Arduino-IDE](https://www.arduino.cc/en/software)
+## Installation and Configuration
+Inside the project directory, install the dependencies:
+```bash
+conan install -if build .
+```
 
-or
+Configure the build system:
+```bash
+cmake -S . -B build
+```
 
-- Arduino-Tools (installing the Arduino-IDE will install all of this)
-- [GNU make](https://www.gnu.org/software/make/manual/make.html)
-- g++ Compiler (for at least c++14)
-- Precompiled Arduino Core Library (can be done by yourself using the Arduino-Tools, I will upload a Makefile in a short while)
+Configure Arduino (install required packages via the Arduino CLI)
+```bash
+ cmake --build build --target configure
+ ```
 
-For tests to work:
-- [Boost.Test](https://www.boost.org/doc/libs/1_66_0/libs/test/doc/html/index.html)
-- [Turtle](http://turtle.sourceforge.net)
 
-Adapt the first lines of common.mk to the installation paths in your system and the specifics of your Arduino boards.
