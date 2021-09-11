@@ -79,4 +79,6 @@ Configure Arduino (install required packages via the Arduino CLI)
  cmake --build build --target configure
  ```
 
+## See also
 
+If you are interested in how an Arduino project can be compiled by yourself (without using the Arduino CLI), have a look at my project [ArduinoWithUnittests](https://github.com/jvolmer/arduinoWithUnittests).
