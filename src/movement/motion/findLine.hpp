@@ -3,6 +3,10 @@
 
 #include "motion.hpp"
 
+
+// Turns until it finds the next line.
+// Then it updates the position.
+
 class FindLine: public Motion
 {
 public:

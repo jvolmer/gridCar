@@ -7,6 +7,10 @@
 class Transmitter;
 class CoordinateListener;
 
+
+// Receives a coordinate from the transmitter
+// and broadcasts it to its subscriber.
+
 class MessageIn : public CoordinateBroadcaster
 {
 private:

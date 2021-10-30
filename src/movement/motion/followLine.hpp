@@ -9,6 +9,10 @@ class Position;
 class Tracker;
 class Motor;
 
+
+// Follows a black line.
+// Changes to stop motion at crossing.
+
 class FollowLine: public Motion
 {
 private:

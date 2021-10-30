@@ -9,6 +9,11 @@
 class CoordinateBroadcaster;
 class Position;
 
+
+// Receives goal updates.
+// Knows in which direction the current goal is located
+// relative to a given position.
+
 class GridGoal : public Goal, public CoordinateListener
 {
 private:
@@ -21,6 +26,8 @@ public:
     void set(Coordinate&& coordinate){ set(coordinate); }
     const Coordinate& get() override { return _coordinate; }
     RelativeDirection turningDirectionFrom(const Position& position) const override;
+
+    // communication
     void update(const Coordinate& coordinate) override { set(coordinate); }
     void listenTo(CoordinateBroadcaster& broadcaster) override { CoordinateListener::listenTo(broadcaster); }
 

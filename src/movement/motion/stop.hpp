@@ -8,6 +8,10 @@ class Goal;
 class Position;
 class Motor;
 
+
+// Intermediate stop, e.g. for crossings.
+// Next motion is chosen depending on relative position of goal.
+
 class Stop: public Motion
 {
 private:

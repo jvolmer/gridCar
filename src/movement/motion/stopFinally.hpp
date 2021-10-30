@@ -5,6 +5,9 @@
 
 class Motor;
 
+
+// Final stop: Does not change the state afterwards.
+
 class StopFinally: public Motion
 {
 private:

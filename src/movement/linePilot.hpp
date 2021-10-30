@@ -27,18 +27,28 @@ class Tracker;
 class Timer;
 class Motor;
 
+
+// This class is a state machine
+// for the different motion types of the car.
+
 class LinePilot: public Pilot
 {
 private:
     StopFinally _stopFinally;
     Stop _stop;
     FollowLine _followLine;
+
+    // right turn
     CenterInRightTurn _centerInRightTurn;
     LeaveOriginLineInRightTurn _leaveOriginLineInRightTurn;
     FindNextLineInRightTurn _findNextLineInRightTurn;
+
+    // left turn
     CenterInLeftTurn _centerInLeftTurn;
     LeaveOriginLineInLeftTurn _leaveOriginLineInLeftTurn;
     FindNextLineInLeftTurn _findNextLineInLeftTurn;
+
+    // turn around
     CenterInTurnAround _centerInTurnAround;
     LeaveOriginLineInTurnAround _leaveOriginLineInTurnAround;
     FindNextLineInTurnAround _findNextLineInTurnAround;

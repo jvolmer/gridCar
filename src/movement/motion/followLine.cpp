@@ -37,7 +37,9 @@ void FollowLine::followLine()
     case RoadLayout::blocked:
         if (!isAtCrossing)
         {
+	    // Update position
             _position.moveForward();
+	    // Assure position is updated only once per crossing 
             isAtCrossing = true;
             _motor.goStraight();
         }

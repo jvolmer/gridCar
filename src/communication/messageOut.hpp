@@ -7,6 +7,9 @@
 class Transmitter;
 class CoordinateBroadcaster;
 
+// Listens for a new coordinate.
+// Supplies transmitter with the coordinate.
+
 class MessageOut: public CoordinateListener
 {
 private:

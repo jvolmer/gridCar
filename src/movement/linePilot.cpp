@@ -85,8 +85,6 @@ void LinePilot::changeMotion(MotionName name)
     case MotionName::findNextToNextLineInTurnAround:
         _motion = &_findNextToNextLineInTurnAround;
         break;
-    default:
-        _motion = &_stopFinally;
     }
 }
 

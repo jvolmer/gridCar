@@ -21,19 +21,20 @@ public:
     GridPosition(Coordinate&& location, Direction direction);
     void setLocation(Coordinate&& location) { _location = location; }
     void setDirection(Direction direction) { _forwardDirection = direction; }
-    
+    const Coordinate& sitsAt() const { return _location; }
+    Direction headsTo() const { return _forwardDirection; }
+    friend bool operator== (const GridPosition& lhs, const GridPosition& rhs);
+
+    // movement
     void turnLeft() override { _forwardDirection = _forwardDirection + 1; }
     void turnRight() override { _forwardDirection = _forwardDirection - 1; }
     void moveForward() override;
     bool isLocatedAt(const Coordinate& coordinate) const override { return _location == coordinate; }
     double turningAngleToReach(const Coordinate& coordinate) const override;
 
+    // communication
     void subscribe(CoordinateListener* listener) override { CoordinateBroadcaster::subscribe(listener); broadcast(_location); }
     void broadcast(const Coordinate& location) const override { CoordinateBroadcaster::broadcast(location); }
-
-    const Coordinate& sitsAt() const { return _location; }
-    Direction headsTo() const { return _forwardDirection; }
-    friend bool operator== (const GridPosition& lhs, const GridPosition& rhs);
 };
 
 

@@ -6,6 +6,14 @@
 
 class Timer;
 
+
+// Centers at crossing after reaching a crossing and before a turn.
+// To be able to turn at a crossing, car has to be positioned
+// at its center. When reaching crossing, it first stops at start
+// of crossing because tracking sensors are at the front of the car.
+// Center position is reached by going straight
+// for a tunable duration.
+
 class Center: public Motion
 {
 private:

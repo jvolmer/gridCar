@@ -22,7 +22,7 @@ void GridPosition::moveForward()
 
 double GridPosition::turningAngleToReach(const Coordinate& coordinate) const
 {
-    const double pi = 3.141592653589793;
+    constexpr double pi = 3.141592653589793;
     Coordinate diff = coordinate - _location;
     double totalAngleToCoordinate = diff.arctan2() * 180./ pi;
     double forwardDirectionAngle = (int)_forwardDirection * 90.;

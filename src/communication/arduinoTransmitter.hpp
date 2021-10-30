@@ -9,6 +9,10 @@
 
 class Message;
 
+
+// Reads radio signals and directly replies
+// with a coordinate that is set with setReply.
+
 class ArduinoTransmitter: public Transmitter
 {
 private:
@@ -20,7 +24,9 @@ public:
     ArduinoTransmitter(const unsigned char* address,
                        RF24& radio);
     void setup() override;
+    // Read radio signal and reply 
     const Coordinate& replyToReception(Coordinate& message) override;
+    // Set reply value for next radio signal read
     void setReply(const Coordinate& message) override;
 };
 

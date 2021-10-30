@@ -28,6 +28,7 @@ void ArduinoMotor::run(int speedl, int speedr)
 {
     
     bool backwardsLeft = false, forwardsRight = false;
+
     if (speedl > 0)
     {
         backwardsLeft = false;
@@ -37,6 +38,7 @@ void ArduinoMotor::run(int speedl, int speedr)
         backwardsLeft = true;
         speedl = -speedl;
     }
+    
     if (speedr > 0)
     {
         forwardsRight = true;
@@ -46,6 +48,7 @@ void ArduinoMotor::run(int speedl, int speedr)
         forwardsRight = false;
         speedr = -speedr;
     }
+    
     digitalWrite(_pinDirectionLeft, backwardsLeft);
     digitalWrite(_pinDirectionRight, forwardsRight);
     analogWrite(_pinMotorLeft, speedl);

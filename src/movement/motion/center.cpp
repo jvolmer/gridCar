@@ -8,9 +8,7 @@ Center::Center(Timer& timer) :
 void Center::move()
 {
     setStartingTime();
-
     align();
-
     changeMotionAfterAlignmentPeriod();
 }
 

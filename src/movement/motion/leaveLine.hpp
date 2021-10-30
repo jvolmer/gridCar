@@ -3,6 +3,10 @@
 
 #include "motion.hpp"
 
+
+// Starts turning away from a line until it has left the line.
+// In the next turning motion it has to find the next line.
+
 class LeaveLine: public Motion
 {
 public:
