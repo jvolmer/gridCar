@@ -28,7 +28,7 @@ void FollowLine::move()
 
 void FollowLine::followLine()
 {
-    switch( _tracker.checkRoad() )
+    switch( _tracker.roadLayout() )
     {
     case RoadLayout::none:
         _motor.stop();
@@ -56,8 +56,6 @@ void FollowLine::followLine()
     case RoadLayout::left:
         _motor.turnLeft();
         isAtCrossing = false;
-        break;
-    default:
         break;
     }
 }

@@ -8,6 +8,7 @@ add_subdirectory(communication)
 add_subdirectory(movement)
 add_subdirectory(timer)
 
+# the executable is build by the arduino-cli
 add_custom_target(compile ALL
   COMMAND arduino-cli compile -b ${BOARD_CORE}:${BOARD_NAME} ${CMAKE_SOURCE_DIR})
 

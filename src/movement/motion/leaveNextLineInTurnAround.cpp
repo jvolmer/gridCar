@@ -19,7 +19,7 @@ void LeaveNextLineInTurnAround::turn()
 
 bool LeaveNextLineInTurnAround::hasLeft()
 {
-    return _tracker.checkRoad() == RoadLayout::sharpLeft;
+    return _tracker.roadLayout() == RoadLayout::sharpLeft;
 }
 
 void LeaveNextLineInTurnAround::changeMotion()

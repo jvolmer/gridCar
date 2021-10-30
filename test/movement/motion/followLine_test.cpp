@@ -29,7 +29,7 @@ MOCK_BASE_CLASS( MockPosition, Position )
 
 MOCK_BASE_CLASS( MockTracker, Tracker )
 {
-    MOCK_METHOD( checkRoad, 0 );
+    MOCK_METHOD( roadLayout, 0 );
     MOCK_METHOD( setup, 0 );
 };
 
@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE( goes_straight_when_road_goes_straight )
     MockTracker tracker;
     MockMotor motor;
     FollowLine followLine(pilot, position, tracker, motor);
-    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::straight );
+    MOCK_EXPECT( tracker.roadLayout ).returns( RoadLayout::straight );
 
     MOCK_EXPECT( motor.goStraight ).once();
 
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE( updates_position_to_move_forward_at_crossing )
     MockTracker tracker;
     MockMotor motor;
     FollowLine followLine(pilot, position, tracker, motor);
-    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
+    MOCK_EXPECT( tracker.roadLayout ).returns( RoadLayout::blocked );
     MOCK_EXPECT( pilot.changeMotion );
     MOCK_EXPECT( motor.goStraight );
     
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE( changes_to_stop_motion_at_crossing )
     MockTracker tracker;
     MockMotor motor;
     FollowLine followLine(pilot, position, tracker, motor);
-    MOCK_EXPECT( tracker.checkRoad ).returns( RoadLayout::blocked );
+    MOCK_EXPECT( tracker.roadLayout ).returns( RoadLayout::blocked );
     MOCK_EXPECT( position.moveForward );
     MOCK_EXPECT( motor.goStraight );
 

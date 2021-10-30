@@ -21,12 +21,11 @@ void ArduinoTracker::setup()
     pinMode(_pinTrackingRight, INPUT);
 }
 
-RoadLayout ArduinoTracker::checkRoad()
+RoadLayout ArduinoTracker::roadLayout()
 {
-    byte sensorValue = 0;
-    sensorValue =
-        (digitalRead(_pinTrackingLeft) == 1 ? 1 : 0) << 2 |
-        (digitalRead(_pinTrackingMiddle) == 1 ? 1 : 0) << 1 |
-        (digitalRead(_pinTrackingRight) == 1 ? 1 : 0) << 0;
+    byte sensorValue =
+      detectsBlack(_pinTrackingLeft) << 2 |
+      detectsBlack(_pinTrackingMiddle) << 1 |
+      detectsBlack(_pinTrackingRight) << 0;
     return static_cast<RoadLayout>(sensorValue);
 }

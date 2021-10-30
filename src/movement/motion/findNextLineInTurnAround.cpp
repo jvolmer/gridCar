@@ -22,7 +22,7 @@ void FindNextLineInTurnAround::turn()
 
 bool FindNextLineInTurnAround::hasFound()
 {
-    return _tracker.checkRoad() == RoadLayout::straight;
+    return _tracker.roadLayout() == RoadLayout::straight;
 }
 
 void FindNextLineInTurnAround::updatePosition()

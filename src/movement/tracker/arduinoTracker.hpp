@@ -12,13 +12,17 @@ private:
     const byte _pinTrackingMiddle;
     const byte _pinTrackingRight;
 
+    bool detectsBlack(const byte pin) {
+      return digitalRead(pin) == HIGH ? true : false;
+    };
+
 public:
     ArduinoTracker();
     ArduinoTracker(const byte pinTrackingLeft,
                    const byte pinTrackingMiddle,
                    const byte pinTrackingRight);
     void setup() override;
-    RoadLayout checkRoad() override;
+    RoadLayout roadLayout() override;
 };
 
 #endif
