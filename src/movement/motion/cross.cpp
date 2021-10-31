@@ -1,29 +1,36 @@
 #include "../pilot.hpp"
+#include "../tracker/tracker.hpp"
+#include "../tracker/roadLayout.hpp"
 #include "../motor/motor.hpp"
 #include "../position/position.hpp"
 #include "../goal.hpp"
 #include "motionName.hpp"
-#include "stop.hpp"
+#include "cross.hpp"
 
 class Coordinate;
 
-Stop::Stop(Pilot& pilot, Goal& goal, Position& position, Motor& motor):
-    _pilot { pilot },
-    _goal { goal },
-    _position { position },
-    _motor { motor }
+Cross::Cross(Pilot &pilot, Goal &goal, Position &position, Tracker &tracker, Motor &motor):
+    _pilot{ pilot },
+    _goal{ goal },
+    _position{ position },
+    _tracker{ tracker },
+    _motor{ motor }
 {}
 
-void Stop::move()
-{    
-    _motor.stop();
-
+void Cross::move()
+{
     switch( _goal.turningDirectionFrom(_position))
     {
         case RelativeDirection::at :
+	    _motor.stop();
             break;
         case RelativeDirection::inFront :
-            _pilot.changeMotion( MotionName::followLine );
+	    // Ensure that crossing is left before following the line.
+	    // Otherwise follow line recognizes the same crossing again.
+ 	    _motor.goStraight();
+            if (leftCrossing()) {
+              _pilot.changeMotion(MotionName::followLine);
+            }
             break;
         case RelativeDirection::onTheRight :
             _pilot.changeMotion( MotionName::centerInRightTurn );
@@ -37,4 +44,9 @@ void Stop::move()
         default:
             break;
     }
+}
+
+bool Cross::leftCrossing() const
+{
+    return _tracker.roadLayout() != RoadLayout::blocked;
 }

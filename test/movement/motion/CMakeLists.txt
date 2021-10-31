@@ -3,4 +3,4 @@ target_sources(${TARGET} PRIVATE
   centerInRightTurn_test.cpp
   findNextLineInRightTurn_test.cpp
   leaveOriginLineInRightTurn_test.cpp
-  stop_test.cpp)
+  cross_test.cpp)

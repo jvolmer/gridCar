@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE( updates_position_to_move_forward_at_crossing )
     followLine.move();
 }
 
-BOOST_AUTO_TEST_CASE( changes_to_stop_motion_at_crossing )
+BOOST_AUTO_TEST_CASE( changes_to_stop_motion_and_updates_position_at_crossing )
 {
     MockPilot pilot;
     MockPosition position;
@@ -80,10 +80,9 @@ BOOST_AUTO_TEST_CASE( changes_to_stop_motion_at_crossing )
     MockMotor motor;
     FollowLine followLine(pilot, position, tracker, motor);
     MOCK_EXPECT( tracker.roadLayout ).returns( RoadLayout::blocked );
-    MOCK_EXPECT( position.moveForward );
-    MOCK_EXPECT( motor.goStraight );
 
-    MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::stop );
+    MOCK_EXPECT( position.moveForward ).once();
+    MOCK_EXPECT( pilot.changeMotion ).once().with( MotionName::cross );
 
     followLine.move();
 }

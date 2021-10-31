@@ -7,7 +7,7 @@
 #include "motion/motionName.hpp"
 
 #include "motion/stopFinally.hpp"
-#include "motion/stop.hpp"
+#include "motion/cross.hpp"
 #include "motion/followLine.hpp"
 #include "motion/centerInRightTurn.hpp"
 #include "motion/leaveOriginLineInRightTurn.hpp"
@@ -35,7 +35,7 @@ class LinePilot: public Pilot
 {
 private:
     StopFinally _stopFinally;
-    Stop _stop;
+    Cross _cross;
     FollowLine _followLine;
 
     // right turn

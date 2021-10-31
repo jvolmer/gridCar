@@ -1,5 +1,5 @@
 #include "motion/stopFinally.hpp"
-#include "motion/stop.hpp"
+#include "motion/cross.hpp"
 #include "motion/followLine.hpp"
 #include "motion/centerInRightTurn.hpp"
 #include "motion/leaveOriginLineInRightTurn.hpp"
@@ -22,7 +22,7 @@ class Motor;
 
 LinePilot::LinePilot(Goal& goal, Position& position, Tracker& tracker, Timer& timer, Motor& motor) :
     _stopFinally{ StopFinally( motor ) },
-    _stop{ Stop(*this, goal, position, motor) },
+    _cross{ Cross(*this, goal, position, tracker, motor) },
     _followLine{ FollowLine(*this, position, tracker, motor) },
     _centerInRightTurn{ CenterInRightTurn(*this, timer, motor) },
     _leaveOriginLineInRightTurn{ LeaveOriginLineInRightTurn(*this, tracker, motor) },
@@ -35,7 +35,7 @@ LinePilot::LinePilot(Goal& goal, Position& position, Tracker& tracker, Timer& ti
     _findNextLineInTurnAround{ FindNextLineInTurnAround(*this, position, tracker, motor) },
     _leaveNextLineInTurnAround{ LeaveNextLineInTurnAround(*this, tracker, motor) },
     _findNextToNextLineInTurnAround{ FindNextToNextLineInTurnAround(*this, position, tracker, motor) },
-    _motion { &_stop },
+    _motion { &_cross },
     _goal { goal }
 {}
 
@@ -46,8 +46,8 @@ void LinePilot::changeMotion(MotionName name)
     case MotionName::stopFinally:
         _motion = &_stopFinally;
         break;
-    case MotionName::stop:
-        _motion = &_stop;
+    case MotionName::cross:
+        _motion = &_cross;
         break;
     case MotionName::followLine:
         _motion = &_followLine;

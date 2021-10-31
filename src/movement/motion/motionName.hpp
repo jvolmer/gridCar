@@ -3,7 +3,7 @@
 
 enum class MotionName
 {
-    stop,
+    cross,
     followLine,
     centerInRightTurn,
     leaveOriginLineInRightTurn,

@@ -1,27 +1,31 @@
-#ifndef STOP_H
-#define STOP_H
+#ifndef CROSS_H
+#define CROSS_H
 
 #include "motion.hpp"
 
 class Pilot;
 class Goal;
 class Position;
+class Tracker;
 class Motor;
 
 
-// Intermediate stop, e.g. for crossings.
+// Cross a line.
 // Next motion is chosen depending on relative position of goal.
 
-class Stop: public Motion
+class Cross: public Motion
 {
 private:
     Pilot& _pilot;
     Goal& _goal;
     Position& _position;
+    Tracker& _tracker;
     Motor& _motor;
-    
+
+    bool leftCrossing() const;
+  
 public:
-    Stop(Pilot& pilot, Goal& goal, Position& position, Motor& motor);
+    Cross(Pilot& pilot, Goal& goal, Position& position, Tracker& tracker, Motor& motor);
     void move() override;
 };
 

@@ -57,7 +57,7 @@ void setStartState()
     position.setLocation( Coordinate(0, 0) );
     position.setDirection( Direction::positiveY );
     goal.set( Coordinate(2, 1) );
-    pilot.changeMotion( MotionName::stop );
+    pilot.changeMotion( MotionName::cross );
 }
 
 void setupArduino()

@@ -11,7 +11,7 @@ class Motor;
 
 
 // Follows a black line.
-// Changes to stop motion at crossing.
+// Changes to cross motion at crossing.
 
 class FollowLine: public Motion
 {
@@ -20,9 +20,6 @@ private:
     Position& _position;
     Tracker& _tracker;
     Motor& _motor;
-    bool isAtCrossing{ false };
-
-    void followLine();
     
 public:
     FollowLine(Pilot& pilot, Position& position, Tracker& tracker, Motor& motor);

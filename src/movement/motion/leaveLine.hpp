@@ -5,7 +5,8 @@
 
 
 // Starts turning away from a line until it has left the line.
-// In the next turning motion it has to find the next line.
+// This motion ensures that car really turns
+// before it looks for a line in the next (find line) motion.
 
 class LeaveLine: public Motion
 {

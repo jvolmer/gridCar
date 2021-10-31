@@ -18,46 +18,26 @@ FollowLine::FollowLine(Pilot& pilot, Position& position, Tracker& tracker, Motor
 
 void FollowLine::move()
 {
-    followLine();
-
-    if ( isAtCrossing )
-    {
-        _pilot.changeMotion( MotionName::stop );
-    }
-}
-
-void FollowLine::followLine()
-{
     switch( _tracker.roadLayout() )
     {
     case RoadLayout::none:
         _motor.stop();
-        isAtCrossing = false;
         break;
     case RoadLayout::blocked:
-        if (!isAtCrossing)
-        {
-	    // Update position
-            _position.moveForward();
-	    // Assure position is updated only once per crossing 
-            isAtCrossing = true;
-            _motor.goStraight();
-        }
+        _position.moveForward();
+        _pilot.changeMotion( MotionName::cross );
         break;
     case RoadLayout::sharpRight:
     case RoadLayout::right:
         _motor.turnRight();
-        isAtCrossing = false;
         break;
     case RoadLayout::straight:
     case RoadLayout::enclosed:
         _motor.goStraight();
-        isAtCrossing = false;
         break;
     case RoadLayout::sharpLeft:
     case RoadLayout::left:
         _motor.turnLeft();
-        isAtCrossing = false;
         break;
     }
 }

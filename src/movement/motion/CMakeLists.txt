@@ -16,5 +16,5 @@ target_sources(${LIBRARY} PRIVATE
   leaveOriginLineInTurnAround.cpp leaveOriginLineInTurnAround.hpp
   leaveNextLineInTurnAround.cpp leaveNextLineInTurnAround.hpp
   followLine.cpp followLine.hpp
-  stop.cpp stop.hpp
+  cross.cpp cross.hpp
   stopFinally.cpp stopFinally.hpp)
