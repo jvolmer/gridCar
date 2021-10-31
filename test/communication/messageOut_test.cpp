@@ -21,18 +21,15 @@ MOCK_BASE_CLASS( MockLocationBroadcaster, CoordinateBroadcaster )
     MOCK_METHOD( subscribe, 1 );
 };
 
-BOOST_AUTO_TEST_CASE( supplies_a_coordinate_to_transmitter )
+BOOST_AUTO_TEST_CASE( supplies_a_coordinate_to_transmitter_when_updated )
 {
     MockTransmitter transmitter;
     MessageOut message{ transmitter};
-    Coordinate coordinate{ 1, 3 };
+    Coordinate coordinate{ 1, 3 };    
+
+    MOCK_EXPECT( transmitter.setReply ).with( Coordinate(1, 3) );
+
     message.update(coordinate);
-    
-    MOCK_EXPECT( transmitter.setReply ).once();
-
-    Coordinate sent = message.supplyForNextReception();
-
-    BOOST_TEST( sent == coordinate );
 }
 
 BOOST_AUTO_TEST_CASE( listens_to_broadcaster )

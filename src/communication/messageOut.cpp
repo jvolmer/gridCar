@@ -7,8 +7,8 @@ MessageOut::MessageOut(Transmitter& transmitter) :
     _message { 0, 0 }
 {}
 
-const Coordinate& MessageOut::supplyForNextReception() const
+void MessageOut::update(const Coordinate &location)
 {
+    _message = location;
     _transmitter.setReply( _message );
-    return _message;
 }

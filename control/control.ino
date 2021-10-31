@@ -86,9 +86,6 @@ void send_and_receive() {
             old_car_reply = car_reply;
             
         }
-        else {
-            Serial.println("  No reply");
-        }
     }
     else {
         // Serial.println("  Sending failed");

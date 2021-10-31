@@ -18,8 +18,7 @@ private:
 
 public:
     MessageOut(Transmitter& transmitter);
-    const Coordinate& supplyForNextReception() const;
-    void update(const Coordinate& location) override { _message = location; }
+    void update(const Coordinate& location) override;
     void listenTo(CoordinateBroadcaster& broadcaster) override { CoordinateListener::listenTo(broadcaster); }
 
 };
