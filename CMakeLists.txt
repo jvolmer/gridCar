@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(BOARD_CORE arduino:avr CACHE STRING "Core of board")
 set(BOARD_NAME uno CACHE STRING "Name of board")
+set(PORT /dev/ttyACM0 CACHE STRING "Port for upload")
 add_custom_target(configure 
   COMMAND
   arduino-cli core install ${BOARD_CORE} &&
